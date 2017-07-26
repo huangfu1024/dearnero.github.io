@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>Archives | nero-少年游</title>
+  <title>搜索引擎搭建 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
-<meta property="og:type" content="website">
-<meta property="og:title" content="nero-少年游">
-<meta property="og:url" content="nero.life/archives/index.html">
+  <meta name="description" content="版本介绍 elasticsearch   elasticsearch version: 5.4.0   elasticsearch-analysis-ik-5.4.0.zip   当前elasticsearch启动为一个clustername:ytx_search_cluster的集群，并集成ik中文分词插件.  logstash   logstash version: 5.4.0   elast">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搜索引擎搭建">
+<meta property="og:url" content="nero.life/2017/07/26/搜索引擎搭建/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta property="og:description" content="版本介绍 elasticsearch   elasticsearch version: 5.4.0   elasticsearch-analysis-ik-5.4.0.zip   当前elasticsearch启动为一个clustername:ytx_search_cluster的集群，并集成ik中文分词插件.  logstash   logstash version: 5.4.0   elast">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-26T08:21:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nero-少年游">
-<meta name="twitter:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta name="twitter:title" content="搜索引擎搭建">
+<meta name="twitter:description" content="版本介绍 elasticsearch   elasticsearch version: 5.4.0   elasticsearch-analysis-ik-5.4.0.zip   当前elasticsearch启动为一个clustername:ytx_search_cluster的集群，并集成ik中文分词插件.  logstash   logstash version: 5.4.0   elast">
   
     <link rel="alternative" href="/atom.xml" title="nero-少年游" type="application/atom+xml">
   
@@ -157,49 +158,215 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-搜索引擎搭建" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/26/搜索引擎搭建/" class="archive-article-date">
-  	<time datetime="2017-07-26T06:36:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-26</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/26/搜索引擎搭建/">搜索引擎搭建</a>
+    <h1 class="article-title" itemprop="name">
+      搜索引擎搭建
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2017/07/26/搜索引擎搭建/" class="archive-article-date">
+  	<time datetime="2017-07-26T06:36:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="版本介绍"><a href="#版本介绍" class="headerlink" title="版本介绍"></a>版本介绍</h3><ul>
+<li><p>elasticsearch</p>
+<p>  elasticsearch version: 5.4.0</p>
+<p>  elasticsearch-analysis-ik-5.4.0.zip</p>
+<p>  当前elasticsearch启动为一个clustername:ytx_search_cluster的集群，并集成ik中文分词插件.</p>
+</li>
+<li><p>logstash</p>
+<p>  logstash version: 5.4.0</p>
+<p>  elasticsearch通过logstash来同步与mysql之间的数据.</p>
+</li>
+</ul>
+<h3 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h3><p>1.下载elasticsearch以及logstash对应的版本，此处采用5.4.0版本</p>
+<p>2.elasticsearch安装ik中文插件,参看具体对应版本</p>
+<blockquote>
+<ul>
+<li>download pre-build package from here: <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases" target="_blank" rel="external">https://github.com/medcl/elasticsearch-analysis-ik/releases</a><br>or compiled from the source:</li>
+<li>checkout ik version respective to your elasticsearch version</li>
+<li>git checkout tags/{version}</li>
+<li>mvn package</li>
+<li>copy and unzip target/releases/elasticsearch-analysis-ik-{version}.zip to your-es-root/plugins/ik</li>
+</ul>
+</blockquote>
+<p>3.修改配置文件elasticsearch.yml, 可参看项目中elasticsearch/config/elasticsearch.yml</p>
+<p>4.启动elasticsearch</p>
+<blockquote>
+<ul>
+<li><p>cd ES_HOME/bin</p>
+</li>
+<li><p>./elasticsearch</p>
+</li>
+</ul>
+</blockquote>
+<p>5.logstash下安装logstash-input-jdbc, 用于从数据库中同步数据到elasticsearch</p>
+<blockquote>
+<ul>
+<li>cd LS_HOME/bin</li>
+<li>./logstash-plugin install logstash-input-jdbc</li>
+</ul>
+<p>因为墙的原因，上面的执行会很慢，或者压根就执行不动。<br>此处提供另外的安装过程。<br><a href="http://blog.csdn.net/yeyuma/article/details/50240595" target="_blank" rel="external">http://blog.csdn.net/yeyuma/article/details/50240595</a><br>亲测，有用。</p>
+</blockquote>
+<p>6.项目logstash配置文件存放地址：</p>
+<blockquote>
+<ul>
+<li><p>~/some/config-dir/</p>
+</li>
+<li><p>~/some/lib-dir/</p>
+</li>
+</ul>
+</blockquote>
+<p>在config-dir下配置文件: item.sql logstash.conf temp.json</p>
+<p>在lib-dir下: mysql驱动包</p>
+<p>7.启动logstash</p>
+<blockquote>
+<ul>
+<li><p>cd LS_HOME/bin</p>
+</li>
+<li><p>./logstash -f /home/ubuntu/some/config-dir/logstash.conf</p>
+</li>
+</ul>
+</blockquote>
+<p>8.至此你的搜索已经开始使用了，接下来需要你安装head插件，来查看集群</p>
+<p>   在elasticsearch5.X版本中, 不支持head插件安装, 它希望head作为一个独立的程序启动</p>
+<blockquote>
+<ul>
+<li>git clone git://github.com/mobz/elasticsearch-head.git</li>
+<li>cd elasticsearch-head</li>
+<li>npm install</li>
+<li>npm run start</li>
+<li>open <a href="http://localhost:9100/" target="_blank" rel="external">http://localhost:9100/</a></li>
+</ul>
+</blockquote>
+<p>9.你知道的, 为了搜索…     </p>
 
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2017/07/26/搜索引擎搭建/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
+
   
 
-    
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
 
 
           </div>
@@ -222,8 +389,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
