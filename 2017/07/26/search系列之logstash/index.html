@@ -6,18 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>Archives: 2017 | nero-少年游</title>
+  <title>search系列之logstash | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
-<meta property="og:type" content="website">
-<meta property="og:title" content="nero-少年游">
-<meta property="og:url" content="nero.life/archives/2017/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="search系列之logstash">
+<meta property="og:url" content="nero.life/2017/07/26/search系列之logstash/index.html">
 <meta property="og:site_name" content="nero-少年游">
 <meta property="og:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-07-26T10:06:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nero-少年游">
+<meta name="twitter:title" content="search系列之logstash">
 <meta name="twitter:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+  
+    <link rel="alternative" href="/atom.xml" title="nero-少年游" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -44,13 +47,13 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="https://avatars1.githubusercontent.com/u/25074200?v=4&amp;s=460" class="js-avatar">
+			<img src="null" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/">nero-少年游</a></h1>
 		</hgroup>
 		
-		<p class="header-subtitle">愿历尽千帆，归来仍少年</p>
+		<p class="header-subtitle">尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年</p>
 		
 
 		<nav class="header-menu">
@@ -58,7 +61,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/">小记</a></li>
+				<li><a href="/tags/随笔/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -80,11 +83,13 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="https://github.com/dearnero" title="github"><i class="icon-github"></i></a>
+					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 		        
-					<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/aefc7ce09fe1" title="jianshu"><i class="icon-jianshu"></i></a>
+					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 		        
-					<a class="mail" target="_blank" href="mailto:wx172296059@126.com" title="mail"><i class="icon-mail"></i></a>
+					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
 			</div>
 		</nav>
@@ -102,13 +107,13 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="https://avatars1.githubusercontent.com/u/25074200?v=4&amp;s=460" class="js-avatar">
+				<img src="null" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">nero-少年游</h1>
 			</hgroup>
 			
-			<p class="header-subtitle"><i class="icon icon-quo-left"></i>愿历尽千帆，归来仍少年<i class="icon icon-quo-right"></i></p>
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年<i class="icon icon-quo-right"></i></p>
 			
 			
 			
@@ -121,11 +126,13 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="https://github.com/dearnero" title="github"><i class="icon-github"></i></a>
+						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 			        
-						<a class="jianshu" target="_blank" href="http://www.jianshu.com/u/aefc7ce09fe1" title="jianshu"><i class="icon-jianshu"></i></a>
+						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 			        
-						<a class="mail" target="_blank" href="mailto:wx172296059@126.com" title="mail"><i class="icon-mail"></i></a>
+						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
 				</div>
 			</nav>
@@ -136,7 +143,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/">小记</a></li>
+					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -151,106 +158,162 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-search系列之logstash" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/27/search系列-2-此处有坑/" class="archive-article-date">
-  	<time datetime="2017-07-27T07:59:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-27</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/27/search系列-2-此处有坑/">search系列_2.此处有坑</a>
+    <h1 class="article-title" itemprop="name">
+      search系列之logstash
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">elasticsearch</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">logstash</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/26/search系列-1-快速安装/" class="archive-article-date">
+        
+        <a href="/2017/07/26/search系列之logstash/" class="archive-article-date">
   	<time datetime="2017-07-26T06:36:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-26</time>
 </a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/26/search系列-1-快速安装/">search系列_1.快速安装</a>
-    </h1>
-  
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">elasticsearch</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">logstash</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      
 
-          
-
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2017/07/26/search系列之logstash/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/07/26/search系列之elasticsearch/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          search系列之elasticsearch
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2017/07/26/search系列之elasticsearch&java/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">search系列之elasticsearch&amp;java</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -273,8 +336,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
@@ -345,14 +408,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">elasticsearch logstash</a>
               </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">elasticsearch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">logstash</a>
-              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -403,11 +458,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         <ul class="search-ul">
           
             <li class="search-li">
-              <a href="https://github.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>github</a>
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
             </li>
           
             <li class="search-li">
-              <a href="http://www.jianshu.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>简书</a>
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
             </li>
           
         </ul>
@@ -418,7 +489,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">王轩&lt;br&gt;现居杭州&lt;br&gt;12年毕业于武汉科技大学&lt;br&gt;从一开始的电子商务平台到GIS，再到数据库中间件，现在致力于微服务架构，搜索引擎，转眼已code了五载岁月。&lt;br&gt;我热爱我的工作，也将继续提升自己的专业技能，向着一名资深架构前进。</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
   	  	
     	</section>
     
