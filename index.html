@@ -153,26 +153,33 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-search系列-2-此处有坑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-elasticsearch笔记-一-Docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/27/search系列-2-此处有坑/">search系列_2.此处有坑</a>
+      <a class="article-title" href="/2017/07/28/elasticsearch笔记-一-Docker/">elasticsearch笔记(一).Docker</a>
     </h1>
   
 
         
-        <a href="/2017/07/27/search系列-2-此处有坑/" class="archive-article-date">
-  	<time datetime="2017-07-27T07:59:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-27</time>
+        <a href="/2017/07/28/elasticsearch笔记-一-Docker/" class="archive-article-date">
+  	<time datetime="2017-07-28T09:27:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
+        <h3 id="docker-elasticsearch-logstash"><a href="#docker-elasticsearch-logstash" class="headerlink" title="docker + elasticsearch + logstash"></a>docker + elasticsearch + logstash</h3><p>Elasticsearch的Dockerfile:</p>
+<blockquote>
+<p>FROM elasticsearch:5.4.0<br>  RUN sed -i ‘s/deb.debian.org/mirrors.ustc.edu.cn/g’ /etc/apt/sources.list<br>  RUN apt-get update &amp;&amp; apt-get install zip<br>  RUN mkdir -p /usr/share/elasticsearch/plugins/ik<br>  RUN cd /usr/share/elasticsearch/plugins/ik &amp;&amp; wget <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip" target="_blank" rel="external">https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip</a> &amp;&amp; unzip elasticsearch-analysis-ik-5.4.0.zip</p>
+</blockquote>
+<p>基于当前Dockerfile文件生成Elasticsearch:5.4.0的镜像</p>
+        
+          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-一-Docker/#more">more >></a>
         
       
 
@@ -200,7 +207,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/27/search系列-2-此处有坑/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-一-Docker/">展开全文 >></a>
         </p>
       
 
@@ -230,29 +237,32 @@
 
 
   
-    <article id="post-search系列-1-快速安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-elasticsearch笔记-一-安装部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/26/search系列-1-快速安装/">search系列_1.快速安装</a>
+      <a class="article-title" href="/2017/07/28/elasticsearch笔记-一-安装部署/">elasticsearch笔记(一).安装部署</a>
     </h1>
   
 
         
-        <a href="/2017/07/26/search系列-1-快速安装/" class="archive-article-date">
-  	<time datetime="2017-07-26T06:36:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-26</time>
+        <a href="/2017/07/28/elasticsearch笔记-一-安装部署/" class="archive-article-date">
+  	<time datetime="2017-07-28T09:26:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>参看当前文档，你可以快速的构造好一个简单的搜索集群，可通过部署多个<b>Elasticsearch Node</b>来扩展集群的搜索能力以及容灾能力。<br>集群数据来源至Mysql数据库，通过logstash的logstash-input-jdbc的插件进行数据同步，同步周期一分钟。<br>它也安装了ik的分词插件，让你更好的做全文搜索。<br>后续的文档会介绍当次安装中出现的问题以及解决方案 -&gt; <a href="/2017/07/27/search系列-2-此处有坑/">search系列_2.此处有坑</a></p>
+        <h3 id="什么是Elasticsearch"><a href="#什么是Elasticsearch" class="headerlink" title="什么是Elasticsearch"></a>什么是Elasticsearch</h3><p>摘录至<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/intro.html" target="_blank" rel="external">Elasticsearch: 权威指南</a>中的解释：</p>
+<blockquote>
+<p>Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。<br>Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：<br>  一个分布式的实时文档存储，每个字段 可以被索引与搜索<br>  一个分布式实时分析搜索引擎<br>  能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据</p>
+</blockquote>
         
-          <a class="article-more-a" href="/2017/07/26/search系列-1-快速安装/#more">more >></a>
+          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-一-安装部署/#more">more >></a>
         
       
 
@@ -280,7 +290,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/26/search系列-1-快速安装/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-一-安装部署/">展开全文 >></a>
         </p>
       
 
