@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="nero.life">
   <title>Elasticsearch笔记(一).安装部署 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;ensp;  什么是Elasticsearch此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段可以被索引与搜索">
+  <meta name="description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。笔记记录下期间的学习成果, 系列预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsearch">
 <meta name="keywords" content="Elasticsearch,Logstash,Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Elasticsearch笔记(一).安装部署">
 <meta property="og:url" content="nero.life/2017/07/28/elasticsearch笔记-一-安装部署/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="&amp;ensp;  什么是Elasticsearch此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段可以被索引与搜索">
+<meta property="og:description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。笔记记录下期间的学习成果, 系列预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsearch">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="/images/es_1.png">
-<meta property="og:updated_time" content="2017-08-23T12:24:01.000Z">
+<meta property="og:updated_time" content="2017-08-23T13:00:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elasticsearch笔记(一).安装部署">
-<meta name="twitter:description" content="&amp;ensp;  什么是Elasticsearch此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段可以被索引与搜索">
+<meta name="twitter:description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。笔记记录下期间的学习成果, 系列预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsearch">
 <meta name="twitter:image" content="/images/es_1.png">
   
   
@@ -176,11 +176,21 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>&ensp; </p>
-<h3 id="什么是Elasticsearch"><a href="#什么是Elasticsearch" class="headerlink" title="什么是Elasticsearch"></a>什么是Elasticsearch</h3><p>此处摘录自<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/intro.html" target="_blank" rel="external">Elasticsearch: 权威指南</a>中的定义：</p>
+<h3 id="Elasticsearch笔记"><a href="#Elasticsearch笔记" class="headerlink" title="Elasticsearch笔记"></a>Elasticsearch笔记</h3><p>接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。<br>笔记记录下期间的学习成果, 系列预期将陆续整理出以下的五篇文档。</p>
+<ul>
+<li>1.<a href="/2017/07/28/elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a></li>
+<li>2.<a href="/2017/07/28/elasticsearch笔记-二-Docker/">Elasticsearch笔记(二).Docker</a></li>
+<li>3.Elasticsearch笔记(三).Java与Elasticsearch</li>
+<li>4.Elasticsearch笔记(四).索引与倒排索引</li>
+<li>5.Elasticsearch笔记(五).Lucene</li>
+</ul>
+<p>&ensp; </p>
+<h3 id="什么是Elasticsearch"><a href="#什么是Elasticsearch" class="headerlink" title="什么是Elasticsearch"></a>什么是Elasticsearch</h3><a id="more"></a>
+<p>此处摘录自<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/intro.html" target="_blank" rel="external">Elasticsearch: 权威指南</a>中的定义：</p>
 <blockquote>
 <p>Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。<br>Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：<br>  一个分布式的实时文档存储，每个字段可以被索引与搜索<br>  一个分布式实时分析搜索引擎<br>  能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据</p>
 </blockquote>
-<p>&ensp;<br><a id="more"></a></p>
+<p>&ensp;   </p>
 <h3 id="文档介绍"><a href="#文档介绍" class="headerlink" title="文档介绍"></a>文档介绍</h3><p>参看当前文档，你可以快速的基于Linux操作系统构造好一个简单的搜索集群，可通过部署多个<b>Elasticsearch Node</b>来扩展集群的搜索能力以及容灾能力。<br>集群数据来源自Mysql数据库，它通过logstash的logstash-input-jdbc的插件进行数据同步，同步周期一分钟。<br>它同时也安装了ik的分词插件，让你更好的做全文分词搜索。<br>&ensp;</p>
 <h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><ul>
 <li><p>Elasticsearch</p>
@@ -363,11 +373,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/07/28/elasticsearch笔记-一-Docker/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/28/elasticsearch笔记-二-Docker/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          elasticsearch笔记(一).Docker
+          elasticsearch笔记(二).Docker
         
       </div>
     </a>
@@ -493,14 +503,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">elasticsearch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">logstash</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Elasticsearch</a>
               </li>
              
@@ -510,6 +512,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
               </li>
             
             <div class="clearfix"></div>

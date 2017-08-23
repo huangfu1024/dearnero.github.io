@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>nero-少年游</title>
+  <title>elasticsearch笔记(二).Docker | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
-<meta property="og:type" content="website">
-<meta property="og:title" content="nero-少年游">
-<meta property="og:url" content="nero.life/index.html">
+  <meta name="description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。笔记记录下期间的学习成果, 系列预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsearch">
+<meta name="keywords" content="Elasticsearch,Logstash,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch笔记(二).Docker">
+<meta property="og:url" content="nero.life/2017/07/28/elasticsearch笔记-二-Docker/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta property="og:description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。笔记记录下期间的学习成果, 系列预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsearch">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-23T13:00:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nero-少年游">
-<meta name="twitter:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta name="twitter:title" content="elasticsearch笔记(二).Docker">
+<meta name="twitter:description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。笔记记录下期间的学习成果, 系列预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsearch">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -151,16 +153,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-elasticsearch笔记-二-Docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-elasticsearch笔记-二-Docker" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/28/elasticsearch笔记-二-Docker/">elasticsearch笔记(二).Docker</a>
+    <h1 class="article-title" itemprop="name">
+      elasticsearch笔记(二).Docker
     </h1>
   
 
@@ -182,10 +182,18 @@
 <li>4.Elasticsearch笔记(四).索引与倒排索引</li>
 <li>5.Elasticsearch笔记(五).Lucene<br>&ensp; </li>
 </ul>
-<h3 id="docker-elasticsearch-logstash"><a href="#docker-elasticsearch-logstash" class="headerlink" title="docker + elasticsearch + logstash"></a>docker + elasticsearch + logstash</h3>
-        
-          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-二-Docker/#more">more >></a>
-        
+<h3 id="docker-elasticsearch-logstash"><a href="#docker-elasticsearch-logstash" class="headerlink" title="docker + elasticsearch + logstash"></a>docker + elasticsearch + logstash</h3><a id="more"></a>
+<p>Elasticsearch的Dockerfile:</p>
+<blockquote>
+<p>FROM elasticsearch:5.4.0<br>  RUN sed -i ‘s/deb.debian.org/mirrors.ustc.edu.cn/g’ /etc/apt/sources.list<br>  RUN apt-get update &amp;&amp; apt-get install zip<br>  RUN mkdir -p /usr/share/elasticsearch/plugins/ik<br>  RUN cd /usr/share/elasticsearch/plugins/ik &amp;&amp; wget <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip" target="_blank" rel="external">https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip</a> &amp;&amp; unzip elasticsearch-analysis-ik-5.4.0.zip</p>
+</blockquote>
+<p>基于当前Dockerfile文件生成Elasticsearch:5.4.0的镜像</p>
+<p>Logstash的Dockerfile:</p>
+<blockquote>
+<p>FROM logstash:5.4.0<br>  RUN logstash-plugin install logstash-input-jdbc<br>  COPY mysql-connector-java-5.1.41.jar /some/lib-dir/<br>  CMD [“-f”, “/some/config-dir/“]</p>
+</blockquote>
+<p>基于当前Dockerfile文件生成Logstash:5.4.0的镜像</p>
+
       
 
       
@@ -215,16 +223,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-二-Docker/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2017/07/28/elasticsearch笔记-二-Docker/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/28/elasticsearch笔记-一-安装部署/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Elasticsearch笔记(一).安装部署</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -244,102 +311,12 @@
 
 
 
-
   
-    <article id="post-elasticsearch笔记-一-安装部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/28/elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a>
-    </h1>
   
 
-        
-        <a href="/2017/07/28/elasticsearch笔记-一-安装部署/" class="archive-article-date">
-  	<time datetime="2017-07-28T09:26:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&ensp; </p>
-<h3 id="Elasticsearch笔记"><a href="#Elasticsearch笔记" class="headerlink" title="Elasticsearch笔记"></a>Elasticsearch笔记</h3><p>接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。<br>笔记记录下期间的学习成果, 系列预期将陆续整理出以下的五篇文档。</p>
-<ul>
-<li>1.<a href="/2017/07/28/elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a></li>
-<li>2.<a href="/2017/07/28/elasticsearch笔记-二-Docker/">Elasticsearch笔记(二).Docker</a></li>
-<li>3.Elasticsearch笔记(三).Java与Elasticsearch</li>
-<li>4.Elasticsearch笔记(四).索引与倒排索引</li>
-<li>5.Elasticsearch笔记(五).Lucene</li>
-</ul>
-<p>&ensp; </p>
-<h3 id="什么是Elasticsearch"><a href="#什么是Elasticsearch" class="headerlink" title="什么是Elasticsearch"></a>什么是Elasticsearch</h3>
-        
-          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-一-安装部署/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Logstash</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-一-安装部署/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
+
   
 
 
@@ -362,8 +339,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
