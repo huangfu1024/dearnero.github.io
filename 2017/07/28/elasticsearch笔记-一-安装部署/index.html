@@ -6,21 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>elasticsearch笔记(一).安装部署 | nero-少年游</title>
+  <title>Elasticsearch笔记(一).安装部署 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是Elasticsearch摘录至Elasticsearch: 权威指南中的解释：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段 可以被索引与搜索  一个分布式实时分析">
-<meta name="keywords" content="elasticsearch,logstash">
+  <meta name="description" content="&amp;ensp;  什么是Elasticsearch此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段可以被索引与搜索">
+<meta name="keywords" content="Elasticsearch,Logstash,Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="elasticsearch笔记(一).安装部署">
+<meta property="og:title" content="Elasticsearch笔记(一).安装部署">
 <meta property="og:url" content="nero.life/2017/07/28/elasticsearch笔记-一-安装部署/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="什么是Elasticsearch摘录至Elasticsearch: 权威指南中的解释：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段 可以被索引与搜索  一个分布式实时分析">
+<meta property="og:description" content="&amp;ensp;  什么是Elasticsearch此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段可以被索引与搜索">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="/images/es_1.png">
-<meta property="og:updated_time" content="2017-07-28T10:04:15.000Z">
+<meta property="og:updated_time" content="2017-08-23T12:24:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="elasticsearch笔记(一).安装部署">
-<meta name="twitter:description" content="什么是Elasticsearch摘录至Elasticsearch: 权威指南中的解释：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段 可以被索引与搜索  一个分布式实时分析">
+<meta name="twitter:title" content="Elasticsearch笔记(一).安装部署">
+<meta name="twitter:description" content="&amp;ensp;  什么是Elasticsearch此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字段可以被索引与搜索">
 <meta name="twitter:image" content="/images/es_1.png">
   
   
@@ -162,7 +162,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      elasticsearch笔记(一).安装部署
+      Elasticsearch笔记(一).安装部署
     </h1>
   
 
@@ -175,23 +175,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="什么是Elasticsearch"><a href="#什么是Elasticsearch" class="headerlink" title="什么是Elasticsearch"></a>什么是Elasticsearch</h3><p>摘录至<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/intro.html" target="_blank" rel="external">Elasticsearch: 权威指南</a>中的解释：</p>
+        <p>&ensp; </p>
+<h3 id="什么是Elasticsearch"><a href="#什么是Elasticsearch" class="headerlink" title="什么是Elasticsearch"></a>什么是Elasticsearch</h3><p>此处摘录自<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/intro.html" target="_blank" rel="external">Elasticsearch: 权威指南</a>中的定义：</p>
 <blockquote>
-<p>Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。<br>Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：<br>  一个分布式的实时文档存储，每个字段 可以被索引与搜索<br>  一个分布式实时分析搜索引擎<br>  能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据</p>
+<p>Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。<br>Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：<br>  一个分布式的实时文档存储，每个字段可以被索引与搜索<br>  一个分布式实时分析搜索引擎<br>  能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据</p>
 </blockquote>
-<a id="more"></a>
-<h3 id="文档介绍"><a href="#文档介绍" class="headerlink" title="文档介绍"></a>文档介绍</h3><p>参看当前文档，你可以快速的构造好一个简单的搜索集群，可通过部署多个<b>Elasticsearch Node</b>来扩展集群的搜索能力以及容灾能力。<br>集群数据来源至Mysql数据库，通过logstash的logstash-input-jdbc的插件进行数据同步，同步周期一分钟。<br>它也安装了ik的分词插件，让你更好的做全文搜索。</p>
+<p>&ensp;<br><a id="more"></a></p>
+<h3 id="文档介绍"><a href="#文档介绍" class="headerlink" title="文档介绍"></a>文档介绍</h3><p>参看当前文档，你可以快速的基于Linux操作系统构造好一个简单的搜索集群，可通过部署多个<b>Elasticsearch Node</b>来扩展集群的搜索能力以及容灾能力。<br>集群数据来源自Mysql数据库，它通过logstash的logstash-input-jdbc的插件进行数据同步，同步周期一分钟。<br>它同时也安装了ik的分词插件，让你更好的做全文分词搜索。<br>&ensp;</p>
 <h3 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h3><ul>
-<li><p>elasticsearch</p>
+<li><p>Elasticsearch</p>
 <p>  elasticsearch version: 5.4.0</p>
 <p>  elasticsearch-analysis-ik version: 5.4.0</p>
 </li>
-<li><p>logstash</p>
+<li><p>Logstash</p>
 <p>  logstash version: 5.4.0</p>
-<p>  logstash-input-jdbc version: 4.1.3</p>
-</li>
+<p>  logstash-input-jdbc version: 4.1.3<br>&ensp;    </p>
+<h3 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h3></li>
 </ul>
-<h3 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h3><p>1.下载elasticsearch以及logstash对应的版本，此处采用5.4.0版本</p>
+<p>1.下载elasticsearch以及logstash对应的版本,版本见上。</p>
 <p>2.elasticsearch安装ik中文插件,参看具体对应版本</p>
 <blockquote>
 <ul>
@@ -204,7 +205,7 @@
 </blockquote>
 <p>3.修改配置文件elasticsearch.yml, 可参看我的配置：</p>
 <blockquote>
-<p># 集群名称<br>  cluster.name: ytx_search_cluster<br>  # 节点名称,<br>  node.name: elasticsearch_md_node_1<br>  # 选举master节点的最小master数量<br>  discovery.zen.minimum_master_nodes: 1<br>  # 是否发布为master节点<br>  node.master: true<br>  # 是否发布为data节点<br>  node.data: true<br>  # 可访问地址<br>  http.host: 0.0.0.0<br>  # 设置节点间交互的tcp端口，默认是9300<br>  transport.tcp.port: 9300<br>  # 设置对外服务的http端口，默认为9200<br>  http.port: 9200<br>  # 允许跨域访问<br>  http.cors.enabled: true<br>  # 允许跨域访问<br>  http.cors.allow-origin: “/.*/“<br>  # 设置其它节点和该节点交互的ip地址，如果不设置它会自动判断，值必须是个真实的ip地址。<br>  network.publish_host: 127.0.0.1<br>  # 设置绑定的ip地址，可以是ipv4或ipv6的，默认为0.0.0.0<br>  network.bind_host: 127.0.0.1<br>  # 设置单播连接地址, 新增节点会通过地址来加入到集群中<br>  discovery.zen.ping.unicast.hosts: [“节点的ip”]</p>
+<p># 集群名称<br>  cluster.name: search_cluster<br>  # 节点名称,<br>  node.name: elasticsearch_md_node_1<br>  # 选举master节点的最小master数量<br>  discovery.zen.minimum_master_nodes: 1<br>  # 是否发布为master节点<br>  node.master: true<br>  # 是否发布为data节点<br>  node.data: true<br>  # 可访问地址<br>  http.host: 0.0.0.0<br>  # 设置节点间交互的tcp端口，默认是9300<br>  transport.tcp.port: 9300<br>  # 设置对外服务的http端口，默认为9200<br>  http.port: 9200<br>  # 允许跨域访问<br>  http.cors.enabled: true<br>  # 允许跨域访问<br>  http.cors.allow-origin: “/.*/“<br>  # 设置其它节点和该节点交互的ip地址，如果不设置它会自动判断，值必须是个真实的ip地址。<br>  network.publish_host: 0.0.0.0<br>  # 设置绑定的ip地址，可以是ipv4或ipv6的，默认为0.0.0.0<br>  network.bind_host: 0.0.0.0<br>  # 设置单播连接地址, 新增节点会通过地址来加入到集群中<br>  discovery.zen.ping.unicast.hosts: [“Node Server Ip”]</p>
 </blockquote>
 <p>4.启动elasticsearch</p>
 <blockquote>
@@ -213,7 +214,7 @@
 <li>./elasticsearch</li>
 </ul>
 </blockquote>
-<p>至此你的机器上就启动好了一个叫search_demo的搜索集群,集群下有个名叫elasticsearch_md_node_1的Node。<br>浏览器中访问地址：<b><a href="http://localhost:9200" target="_blank" rel="external">http://localhost:9200</a></b><br><img src="/images/es_1.png" alt="Alt text">   </p>
+<p>至此你的机器上就启动好了一个叫search_cluster的搜索引擎,引擎又一个叫elasticsearch_md_node_1的Node构成。<br>浏览器中访问地址：<b><a href="http://localhost:9200" target="_blank" rel="external">http://localhost:9200</a></b>, 如下显示你的集群信息<br><img src="/images/es_1.png" alt="Alt text">   </p>
 <p>5.接下来在logstash中安装logstash-input-jdbc插件, 用于从数据库中同步数据到elasticsearch</p>
 <blockquote>
 <ul>
@@ -221,7 +222,8 @@
 <li>./logstash-plugin install logstash-input-jdbc</li>
 </ul>
 </blockquote>
-<p>6.项目logstash配置文件存放地址：</p>
+<p><b>ps:如果此过程很慢或者安装失败, 请参考文章最后的问题1.</b></p>
+<p>6.项目logstash配置文件存储在用户目录下：</p>
 <blockquote>
 <ul>
 <li><p>~/some/config-dir/</p>
@@ -230,17 +232,11 @@
 </li>
 </ul>
 </blockquote>
-<p>在config-dir下配置文件: logstash.conf temp.json</p>
-<p>在lib-dir下: mysql驱动包(mysql-connector-java-5.1.41.jar)</p>
-<p>logstash.conf配置文件指定了数据的源(MySQL)输出到目标源(Elasticsearch), MySQL的驱动包位置为上一步的lib-dir。<br>每次的调度更新通过updated_at&gt;= :sql_last_value来获取。</p>
-<blockquote>
-<p>input {<br>    jdbc {<br>        jdbc_driver_library =&gt; “~/some/lib-dir/mysql-connector-java-5.1.41.jar”<br>        jdbc_driver_class =&gt; “com.mysql.jdbc.Driver”<br>        jdbc_connection_string =&gt; “jdbc:mysql://db_ip:port/db_name”<br>        jdbc_user =&gt; “”<br>        jdbc_password =&gt; “”<br>        jdbc_paging_enabled =&gt; “true”<br>        jdbc_fetch_size =&gt; “1000”<br>        jdbc_page_size =&gt; “5000”<br>        schedule =&gt; “<em> </em> <em> </em> <em>“<br>        lowercase_column_names =&gt; false<br>        type =&gt; “catalog”<br>        statement =&gt; “select </em> from table_name where updated_at&gt;= :sql_last_value”<br>        template =&gt; “~/some/config-dir/temp.json”<br>    }<br>  }<br>  output {<br>      if[type] == “catalog” {<br>          elasticsearch {<br>                hosts =&gt; “es_node_ip:9200”<br>                index =&gt; “集群index名称”<br>                document_type =&gt; “集群type名称”<br>                document_id =&gt; “%{id}”<br>          }<br>      }<br>  }</p>
-</blockquote>
-<p>temp.json是一个比较通用的Elasticsearch Mapping模板，可以在里面指定使用哪种分词器。</p>
-<blockquote>
-<p>{<br>    “template”: “集群index名称”,<br>    “version”: 50001,<br>    “settings”: {<br>      “index.refresh_interval”: “5s”<br>    },<br>    “mappings”: {<br>      “<em>default</em>“: {<br>        “_all”: {<br>          “enabled”: true,<br>          “norms”: false<br>        },<br>        “dynamic_templates”: [<br>          {<br>            “message_field”: {<br>              “path_match”: “message”,<br>              “match_mapping_type”: “string”,<br>              “mapping”: {<br>                “type”: “text”,<br>                “norms”: false<br>              }<br>            }<br>          },<br>          {<br>            “string_fields”: {<br>              “match”: “*”,<br>              “match_mapping_type”: “string”,<br>              “mapping”: {<br>                “type”: “text”,<br>                “norms”: false,<br>                “fields”: {<br>                  “keyword”: {<br>                    “type”: “keyword”<br>                  }<br>                }<br>              }<br>            }<br>          }<br>        ],<br>        “properties”: {<br>          “@timestamp”: {<br>            “type”: “date”,<br>            “include_in_all”: false<br>          },<br>          “@version”: {<br>            “type”: “keyword”,<br>            “include_in_all”: false<br>          },<br>          # 指定name字段使用ik的ik_smart分词器<br>          “name”: {<br>            “type”: “text”,<br>            “analyzer”: “ik_smart”<br>          }<br>        }<br>      }<br>    }<br>  }</p>
-</blockquote>
-<p>7.启动logstash, 指定需要加载配置文件</p>
+<p>在config-dir下包含logstash.conf和temp.json两个配置文件<br>在lib-dir下则包含了mysql驱动包(mysql-connector-java-5.1.41.jar)</p>
+<p>例如我有一张位于Mysql需要同步到Elasticsearch的表student, 包含字段id, name, desc, age, created_at, updated_at.而我们需要对desc字段进行分词，以便后期的关键词匹配<br>数据库地址：127.0.0.1<br>端口号：3306<br>数据库名称：mydb<br>用户名：wx<br>密码：123456</p>
+<p>logstash.conf配置文件指定了数据的源(MySQL)输出到目标源(Elasticsearch),每次的调度周期1分钟, 通过updated_at&gt;= :sql_last_value来获取需要更新的数据。<br>配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">  jdbc &#123;</div><div class="line">      jdbc_driver_library =&gt; &quot;~/some/lib-dir/mysql-connector-java-5.1.41.jar&quot;</div><div class="line">      jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</div><div class="line">      jdbc_connection_string =&gt; &quot;jdbc:mysql://127.0.0.1:3306/mydb&quot;</div><div class="line">      jdbc_user =&gt; &quot;wx&quot;</div><div class="line">      jdbc_password =&gt; &quot;123456&quot;</div><div class="line">      jdbc_paging_enabled =&gt; &quot;true&quot;</div><div class="line">      jdbc_fetch_size =&gt; &quot;1000&quot;</div><div class="line">      jdbc_page_size =&gt; &quot;5000&quot;</div><div class="line">      schedule =&gt; &quot;\* \* \* \* \*&quot;</div><div class="line">      lowercase_column_names =&gt; false</div><div class="line">      type =&gt; &quot;student&quot;</div><div class="line">      statement =&gt; &quot;select id, name, desc, age, created_at, updated_at from student where updated_at&gt;= :sql_last_value&quot;</div><div class="line">      template =&gt; &quot;~/some/config-dir/temp.json&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">output &#123;</div><div class="line">    if[type] == &quot;student&quot; &#123;</div><div class="line">        elasticsearch &#123;</div><div class="line">              hosts =&gt; &quot;127.0.0.1:9200&quot;</div><div class="line">              index =&gt; &quot;search_cluster&quot;</div><div class="line">              document_type =&gt; &quot;student&quot;</div><div class="line">              document_id =&gt; &quot;%&#123;id&#125;&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>而temp.json是一个比较通用的Elasticsearch Mapping模板, 你可以在里面指定使用哪种分词器, 此处配置字段desc使用ik_smart分词<br>配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;template&quot;: &quot;search_cluster&quot;,</div><div class="line">  &quot;version&quot;: 50001,</div><div class="line">  &quot;settings&quot;: &#123;</div><div class="line">    &quot;index.refresh_interval&quot;: &quot;5s&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;mappings&quot;: &#123;</div><div class="line">    &quot;_default_&quot;: &#123;</div><div class="line">      &quot;_all&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: true,</div><div class="line">        &quot;norms&quot;: false</div><div class="line">      &#125;,</div><div class="line">      &quot;dynamic_templates&quot;: [</div><div class="line">        &#123;</div><div class="line">          &quot;message_field&quot;: &#123;</div><div class="line">            &quot;path_match&quot;: &quot;message&quot;,</div><div class="line">            &quot;match_mapping_type&quot;: &quot;string&quot;,</div><div class="line">            &quot;mapping&quot;: &#123;</div><div class="line">              &quot;type&quot;: &quot;text&quot;,</div><div class="line">              &quot;norms&quot;: false</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          &quot;string_fields&quot;: &#123;</div><div class="line">            &quot;match&quot;: &quot;*&quot;,</div><div class="line">            &quot;match_mapping_type&quot;: &quot;string&quot;,</div><div class="line">            &quot;mapping&quot;: &#123;</div><div class="line">              &quot;type&quot;: &quot;text&quot;,</div><div class="line">              &quot;norms&quot;: false,</div><div class="line">              &quot;fields&quot;: &#123;</div><div class="line">                &quot;keyword&quot;: &#123;</div><div class="line">                  &quot;type&quot;: &quot;keyword&quot;</div><div class="line">                &#125;</div><div class="line">              &#125;</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      &quot;properties&quot;: &#123;</div><div class="line">        &quot;@timestamp&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;date&quot;,</div><div class="line">          &quot;include_in_all&quot;: false</div><div class="line">        &#125;,</div><div class="line">        &quot;@version&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;keyword&quot;,</div><div class="line">          &quot;include_in_all&quot;: false</div><div class="line">        &#125;,</div><div class="line">        \# 指定desc字段使用ik的ik_smart分词器</div><div class="line">        &quot;desc&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;text&quot;,</div><div class="line">          &quot;analyzer&quot;: &quot;ik_smart&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>7.启动logstash, 指定需要加载的配置文件地址</p>
 <blockquote>
 <ul>
 <li><p>cd LS_HOME/bin</p>
@@ -249,8 +245,8 @@
 </li>
 </ul>
 </blockquote>
-<p>8.至此你的搜索已经开始使用了，接下来可以安装elasticsearch-head插件，来查看集群状况</p>
-<p>   在elasticsearch5.X版本中, 不支持head插件安装, 它希望head作为一个独立的程序启动</p>
+<p>8.至此你的搜索引擎已经开始使用了，接下来我们安装elasticsearch-head可视化插件，来查看集群状况以及加载数据</p>
+<p>   在elasticsearch5.X版本中, 不支持head插件安装, 它希望head作为一个独立的程序启动. </p>
 <blockquote>
 <ul>
 <li>git clone git://github.com/mobz/elasticsearch-head.git</li>
@@ -260,7 +256,8 @@
 <li>open <a href="http://localhost:9100/" target="_blank" rel="external">http://localhost:9100/</a></li>
 </ul>
 </blockquote>
-<p>9.你知道的, 为了搜索… </p>
+<p>   安装完成后, 打开地址<a href="http://localhost:9100/" target="_blank" rel="external">http://localhost:9100/</a>, 在上方输入节点地址, 点击连接即可。比如<a href="http://127.0.0.1:9200/" target="_blank" rel="external">http://127.0.0.1:9200/</a></p>
+<p>9.你知道的, 为了搜索…<br>&ensp;   </p>
 <h3 id="安装问题"><a href="#安装问题" class="headerlink" title="安装问题"></a>安装问题</h3><ol>
 <li>./logstash-plugin install logstash-input-jdbc<blockquote>
 <p>因为墙的原因，上面的执行会很慢，或者压根就执行不动。<br>此处提供另外的安装过程。<br><a href="http://blog.csdn.net/yeyuma/article/details/50240595" target="_blank" rel="external">http://blog.csdn.net/yeyuma/article/details/50240595</a><br>亲测，有用。</p>
@@ -269,7 +266,7 @@
 </ol>
 <p>2.在logstash.conf配置文件加入多个input,导致数据重复加载</p>
 <blockquote>
-<p>在input中设置type =&gt; “catalog”,并在output中加入对应的if判断。<br>  不同的input设置不同的type值，可避免重复加载的问题。<br>  如果你的数据库表中出来了列名’type’，那么需要你在select中as成其他字段名，避免出现冲突问题。</p>
+<p>在input中设置type =&gt; “student”,并在output中加入对应的if判断。<br>  不同的input设置不同的type值，可避免重复加载的问题。<br>  如果你的数据库表中出来了列名’type’，那么需要你在select中as成其他字段名，避免出现冲突问题。</p>
 </blockquote>
 <p>3.要想要用lostash重新加载全部数据，咋整</p>
 <blockquote>
@@ -288,11 +285,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">elasticsearch</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">logstash</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Logstash</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		
 		</ul>
@@ -497,6 +498,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">logstash</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Elasticsearch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Logstash</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
