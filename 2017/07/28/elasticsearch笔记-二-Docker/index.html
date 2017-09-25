@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="nero.life">
   <title>elasticsearch笔记(二).Docker | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。这个系列的笔记将记录下期间的学习成果, 预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsea">
+  <meta name="description" content="&amp;ensp;  docker + elasticsearch + logstash">
 <meta name="keywords" content="Elasticsearch,Logstash,Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="elasticsearch笔记(二).Docker">
 <meta property="og:url" content="nero.life/2017/07/28/elasticsearch笔记-二-Docker/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。这个系列的笔记将记录下期间的学习成果, 预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsea">
+<meta property="og:description" content="&amp;ensp;  docker + elasticsearch + logstash">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-21T15:15:38.000Z">
+<meta property="og:updated_time" content="2017-09-25T12:52:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch笔记(二).Docker">
-<meta name="twitter:description" content="&amp;ensp;  Elasticsearch笔记接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。这个系列的笔记将记录下期间的学习成果, 预期将陆续整理出以下的五篇文档。  1.Elasticsearch笔记(一).安装部署 2.Elasticsearch笔记(二).Docker 3.Elasticsearch笔记(三).Java与Elasticsea">
+<meta name="twitter:description" content="&amp;ensp;  docker + elasticsearch + logstash">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -174,14 +174,6 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>&ensp; </p>
-<h3 id="Elasticsearch笔记"><a href="#Elasticsearch笔记" class="headerlink" title="Elasticsearch笔记"></a>Elasticsearch笔记</h3><p>接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。<br>这个系列的笔记将记录下期间的学习成果, 预期将陆续整理出以下的五篇文档。</p>
-<ul>
-<li>1.<a href="/2017/07/28/elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a></li>
-<li>2.<a href="/2017/07/28/elasticsearch笔记-二-Docker/">Elasticsearch笔记(二).Docker</a></li>
-<li>3.Elasticsearch笔记(三).Java与Elasticsearch</li>
-<li>4.Elasticsearch笔记(四).索引与倒排索引</li>
-<li>5.Elasticsearch笔记(五).Lucene<br>&ensp; </li>
-</ul>
 <h3 id="docker-elasticsearch-logstash"><a href="#docker-elasticsearch-logstash" class="headerlink" title="docker + elasticsearch + logstash"></a>docker + elasticsearch + logstash</h3><a id="more"></a>
 <p><b>PS：当前文档注重于Elasticsearch的构建，阅读文档时，需要你对Docker有基本的了解和对基本语法的掌握。<br>可以先参考以下资料：</b></p>
 <ul>
@@ -192,9 +184,8 @@
 <p>开工：</p>
 <h6 id="1-配置Dockerfile文件"><a href="#1-配置Dockerfile文件" class="headerlink" title="1.配置Dockerfile文件"></a>1.配置Dockerfile文件</h6><p>Elasticsearch的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">FROM elasticsearch:5.4.0</div><div class="line">RUN sed -i &apos;s/deb.debian.org/mirrors.ustc.edu.cn/g&apos; /etc/apt/sources.list</div><div class="line">RUN apt-get update &amp;&amp; apt-get install zip</div><div class="line">RUN mkdir -p /usr/share/elasticsearch/plugins/ik</div><div class="line">RUN cd /usr/share/elasticsearch/plugins/ik &amp;&amp; wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip &amp;&amp; unzip elasticsearch-analysis-ik-5.4.0.zip</div></pre></td></tr></table></figure></p>
 <blockquote>
-<p>镜像基于elasticsearch的5.4.0版本，并在此镜像上加入分词IK层，形成新的镜像</p>
+<p>镜像基于elasticsearch的5.4.0版本，并在此镜像上加入分词IK层，形成新的镜像<br><!--more--><br><br></p>
 </blockquote>
-<p><br></p>
 <p>Logstash的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FROM logstash:5.4.0</div><div class="line">RUN logstash-plugin install logstash-input-jdbc</div><div class="line">COPY mysql-connector-java-5.1.41.jar /some/lib-dir/</div><div class="line">CMD [&quot;-f&quot;, &quot;/some/config-dir/&quot;]</div></pre></td></tr></table></figure></p>
 <blockquote>
 <p>镜像基于Logstash的5.4.0的版本，并在此镜像上安装logstash-input-jdbc插件层，以及<br>会拷贝mysql驱动包到logstash的配置jar下，而在启动镜像时，自动在’’/some/config-dir/‘中读取logstash.conf文件</p>
@@ -461,11 +452,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
             
             <div class="clearfix"></div>
