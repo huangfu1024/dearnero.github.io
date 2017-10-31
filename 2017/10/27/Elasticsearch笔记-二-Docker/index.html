@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>个人简历 | nero-少年游</title>
+  <title>elasticsearch笔记(二).Docker | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;ensp; 个人信息 王轩/男/1990  本科/武汉科技大学城市学院/软件工程 工作年限：5年 技术博客：nero.life Github：https://github.com/dearnero 期望职位：Java高级工程师，架构师，项目经理 期望薪资：25k/M 期望城市：杭州  联系方式手机：15695718823Email：wx172296059@126.com微信号：156957188">
-<meta property="og:type" content="website">
-<meta property="og:title" content="个人简历">
-<meta property="og:url" content="nero.life/my/resume.html">
+  <meta name="description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，如系统更换成window，那么你就需要重新去构建，配置，启动，测试。而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你">
+<meta name="keywords" content="Elasticsearch,Logstash,Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch笔记(二).Docker">
+<meta property="og:url" content="nero.life/2017/10/27/Elasticsearch笔记-二-Docker/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="&amp;ensp; 个人信息 王轩/男/1990  本科/武汉科技大学城市学院/软件工程 工作年限：5年 技术博客：nero.life Github：https://github.com/dearnero 期望职位：Java高级工程师，架构师，项目经理 期望薪资：25k/M 期望城市：杭州  联系方式手机：15695718823Email：wx172296059@126.com微信号：156957188">
+<meta property="og:description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，如系统更换成window，那么你就需要重新去构建，配置，启动，测试。而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-27T10:04:13.000Z">
+<meta property="og:updated_time" content="2017-10-30T01:59:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="个人简历">
-<meta name="twitter:description" content="&amp;ensp; 个人信息 王轩/男/1990  本科/武汉科技大学城市学院/软件工程 工作年限：5年 技术博客：nero.life Github：https://github.com/dearnero 期望职位：Java高级工程师，架构师，项目经理 期望薪资：25k/M 期望城市：杭州  联系方式手机：15695718823Email：wx172296059@126.com微信号：156957188">
+<meta name="twitter:title" content="elasticsearch笔记(二).Docker">
+<meta name="twitter:description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，如系统更换成window，那么你就需要重新去构建，配置，启动，测试。而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -152,58 +153,80 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="page-undefined" class="article article-type-page " itemscope itemprop="blogPost">
+            <article id="post-Elasticsearch笔记-二-Docker" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      个人简历
+      elasticsearch笔记(二).Docker
     </h1>
   
 
         
-        <a href="/my/resume.html" class="archive-article-date">
-  	<time datetime="2017-08-23T13:12:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-23</time>
+        <a href="/2017/10/27/Elasticsearch笔记-二-Docker/" class="archive-article-date">
+  	<time datetime="2017-10-27T07:35:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&ensp;</p>
-<h3 id="个人信息"><a href="#个人信息" class="headerlink" title="个人信息"></a>个人信息</h3><ul>
-<li>王轩/男/1990 </li>
-<li>本科/武汉科技大学城市学院/软件工程</li>
-<li>工作年限：5年</li>
-<li>技术博客：<a href="http://nero.life">nero.life</a></li>
-<li>Github：<a href="https://github.com/dearnero" target="_blank" rel="external">https://github.com/dearnero</a></li>
-<li>期望职位：Java高级工程师，架构师，项目经理</li>
-<li>期望薪资：25k/M</li>
-<li>期望城市：杭州</li>
-</ul>
-<h3 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h3><p>手机：15695718823<br>Email：wx172296059@126.com<br>微信号：15695718823</p>
-<h3 id="专业技能"><a href="#专业技能" class="headerlink" title="专业技能"></a>专业技能</h3><ul>
-<li>设计思想: OOP(面向对象编程)/DDD(领域驱动设计)</li>
-<li>系统架构: 微服务/spring/spring-boot/spring-cloud/Dubbo/Mybatis</li>
-<li>搜索引擎: Elasticseach/Logstash</li>
-<li>代码仓库、版本管理: Git/Bitbucket/Github/Svn/Maven</li>
-<li>数据库: MySQL/H2/Postgresql/Oracle</li>
-<li>单元测试: junit/Mockito</li>
-<li>生产环境: Linux/阿里云/Amazon EC2</li>
-<li>其他: Docker/Gis</li>
-</ul>
-<h3 id="工作经历"><a href="#工作经历" class="headerlink" title="工作经历"></a>工作经历</h3><p>2012/3–2013/3 &nbsp;&nbsp;&nbsp;杭州满你礼品互联网有限公司<br>2013/3–2015/4 &nbsp;&nbsp;&nbsp;杭州天夏科技数字城管事业部<br>2015/4–2016/7 &nbsp;&nbsp;&nbsp;浙江省创维自动化<br>2016/7–至今    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;杭州迎创网络科技有限公司</p>
-<h3 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h3><h3 id="技术文章"><a href="#技术文章" class="headerlink" title="技术文章"></a>技术文章</h3><ul>
-<li><a href="http://nero.life/2017/07/28/elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a></li>
-<li><a href="http://nero.life/2017/07/28/elasticsearch笔记-二-Docker/">Elasticsearch笔记(二).Docker</a></li>
-<li>Elasticsearch笔记(三).Java与Elasticsearch</li>
-<li>Elasticsearch笔记(四).索引与倒排索引</li>
-<li>Elasticsearch笔记(五).Lucene</li>
+        <p>在前篇文档中的<a href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a>简单的介绍了如何构建基于Elasticsearch的搜索集群。<br>不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，<br>如系统更换成window，那么你就需要重新去构建，配置，启动，测试。<br>而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你可以更加简单的启动集群以及更换平台。<br><a id="more"></a></p>
+<p><b>PS：当前文档注重于Elasticsearch的构建，阅读文档时，需要你对Docker有基本的了解和对基本语法的掌握。<br>可以先参考以下资料：</b></p>
+<ul>
+<li><a href="https://doc.yonyoucloud.com/doc/docker_practice/data_management/volume.html" target="_blank" rel="external">Docker —— 从入门到实践</a></li>
+<li><a href="http://www.cnblogs.com/lienhua34/p/5170335.html" target="_blank" rel="external">Dockerfile创建自定义Docker镜像以及CMD与ENTRYPOINT指令的比较</a></li>
 </ul>
 <hr>
-<p>感谢您花时间阅读我的简历，期待能有机会与您共事。</p>
+<p>开工：</p>
+<h6 id="1-配置Dockerfile文件"><a href="#1-配置Dockerfile文件" class="headerlink" title="1.配置Dockerfile文件"></a>1.配置Dockerfile文件</h6><p>Elasticsearch的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">FROM elasticsearch:5.4.0</div><div class="line">RUN sed -i &apos;s/deb.debian.org/mirrors.ustc.edu.cn/g&apos; /etc/apt/sources.list</div><div class="line">RUN apt-get update &amp;&amp; apt-get install zip</div><div class="line">RUN mkdir -p /usr/share/elasticsearch/plugins/ik</div><div class="line">RUN cd /usr/share/elasticsearch/plugins/ik &amp;&amp; wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip &amp;&amp; unzip elasticsearch-analysis-ik-5.4.0.zip</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>镜像基于elasticsearch的5.4.0版本，并在此镜像上加入分词IK层，形成新的镜像</p>
+</blockquote>
+<p><br></p>
+<p>Logstash的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FROM logstash:5.4.0</div><div class="line">RUN logstash-plugin install logstash-input-jdbc</div><div class="line">COPY mysql-connector-java-5.1.41.jar /some/lib-dir/</div><div class="line">CMD [&quot;-f&quot;, &quot;/some/config-dir/&quot;]</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>镜像基于Logstash的5.4.0的版本，并在此镜像上安装logstash-input-jdbc插件层，以及<br>会拷贝mysql驱动包到logstash的配置jar下，而在启动镜像时，自动在’’/some/config-dir/‘中读取logstash.conf文件</p>
+</blockquote>
+<hr>
+<h6 id="2-创建镜像文件"><a href="#2-创建镜像文件" class="headerlink" title="2.创建镜像文件"></a>2.创建镜像文件</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t=&quot;nero/elasticsearch&quot; .</div></pre></td></tr></table></figure>
+<blockquote>
+<p>创建一个名叫<b>nero/elasticsearch</b>的elasticsearch的镜像（image）</p>
+</blockquote>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t=&quot;nero/logstash&quot; .</div></pre></td></tr></table></figure>
+<blockquote>
+<p>创建一个名叫<b>nero/logstash</b>的创建logstash的镜像（image）</p>
+</blockquote>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker images</div></pre></td></tr></table></figure>
+<blockquote>
+<p>使用 docker images 显示本地已有的镜像。</p>
+</blockquote>
+<hr>
+<h6 id="3-启动容器"><a href="#3-启动容器" class="headerlink" title="3.启动容器"></a>3.启动容器</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp elasticsearch.yml log4j2.properties scripts/ root@192.168.99.100:/mnt/sda1/elasticsearch_config</div></pre></td></tr></table></figure>
+<blockquote>
+<p>先将本地配置（elasticsearch.yml log4j2.properties scripts/）放在一个指定配置文件下。<br><b>（此处我采用scp命令是因为我本地采用mac系统，运行docker需要一个linux环境，而192.168.99.100就是我的linux虚拟机环境）</b><br>而elasticsearch.yml的配置，可以参考我上篇部署文档中的配置</p>
+</blockquote>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -d -p 9200:9200 -p 9300:9300 -v /mnt/sda1/elasticsearch_config:/usr/share/elasticsearch/config --name elasticsearch_node_1 nero/elasticsearch</div></pre></td></tr></table></figure>
+<blockquote>
+<p>创建一个名叫’<b>elasticsearch_node_1</b>‘的容器<br> 1.映射出9200和9300端口号<br> 2.将刚才的配置文件地址挂载到容器中elasticsearch的配置文件地址<br> 3.指定名称，指定刚才创建好的基于镜像</p>
+</blockquote>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp temp.json logstash.conf root@192.168.99.100:/mnt/sda1/logstash_config</div></pre></td></tr></table></figure>
+<blockquote>
+<p>logstash的配置文件拷贝至指定配置文件下。（temp.json logstash.conf可参考上篇部署文档中的配置）</p>
+</blockquote>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -v /mnt/sda1/logstash_config:/some/config-dir --name logstash_node_1 nero/logstash</div></pre></td></tr></table></figure>
+<blockquote>
+<p>创建一个名叫’<b>logstash_node_1</b>‘的容器<br> 1.将刚才的配置文件地址挂载到容器中logstash的配置文件地址<br> 2.指定名称，指定基于镜像’nero/logstash’ </p>
+</blockquote>
+<hr>
+<h6 id="4-ok！"><a href="#4-ok！" class="headerlink" title="4.ok！"></a>4.ok！</h6><p>如果你足够幸运，你现在应该已经启动好了一个基于Docker实现的搜索引擎！</p>
 
       
 
@@ -212,6 +235,25 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Logstash</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Docker</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -262,7 +304,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/my/resume.html" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2017/10/27/Elasticsearch笔记-二-Docker/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -274,6 +316,25 @@
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Elasticsearch笔记(三).Java与Elasticsearch
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/27/Elasticsearch笔记-一-安装部署/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Elasticsearch笔记(一).安装部署</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -322,7 +383,7 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

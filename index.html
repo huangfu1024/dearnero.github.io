@@ -153,30 +153,187 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-elasticsearch笔记-二-Docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Elasticsearch笔记-三-Java与Elasticsearch" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/28/elasticsearch笔记-二-Docker/">elasticsearch笔记(二).Docker</a>
+      <a class="article-title" href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/">Elasticsearch笔记(三).Java与Elasticsearch</a>
     </h1>
   
 
         
-        <a href="/2017/07/28/elasticsearch笔记-二-Docker/" class="archive-article-date">
-  	<time datetime="2017-07-28T09:27:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
+        <a href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/" class="archive-article-date">
+  	<time datetime="2017-10-27T07:36:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&ensp; </p>
-<h3 id="docker-elasticsearch-logstash"><a href="#docker-elasticsearch-logstash" class="headerlink" title="docker + elasticsearch + logstash"></a>docker + elasticsearch + logstash</h3>
+        <p>上面两篇文档分别介绍了Elasticsearch在linux环境以及docker环境下的安装过程，接下来这篇文档会主要介绍Elasticsearch在<br>具体项目中的使用。笔者会使用官网提供的java api接口来降搜索应用集成进业务系统中。当然如果是你使用的是其他语言，<br>我强烈推荐你使用Query DSL去查询。</p>
+<p>语法参考：<br><a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/index.html" target="_blank" rel="external">Elasticsearch Java API</a></p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html" target="_blank" rel="external">Elasticsearch Query DSL</a></p>
+<hr>
+<h6 id="一-获取连接"><a href="#一-获取连接" class="headerlink" title="一. 获取连接"></a>一. 获取连接</h6><p>其实我们完全可以把Elasticsearch当成我们平时使用的数据库来操作。</p>
+<p>首先我们在配置文件中配置集群的集群名称（如果不配置，则是默认名称elasticsearch），地址，端口号。</p>
+<p>然后我们通过读取配置文件，来初始化连接。如下代码: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Settings settings = Settings.builder().put(&quot;cluster.name&quot;, staticClusterName).build();</div><div class="line">client = new PreBuiltTransportClient(settings);</div><div class="line">for (String url : staticUrlList) &#123;</div><div class="line">     try &#123;</div><div class="line">         InetAddress inetAddress = InetAddress.getByName(url);</div><div class="line">         client.addTransportAddress(new InetSocketTransportAddress(inetAddress, staticPort));</div><div class="line">     &#125; catch (UnknownHostException e) &#123;</div><div class="line">         logger.error(&quot;elasticsearch客户端构造失败!&quot;, e);</div><div class="line">     &#125;      </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码里的staticUrlList参数，指的是可配置多个集群节点，来提高查询效率，和存储能力。我们通过addTransportAddress来<br>添加进client中。上述代码中staticClusterName，staticUrlList及staticPort都是需要我们在配置文件中预先配置完成的。<br>在具体实现的过程中，我们可以将此功能定义成单例实现，首次进行初始化client，然后进行缓存。在每次需要的时候，只要返回即可。</p>
+<p>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TransportClient client = ESClientSingleton.get();</div></pre></td></tr></table></figure></p>
+<h6 id="二-查询准备"><a href="#二-查询准备" class="headerlink" title="二. 查询准备"></a>二. 查询准备</h6><p>当我们获取到connection以后，接下来就可以开始做查询的准备。</p>
+<ul>
+<li><p>1<br>首先我们可以通过client来获取到一个SearchRequestBuilder的实例，这个是我们查询的主干。<br>然后你需要给SearchRequestBuilder指定查询目标, Index以及Type（映射到数据库就是数据库名称以及表名）</p>
+</li>
+<li><p>2 指定分页信息，setFrom以及setSize。</p>
+</li>
+</ul>
+<p><b>PS: 千万不要指望能一次性的查询到所有的数据，尤其是document特别多的时候。Elasticsearch最多只会给你返回1000条数据，<br>一次性返回过量的数据是灾难性，这点无论是Elasticsearch亦或是Database都适用。</b><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SearchRequestBuilder searchRequestBuilder = client.prepareSearch(ES_ITEM_INDEX).setTypes(ES_ITEM_TYPE)</div><div class="line">                .setFrom((pageNum - 1) * pageSize)</div><div class="line">                .setSize(pageSize);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>3 接下来，你可能需要指定返回的字段，可以用如下的代码设置：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String[] includes = &#123;&quot;id&quot;, &quot;name&quot;&#125;;</div><div class="line">searchRequestBuilder.setFetchSource(includes, null);</div></pre></td></tr></table></figure>
+<ul>
+<li>4 构建查询器</li>
+</ul>
+<p>我们以自己熟悉的SQL来做实例讲解，如下sql:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from student where id = &apos;123&apos; and age &gt; 12 and name like &apos;小明&apos; and hid in (...)</div></pre></td></tr></table></figure>
+<p>我们看SQL后面where条件。包含了’等于，大于，模糊查询，in查询’。</p>
+<p>首先我们需要一个能包含复杂查询条件的BoolQueryBuilder，你可以将一个个小查询条件设置进去，最后将它设给searchRequestBuilder。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();</div></pre></td></tr></table></figure></p>
+<p>id = ‘123’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QueryBuilder idQueryBuilder = QueryBuilders.termQuery(&quot;id&quot;, 123);</div><div class="line">boolQueryBuilder.must(idQueryBuilder);</div></pre></td></tr></table></figure></p>
+<p>age &gt; 12<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RangeQueryBuilder ageQueryBuilder = QueryBuilders.rangeQuery(&quot;age&quot;).gte(12);</div><div class="line">boolQueryBuilder.must(ageQueryBuilder);</div></pre></td></tr></table></figure></p>
+<p>name like ‘小明’<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery(&quot;name&quot;, &apos;小明&apos;);</div><div class="line">matchQueryBuilder.operator(Operator.AND);</div><div class="line">boolQueryBuilder.must(matchQueryBuilder);</div></pre></td></tr></table></figure></p>
+<p>这个就是我们比较关注的关键字查询了。因为我的Elasticsearch中字段name，已经配置了ik_smart分词器。<br>所以此处会将我的条件”小明”进行ik_smart的分词查询。而我设置的Operator.AND属性，指的是必须要我传<br>入的查询条件分词后字段全部匹配，才会返回结果。默认是Operator.OR，也就是其中有一个匹配，结果就返回。</p>
+<p>hid in (…)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QueryBuilder queryBuilder = QueryBuilders.termsQuery(&quot;hid&quot;, hidList);</div><div class="line">boolQueryBuilder.must(queryBuilder);</div></pre></td></tr></table></figure></p>
+<p><b>PS: 上述的SQL条件中，皆是以AND关键字进行拼接。如果是其他的，比如OR，比如Not in呢？请看下面：</b></p>
+<blockquote>
+<p>and – must<br>or – should<br>not in – must not</p>
+</blockquote>
+<p>好，最后我们将queryBuilder设置进searchRequestBuilder中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 设置查询条件</div><div class="line">searchRequestBuilder.setQuery(boolQueryBuilder);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>5 排序<br>我们同样需要一个排序构造器：SortBuilder。</li>
+</ul>
+<p>咱先根据age字段，做降序。如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SortBuilder sortBuilder = SortBuilders.fieldSort(&quot;age&quot;);</div><div class="line">sortBuilder.order(SortOrder.fromString(&quot;DESC&quot;));</div></pre></td></tr></table></figure></p>
+<p>如果想要做一些较为复杂的排序，比如多个字段相加。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String scriptStr = &quot;doc[&apos;clickCount&apos;].value + doc[&apos;soldNum&apos;].value&quot;;</div><div class="line">sortBuilder = SortBuilders.scriptSort(new Script(scriptStr), ScriptSortBuilder.ScriptSortType.NUMBER);</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 设置排序规则</div><div class="line">searchRequestBuilder.addSort(sortBuilder);</div></pre></td></tr></table></figure>
+<ul>
+<li>6 高亮显示</li>
+</ul>
+<p>在具体业务查询中，其实我们通常需要用到如该图的效果。</p>
+<p><img src="/images/highlight.png" alt="Alt text"> </p>
+<p><b>将查询命中的关键，进行标记颜色样式。</b></p>
+<p>Elasticsearch同样提供了功能的实现，我们只需要设置被查询的字段即可。如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">HighlightBuilder highlightBuilder = new HighlightBuilder();</div><div class="line">highlightBuilder.field(&quot;name&quot;);</div><div class="line">searchRequestBuilder.highlighter(highlightBuilder);</div></pre></td></tr></table></figure>
+<p>在下面的<b>解析结果</b>中，会具体介绍怎么解析出这么高亮结果。</p>
+<h6 id="三-执行查询"><a href="#三-执行查询" class="headerlink" title="三. 执行查询"></a>三. 执行查询</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 开始执行查询</div><div class="line">SearchResponse searchResponse = searchRequestBuilder.execute().actionGet();</div></pre></td></tr></table></figure>
+<p>就一句代码，没啥好说的。有兴趣的朋友，可以看看里面的实现。</p>
+<h6 id="四-解析结果"><a href="#四-解析结果" class="headerlink" title="四. 解析结果"></a>四. 解析结果</h6><p>直接上代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">SearchHits searchHits = searchResponse.getHits();</div><div class="line">List&lt;Student&gt; students = new ArrayList&lt;&gt;();</div><div class="line">for (SearchHit hit : searchHits.getHits()) &#123;</div><div class="line">    String json = hit.getSourceAsString();</div><div class="line">    # 读取json，转为成对象</div><div class="line">    Student student= ...</div><div class="line">    // 关键字高亮显示</div><div class="line">    HighlightField highlightField = hit.getHighlightFields().get(&quot;name&quot;);</div><div class="line">    String highName = student.getName();</div><div class="line">    if (highlightField != null) &#123;</div><div class="line">        highName = highlightField.getFragments()[0].toString();</div><div class="line">    &#125;</div><div class="line">    student.setHighName(highName);</div><div class="line"></div><div class="line">    students.add(student);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们可以从searchResponse中，获取到所有的命中目标列表。然后循环列表，每个命中的hit,可以直接转化成json。<br>然后可以json转化工具，映射到自己的bean上。<br>其中，当你设置了highlightBuilder以后，你可以在每个hit里，get到被<em>标签包裹着的String。<br>（ps: 默认是em，你也可以设置其他的标签，以供前端渲染。）</em></p>
+<h6 id="五-聚合"><a href="#五-聚合" class="headerlink" title="五. 聚合"></a>五. 聚合</h6><p>当然，Elasticsearch也提供了强大的聚合功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 年龄聚合计算</div><div class="line">TermsAggregationBuilder ageTermsAggregationBuilder = AggregationBuilders.terms(&quot;ageAgg&quot;);</div><div class="line">brandTermsAggregationBuilder.field(&quot;age&quot;);</div><div class="line">brandTermsAggregationBuilder.size(1000);</div><div class="line">searchRequestBuilder.addAggregation(ageTermsAggregationBuilder);</div></pre></td></tr></table></figure>
+<h6 id="六-关联"><a href="#六-关联" class="headerlink" title="六. 关联"></a>六. 关联</h6><p>如果对于数据库查询，我们很多时候，都会通过关联来查询，那Elasticsearch对于关联是怎么处理呢</p>
+<p>我们在文档中可以找到，官方给出的以下四种常用的方法，用来在 Elasticsearch 中进行关系型数据的管理：</p>
+<ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/application-joins.html" target="_blank" rel="external">Application-side joins</a></li>
+</ul>
+<p>应用层关联：用简单的话，就是先查第一个表，然后把结果以类似in查询的方式，去第二个表查询，简单暴力。</p>
+<ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/denormalization.html" target="_blank" rel="external">Data denormalization</a></li>
+</ul>
+<p>非规范化你的数据: 你的Elasticsearch在建立type的时候，就考虑到关联。你可以将需要被关联查询的数据进行冗余，<br>这样你可以很快的查询出结果。比如，你将班级的名称冗余进学生的Document中，这样你就可以根据班级的名称，来查询到学生记录。</p>
+<ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/nested-objects.html" target="_blank" rel="external">Nested objects</a></li>
+</ul>
+<p>嵌套对象：由于在 Elasticsearch 中单个文档的增删改都是原子性操作,那么将相关实体数据都存储在同一文档中也就理所当然。<br>你可以在直接将班级数据以及学生数据存储在一个文档中。</p>
+<ul>
+<li><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/parent-child.html" target="_blank" rel="external">Parent/child relationships</a></li>
+</ul>
+<p>父-子关系文档：父-子关系文档 在实质上类似于 nested model ：允许将一个对象实体和另外一个对象实体关联起来。<br>而这两种类型的主要区别是：在 nested objects 文档中，所有对象都是在同一个文档中，而在父-子关系文档中，父对象和子对象都是完全独立的文档。</p>
+<h6 id="七-ok"><a href="#七-ok" class="headerlink" title="七. ok"></a>七. ok</h6><p>到现在，应该已经将Elasticsearch集成进业务系统中了。</p>
+<p>在后续，我会将相关的源代码放在github上。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
         
-          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-二-Docker/#more">more >></a>
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Elasticsearch笔记-二-Docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/27/Elasticsearch笔记-二-Docker/">elasticsearch笔记(二).Docker</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/27/Elasticsearch笔记-二-Docker/" class="archive-article-date">
+  	<time datetime="2017-10-27T07:35:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在前篇文档中的<a href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a>简单的介绍了如何构建基于Elasticsearch的搜索集群。<br>不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，<br>如系统更换成window，那么你就需要重新去构建，配置，启动，测试。<br>而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你可以更加简单的启动集群以及更换平台。<br>
+        
+          <a class="article-more-a" href="/2017/10/27/Elasticsearch笔记-二-Docker/#more">more >></a>
         
       
 
@@ -208,7 +365,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-二-Docker/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/10/27/Elasticsearch笔记-二-Docker/">展开全文 >></a>
         </p>
       
 
@@ -238,39 +395,33 @@
 
 
   
-    <article id="post-elasticsearch笔记-一-安装部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Elasticsearch笔记-一-安装部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/28/elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a>
+      <a class="article-title" href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a>
     </h1>
   
 
         
-        <a href="/2017/07/28/elasticsearch笔记-一-安装部署/" class="archive-article-date">
-  	<time datetime="2017-07-28T09:26:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
+        <a href="/2017/10/27/Elasticsearch笔记-一-安装部署/" class="archive-article-date">
+  	<time datetime="2017-10-27T07:33:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&ensp; </p>
-<h3 id="Elasticsearch笔记"><a href="#Elasticsearch笔记" class="headerlink" title="Elasticsearch笔记"></a>Elasticsearch笔记</h3><p>接触Elasticsearch有一段时间了, 从刚开始的安装到后来的投入到业务生产中, 受益颇多。<br>这个系列的笔记将记录下期间的学习成果, 预期将陆续整理出以下的五篇文档。</p>
-<ul>
-<li>1.<a href="/2017/07/28/elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a></li>
-<li>2.<a href="/2017/07/28/elasticsearch笔记-二-Docker/">Elasticsearch笔记(二).Docker</a></li>
-<li>3.Elasticsearch笔记(三).Java与Elasticsearch</li>
-<li>4.Elasticsearch笔记(四).索引与倒排索引</li>
-<li>5.Elasticsearch笔记(五).Lucene</li>
-</ul>
-<p>&ensp; </p>
-<h3 id="什么是Elasticsearch"><a href="#什么是Elasticsearch" class="headerlink" title="什么是Elasticsearch"></a>什么是Elasticsearch</h3>
+        <p>首先简单介绍下所谓的搜索引擎Elasticsearch到底是什么？<br>此处摘录自<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/intro.html" target="_blank" rel="external">Elasticsearch: 权威指南</a>中的定义：</p>
+<blockquote>
+<p>Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。<br>  Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：<br>  一个分布式的实时文档存储，每个字段可以被索引与搜索<br>  一个分布式实时分析搜索引擎<br>  能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据</p>
+</blockquote>
+<hr>
         
-          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-一-安装部署/#more">more >></a>
+          <a class="article-more-a" href="/2017/10/27/Elasticsearch笔记-一-安装部署/#more">more >></a>
         
       
 
@@ -302,7 +453,90 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/28/elasticsearch笔记-一-安装部署/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/10/27/Elasticsearch笔记-一-安装部署/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Elasticsearch笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/27/Elasticsearch笔记/">Elasticsearch笔记</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/27/Elasticsearch笔记/" class="archive-article-date">
+  	<time datetime="2017-10-27T07:32:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Elasticsearch笔记"><a href="#Elasticsearch笔记" class="headerlink" title="Elasticsearch笔记"></a>Elasticsearch笔记</h3><p>我曾经工作方向于数据库中间件，致力为企业提供跨数据库的高效大数据查询。后来进入电商领域，被拨入电商产品团队，<br>主要研究商品的搜索引擎部分。自从接触了Elasticsearch一段时间后, 算是有了一点不错的收获。<br>从刚开始的安装到后来的投入到正式的业务生产中, 也受益颇多。</p>
+<p>本着好记性不如烂笔头的习惯，将学习过程中的收益以及问题进行记录，预期将陆续整理出的6篇文档。</p>
+<ul>
+<li>1.<a href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a></li>
+<li>2.<a href="/2017/10/27/Elasticsearch笔记-二-Docker/">Elasticsearch笔记(二).Docker</a></li>
+<li>3.<a href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/">Elasticsearch笔记(三).Java与Elasticsearch</a></li>
+<li>4.Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch</li>
+<li>5.Elasticsearch笔记(五).索引与倒排索引</li>
+<li>6.Elasticsearch笔记(六).Lucene</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/27/Elasticsearch笔记/">展开全文 >></a>
         </p>
       
 
@@ -433,11 +667,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
               </li>
             
             <div class="clearfix"></div>
