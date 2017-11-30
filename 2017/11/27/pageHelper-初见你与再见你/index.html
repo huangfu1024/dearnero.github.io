@@ -8,17 +8,20 @@
   <link rel="dns-prefetch" href="nero.life">
   <title>pageHelper-初见你与再见你 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+  <meta name="description" content="初见你写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：123PageHelper.startPage(pageNumber, pageSize);List&amp;lt;Item&amp;gt; itemList = itemMapper.searchItemList(map);PageInfo pageInfo = new PageInfo&amp;lt;&amp;gt;(itemList);">
+<meta name="keywords" content="pageHelper,ThreadLocal,mybatis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pageHelper-初见你与再见你">
 <meta property="og:url" content="nero.life/2017/11/27/pageHelper-初见你与再见你/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta property="og:description" content="初见你写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：123PageHelper.startPage(pageNumber, pageSize);List&amp;lt;Item&amp;gt; itemList = itemMapper.searchItemList(map);PageInfo pageInfo = new PageInfo&amp;lt;&amp;gt;(itemList);">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-11-27T02:58:36.000Z">
+<meta property="og:image" content="/images/Interceptor.png">
+<meta property="og:updated_time" content="2017-11-30T10:47:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pageHelper-初见你与再见你">
-<meta name="twitter:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta name="twitter:description" content="初见你写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：123PageHelper.startPage(pageNumber, pageSize);List&amp;lt;Item&amp;gt; itemList = itemMapper.searchItemList(map);PageInfo pageInfo = new PageInfo&amp;lt;&amp;gt;(itemList);">
+<meta name="twitter:image" content="/images/Interceptor.png">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -172,7 +175,84 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h6 id="初见你"><a href="#初见你" class="headerlink" title="初见你"></a>初见你</h6><p>写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PageHelper.startPage(pageNumber, pageSize);</div><div class="line">List&lt;Item&gt; itemList = itemMapper.searchItemList(map);</div><div class="line">PageInfo pageInfo = new PageInfo&lt;&gt;(itemList);</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>当时没有做过多的思量，感觉这就是一个普通内存分页。只是隐约有些奇怪，怎么一个互联网公司会选择这种性能低又过时的分页方式呢。<br>其实，你乍一看，确实很像很像内存分页。<br>原因有二，首先你传入的分页信息比如pageNumber，pageSize并没有传递给mybatis。<br>好像pageHelper跟mybatis的查询，没啥关联呀。<br>其次是你亲手写了底层mybatis的查询，也没有分页信息的添加呀(那不就是查询全部吗)。</p>
+<h6 id="再见你"><a href="#再见你" class="headerlink" title="再见你"></a>再见你</h6><p>在后来代码的优化期间，无意中看到了这段代码。然后尝试跟踪了下，于是发现pageHelper…</p>
+<h1 id="人家是物理分页啦！！！"><a href="#人家是物理分页啦！！！" class="headerlink" title="人家是物理分页啦！！！"></a>人家是物理分页啦！！！</h1><hr>
+<p>好吧，接下来让我来简单的介绍下pageHelper实现分页的原理。<br>首先让我们看下pageHelper的介绍，<a href="https://github.com/pagehelper/Mybatis-PageHelper" target="_blank" rel="external">Mybatis-PageHelper</a>。<br>这是一个mybatis的分页插件，以下是它所支持的数据库:</p>
+<ul>
+<li>Oracle</li>
+<li>Mysql</li>
+<li>MariaDB</li>
+<li>SQLite</li>
+<li>Hsqldb</li>
+<li>PostgreSQL</li>
+<li>DB2</li>
+<li>SqlServer(2005,2008)</li>
+<li>Informix</li>
+<li>H2</li>
+<li>SqlServer2012</li>
+<li>Derby</li>
+<li>Phoenix</li>
+</ul>
+<p>然后再介绍两个小东西，ThreadLocal的ThreadLocalMap和mybatis的interceptor。(后面会用到)</p>
+<ul>
+<li><p>ThreadLocalMap作为ThreadLocal的内部静态类，可以在当前线程内进行数据的缓存和读取。以下是ThreadLocalMap的注释:</p>
+<blockquote>
+<p> ThreadLocalMap is a customized hash map suitable only for<br> maintaining thread local values. No operations are exported<br> outside of the ThreadLocal class. The class is package private to<br> allow declaration of fields in class Thread.  To help deal with<br> very large and long-lived usages, the hash table entries use<br> WeakReferences for keys. However, since reference queues are not<br> used, stale entries are guaranteed to be removed only when<br> the table starts running out of space.</p>
+</blockquote>
+</li>
+<li><p>interceptor，以下是在mybatis官网文档的一个说明:<br> <img src="/images/Interceptor.png" alt="Alt text">   </p>
+</li>
+</ul>
+<hr>
+<h6 id="开工"><a href="#开工" class="headerlink" title="开工!!!"></a>开工!!!</h6><p>首先我们在源码中找到PageHelper类, 就会发现它跟mybatis是有关系的，它实现了一个叫Interceptor的接口。<br>这个Interceptor是实现mybatis插件必须实现的接口。</p>
+<p>接下来，我们找到PageHelper初始化pageNum、pageSize的地方。我们看到以下代码，它将传入的参数组装成一个Page对象，<br>然后调用了SqlUtil.setLocalPage方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public static Page startPage(int pageNum, int pageSize, boolean count, Boolean reasonable, Boolean pageSizeZero) &#123;</div><div class="line">    Page page = new Page(pageNum, pageSize, count);</div><div class="line">    page.setReasonable(reasonable);</div><div class="line">    page.setPageSizeZero(pageSizeZero);</div><div class="line">    Page oldPage = SqlUtil.getLocalPage();</div><div class="line">    if (oldPage != null &amp;&amp; oldPage.isOrderByOnly()) &#123;</div><div class="line">        page.setOrderBy(oldPage.getOrderBy());</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    SqlUtil.setLocalPage(page);</div><div class="line">    return page;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>继续跟踪，我们会发现这段代码。这个page对象最后被缓存进了当前线程的ThreadLocalMap中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public void set(T value) &#123;</div><div class="line">    Thread t = Thread.currentThread();</div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    if (map != null)</div><div class="line">        map.set(this, value);</div><div class="line">    else</div><div class="line">        createMap(t, value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>好吧，现在我们知道分页参数已经保存在当前线程的ThreadLocalMap中。</p>
+<hr>
+<p>接下来我们会在配置mybatis的拦截器。在mybatis-config.xml中加入如下类似配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;plugins&gt;</div><div class="line">    &lt;plugin interceptor=&quot;com.github.pagehelper.PageHelper&quot;&gt;</div><div class="line">        &lt;property name=&quot;dialect&quot; value=&quot;mysql&quot;/&gt;</div><div class="line">        &lt;property name=&quot;reasonable&quot; value=&quot;true&quot;/&gt;</div><div class="line">    &lt;/plugin&gt;</div><div class="line">&lt;/plugins&gt;</div></pre></td></tr></table></figure></p>
+<p>让我们再看PageHelper源码中的头部注解:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@SuppressWarnings(&#123;&quot;rawtypes&quot;, &quot;unchecked&quot;&#125;)</div><div class="line">@Intercepts(@Signature(type = Executor.class, method = &quot;query&quot;, args = &#123;MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class&#125;))</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>type = Executor.class</p>
+<blockquote>
+<p>拦截器会在Executor阶段进行拦截。</p>
+</blockquote>
+</li>
+<li><p>method = “query”</p>
+<blockquote>
+<p>插件将会拦截在 Executor 实例中所有的 “query” 方法调用。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<p>此时，思路应该有些明朗化了。我们知道pageHelper实现了Interceptor接口，它会在mybatis执行查询时，拦截进PageHelper类的intercept方法中。<br>代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Mybatis拦截器方法</div><div class="line"> *</div><div class="line"> * @param invocation 拦截器入参</div><div class="line"> * @return 返回执行结果</div><div class="line"> * @throws Throwable 抛出异常</div><div class="line"> */</div><div class="line">public Object intercept(Invocation invocation) throws Throwable &#123;</div><div class="line">    if (autoDialect) &#123;</div><div class="line">        initSqlUtil(invocation);</div><div class="line">    &#125;</div><div class="line">    return sqlUtil.processPage(invocation);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来，我们把关注点放在sqlUtil.processPage这个方法上。这篇文档只介绍pageHelper分页插件与mybatis结合实现分页效果，<br>对于pageHelper的具体实现不做额外的介绍，现在我们只提取几个问题来进行说明: </p>
+<ol>
+<li>执行完成以后，缓存在线程中的参数的处理</li>
+<li>mybatis是怎么取到分页参数的</li>
+<li>对于这次查询sql, 是在哪里拼接分页sql(limit ?,?)进去的</li>
+</ol>
+<p>首先我们关注问题1, 如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Mybatis拦截器方法，这一步嵌套为了在出现异常时也可以清空Threadlocal</div><div class="line"> *</div><div class="line"> * @param invocation 拦截器入参</div><div class="line"> * @return 返回执行结果</div><div class="line"> * @throws Throwable 抛出异常</div><div class="line"> */</div><div class="line">public Object processPage(Invocation invocation) throws Throwable &#123;</div><div class="line">    try &#123;</div><div class="line">        Object result = _processPage(invocation);</div><div class="line">        return result;</div><div class="line">    &#125; finally &#123;</div><div class="line">        clearLocalPage();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>看finally模块内，异常或执行完成都会清空ThreadLocal.<br>然后我们跟着代码继续执行，来解释问题2，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 获取分页参数</div><div class="line"> *</div><div class="line"> * @param args</div><div class="line"> * @return 返回Page对象</div><div class="line"> */</div><div class="line">public Page getPage(Object[] args) &#123;</div><div class="line">    Page page = getLocalPage();</div><div class="line">    if (page == null || page.isOrderByOnly()) &#123;</div><div class="line">        Page oldPage = page;</div><div class="line">        //这种情况下,page.isOrderByOnly()必然为true，所以不用写到条件中</div><div class="line">        if ((args[2] == null || args[2] == RowBounds.DEFAULT) &amp;&amp; page != null) &#123;</div><div class="line">            return oldPage;</div><div class="line">        &#125;</div><div class="line">        if (args[2] instanceof RowBounds &amp;&amp; args[2] != RowBounds.DEFAULT) &#123;</div><div class="line">            RowBounds rowBounds = (RowBounds) args[2];</div><div class="line">            if (offsetAsPageNum) &#123;</div><div class="line">                page = new Page(rowBounds.getOffset(), rowBounds.getLimit(), rowBoundsWithCount);</div><div class="line">            &#125; else &#123;</div><div class="line">                page = new Page(new int[]&#123;rowBounds.getOffset(), rowBounds.getLimit()&#125;, rowBoundsWithCount);</div><div class="line">                //offsetAsPageNum=false的时候，由于PageNum问题，不能使用reasonable，这里会强制为false</div><div class="line">                page.setReasonable(false);</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            try &#123;</div><div class="line">                page = getPageFromObject(args[1]);</div><div class="line">            &#125; catch (Exception e) &#123;</div><div class="line">                return null;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        if (oldPage != null) &#123;</div><div class="line">            page.setOrderBy(oldPage.getOrderBy());</div><div class="line">        &#125;</div><div class="line">        setLocalPage(page);</div><div class="line">    &#125;</div><div class="line">    //分页合理化</div><div class="line">    if (page.getReasonable() == null) &#123;</div><div class="line">        page.setReasonable(reasonable);</div><div class="line">    &#125;</div><div class="line">    //当设置为true的时候，如果pagesize设置为0（或RowBounds的limit=0），就不执行分页，返回全部结果</div><div class="line">    if (page.getPageSizeZero() == null) &#123;</div><div class="line">        page.setPageSizeZero(pageSizeZero);</div><div class="line">    &#125;</div><div class="line">    return page;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>getLocalPage方法即从ThreadLocalMap中获取到分页信息。</p>
+<p>最后我们看来mysql分页部分的sql是怎么被拼接进去的。我们直接找到这个叫MysqlParser的类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class MysqlParser extends AbstractParser &#123;</div><div class="line">    @Override</div><div class="line">    public String getPageSql(String sql) &#123;</div><div class="line">        StringBuilder sqlBuilder = new StringBuilder(sql.length() + 14);</div><div class="line">        sqlBuilder.append(sql);</div><div class="line">        sqlBuilder.append(&quot; limit ?,?&quot;);</div><div class="line">        return sqlBuilder.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Map setPageParameter(MappedStatement ms, Object parameterObject, BoundSql boundSql, Page page) &#123;</div><div class="line">        Map paramMap = super.setPageParameter(ms, parameterObject, boundSql, page);</div><div class="line">        paramMap.put(PAGEPARAMETER_FIRST, page.getStartRow());</div><div class="line">        paramMap.put(PAGEPARAMETER_SECOND, page.getPageSize());</div><div class="line">        return paramMap;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>getPageSql<blockquote>
+<p>将mysql的分页语句(limit ?,?)拼接进执行sql中。</p>
+</blockquote>
+</li>
+<li>setPageParameter<blockquote>
+<p>将page的分页条件，设置进执行参数中</p>
+</blockquote>
+</li>
+</ul>
+<p>当然，对于其他支持的数据库的分页，你都会找到相应的parse实现类，比如OracleParser,它的getPageSql方法实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public String getPageSql(String sql) &#123;</div><div class="line">    StringBuilder sqlBuilder = new StringBuilder(sql.length() + 120);</div><div class="line">    sqlBuilder.append(&quot;select * from ( select tmp_page.*, rownum row_id from ( &quot;);</div><div class="line">    sqlBuilder.append(sql);</div><div class="line">    sqlBuilder.append(&quot; ) tmp_page where rownum &lt;= ? ) where row_id &gt; ?&quot;);</div><div class="line">    return sqlBuilder.toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>好了，自此我们完成了对pageHelper实现分页的一个简单分析。有兴趣的同学，可以继续深入的研究下。</p>
+<h6 id="注1"><a href="#注1" class="headerlink" title="注1"></a>注1</h6><p>根据上面的文档，我们可以知道，你先前缓存的分页参数要清空，就需要你去执行查询sql。<br>所以只要你用了pageHelper分页插件以后，后面就必须跟着一条mybatis的查询。</p>
+
       
 
       
@@ -180,6 +260,25 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">pageHelper</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ThreadLocal</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">mybatis</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -374,18 +473,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Logstash</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">spring-data-elasticsearch</a>
               </li>
              
@@ -395,6 +482,30 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">spring-boot-starter-data-elasticsearch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">pageHelper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ThreadLocal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mybatis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Logstash</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
