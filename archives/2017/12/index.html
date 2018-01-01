@@ -6,20 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch | nero-少年游</title>
+  <title>Archives: 2017/12 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在上篇文档中Elasticsearch笔记(三).Java与Elasticsearch中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。在后续的技术分享中，笔者在公司一名大牛的提醒下，发现原来spring-data项目中已经集成了对elasticsearch集群访问的功能。而笔者公司使用的spring-boot下也已早有了">
-<meta name="keywords" content="Elasticsearch,spring-data-elasticsearch,spring-boot,spring-boot-starter-data-elasticsearch">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch">
-<meta property="og:url" content="nero.life/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/index.html">
+  <meta name="description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta property="og:type" content="website">
+<meta property="og:title" content="nero-少年游">
+<meta property="og:url" content="nero.life/archives/2017/12/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="在上篇文档中Elasticsearch笔记(三).Java与Elasticsearch中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。在后续的技术分享中，笔者在公司一名大牛的提醒下，发现原来spring-data项目中已经集成了对elasticsearch集群访问的功能。而笔者公司使用的spring-boot下也已早有了">
+<meta property="og:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-11-27T12:47:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch">
-<meta name="twitter:description" content="在上篇文档中Elasticsearch笔记(三).Java与Elasticsearch中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。在后续的技术分享中，笔者在公司一名大牛的提醒下，发现原来spring-data项目中已经集成了对elasticsearch集群访问的功能。而笔者公司使用的spring-boot下也已早有了">
+<meta name="twitter:title" content="nero-少年游">
+<meta name="twitter:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -153,317 +151,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/12/27/年终终结-忙碌的2017/" class="archive-article-date">
+  	<time datetime="2017-12-27T03:59:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-27</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/12/27/年终终结-忙碌的2017/">年终终结-忙碌的2017</a>
     </h1>
   
 
-        
-        <a href="/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/" class="archive-article-date">
-  	<time datetime="2017-11-19T08:30:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在上篇文档中<a href="">Elasticsearch笔记(三).Java与Elasticsearch</a>中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。<br>在后续的技术分享中，笔者在公司一名大牛的提醒下，发现原来spring-data项目中已经集成了对elasticsearch集群访问的功能。<br>而笔者公司使用的spring-boot下也已早有了spring-boot-starter-data-elasticsearch项目。<br>为了防止重复造轮子的事情出现，笔者准备使用spring-boot-starter-data-elasticsearch来替换原先的java api.</p>
-<a id="more"></a>
-<p>参考资料：<br><a href="https://github.com/spring-projects/spring-data-elasticsearch" target="_blank" rel="external">spring-data-elasticsearch</a><br><a href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/" target="_blank" rel="external">Spring Data Elasticsearch Docs</a><br><a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters/spring-boot-starter-data-elasticsearch" target="_blank" rel="external">spring-boot-starter-data-elasticsearch</a><br><a href="https://github.com/spring-projects/spring-boot/tree/v2.0.0.M4/spring-boot-samples/spring-boot-sample-data-elasticsearch/src/main/java/sample/data/elasticsearch" target="_blank" rel="external">spring-boot-sample-data-elasticsearch</a></p>
-<hr>
-<h6 id="1-新建spring-boot项目"><a href="#1-新建spring-boot项目" class="headerlink" title="1.新建spring-boot项目"></a>1.新建spring-boot项目</h6><p>我们可以通过Idea工具来直接新建标准的spring-boot项目，或者你可以在spring的官网<a href="https://start.spring.io/" target="_blank" rel="external">https://start.spring.io/</a>中来生成项目，然后导入你的开发工具中。</p>
-<p>因为笔者使用的elasticsearch版本5.0 + ，所以此处选用的spring-boot的版本2.0.0.M4版本（非release版本，生产慎用）。</p>
-<p>下面是pom文件的配置，最后加入spring的两个repository库的配置，是为了能引用到M4这个里程碑版本。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;parent&gt;</div><div class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.0.0.M4&lt;/version&gt;</div><div class="line">&lt;/parent&gt;</div><div class="line">&lt;properties&gt;</div><div class="line">    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</div><div class="line">    &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</div><div class="line">    &lt;java.version&gt;1.8&lt;/java.version&gt;</div><div class="line">&lt;/properties&gt;</div><div class="line">&lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line"></div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</div><div class="line">        &lt;scope&gt;test&lt;/scope&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;spring-boot-starter-data-elasticsearch&lt;/artifactId&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div><div class="line">&lt;repositories&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">        &lt;id&gt;repository.springframework.maven.milestone&lt;/id&gt;</div><div class="line">        &lt;name&gt;Spring Framework Maven Milestone Repository&lt;/name&gt;</div><div class="line">        &lt;url&gt;http://repo.spring.io/milestone/&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">        &lt;id&gt;repository.springframework.maven.snapshot&lt;/id&gt;</div><div class="line">        &lt;name&gt;Spring Framework Maven Snapshot Repository&lt;/name&gt;</div><div class="line">        &lt;url&gt;http://repo.spring.io/snapshot/&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">&lt;/repositories&gt;</div></pre></td></tr></table></figure>
-<hr>
-<h6 id="2-配置文件"><a href="#2-配置文件" class="headerlink" title="2.配置文件"></a>2.配置文件</h6><p>我们在application.properties的文件中加入如下配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># Elasticsearch配置</div><div class="line">spring.data.elasticsearch.cluster-name=ytx_search_cluster</div><div class="line">spring.data.elasticsearch.cluster-nodes=192.168.10.138:9300</div></pre></td></tr></table></figure>
-<p>分别配置了集群的名称以及节点地址端口号。在项目启动以后，会自动读取配置，初始化。</p>
-<hr>
-<h6 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h6><p>1.实体bean</p>
-<p>首先我们需要在原先定义的User对象类中增加注解(@Document)，在其中指明记录存储的indexName以及type。然后在字段中指定哪个是id字段，增加注解(@Id)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">@Data</div><div class="line">@ToString</div><div class="line">@Document(indexName = &quot;my_test&quot;, type = &quot;user&quot;, createIndex = false)</div><div class="line">public class User implements Serializable &#123;</div><div class="line"></div><div class="line">    @Id</div><div class="line">    private Long id;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 名称</div><div class="line">     */</div><div class="line">    private String name;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 描述</div><div class="line">     */</div><div class="line">    private String desc;</div><div class="line">    </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>2.接口继承ElasticsearchRepository</p>
-<p>在ElasticsearchRepository里面的泛型，表示你的实体类以及id类型。<br>当接口继承了ElasticsearchRepository以后，它就具备了访问集群的能力，作为上层的调用者，你无须关注它怎么获取连接，释放等操作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">interface UserRepositoryImpl extends ElasticsearchRepository&lt;User, Long&gt;&#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 根据名称查询</div><div class="line">     * @param name 名称</div><div class="line">     * @return 用户列表</div><div class="line">     */</div><div class="line">    List&lt;User&gt; findByName(String name);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><b>PS：这个接口不需要增加spring的@Component注解，当前接口的由spring.data.elasticsearch来实现。</b></p>
-<p>3.多种查询方式</p>
-<ul>
-<li><p>简单些<br> 我们可以看到ElasticsearchRepository本身提供了一些简单的查询，比如根据id查询，统计等等。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Optional&lt;T&gt; findById(ID var1);</div><div class="line"></div><div class="line">boolean existsById(ID var1);</div><div class="line"></div><div class="line">Iterable&lt;T&gt; findAll();</div><div class="line"></div><div class="line">Iterable&lt;T&gt; findAllById(Iterable&lt;ID&gt; var1);</div><div class="line"></div><div class="line">long count();</div><div class="line"></div><div class="line">void deleteById(ID var1);</div><div class="line"></div><div class="line">void delete(T var1);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>一般<br> 当需要一些其他字段查询时，我们也可以很简单的实现。<br> 比如我想通过名称查询时，那么你可以这样做：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">List&lt;User&gt; findByName(String name);</div></pre></td></tr></table></figure>
-<p> 相当于以下的QSL查询：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&quot;bool&quot; : &#123;&quot;must&quot; : &#123;&quot;field&quot; : &#123;&quot;name&quot; : &quot;?&quot;&#125;&#125;&#125;&#125;</div></pre></td></tr></table></figure>
-<p> 这种特定写法，由elasticsearch帮我们解析成可执行的语句，当然它也可以使用其他的比较符，比如in 、not in 、like…</p>
-<p> 具体可参考文档最后的<b>注1</b>。</p>
-</li>
-<li><p>复杂些<br> 当以上两种都无法满足需求的时候，我们可以使用自定义查询器或排序器，然后交给ElasticsearchRepository去执行。<br> 我们可以看到在ElasticsearchRepository中有如下接口：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Iterable&lt;T&gt; search(QueryBuilder var1);</div><div class="line"></div><div class="line">Page&lt;T&gt; search(QueryBuilder var1, Pageable var2);</div><div class="line"></div><div class="line">Page&lt;T&gt; search(SearchQuery var1);</div><div class="line"></div><div class="line">Page&lt;T&gt; searchSimilar(T var1, String[] var2, Pageable var3);</div></pre></td></tr></table></figure>
-<p>比如下列我们通过设置一个QueryBuilder来实现一个全文搜索.</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QueryBuilder queryBuilder = QueryBuilders.matchQuery(&quot;desc&quot;, desc);</div><div class="line">return userRepository.search(queryBuilder);</div></pre></td></tr></table></figure>
-</code></pre><hr>
-<h6 id="4-启动类加上注解"><a href="#4-启动类加上注解" class="headerlink" title="4.启动类加上注解"></a>4.启动类加上注解</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication</div><div class="line">@EnableElasticsearchRepositories</div><div class="line">public class SpringBootStarterDataElasticsearchDemoApplication &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(SpringBootStarterDataElasticsearchDemoApplication.class, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>加上@EnableElasticsearchRepositories注解后，就可以自动对继承ElasticsearchRepository的接口进行实例化了。</p>
-<p>然后启动即可！</p>
-<hr>
-<p>上述的代码已上传至github，请点击这里：<a href="https://github.com/dearnero/spring-boot-starter-data-elasticsearch-demo" target="_blank" rel="external">示例代码</a></p>
-<h6 id="注1"><a href="#注1" class="headerlink" title="注1"></a>注1</h6><p>摘录自<a href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/" target="_blank" rel="external">Spring Data Elasticsearch Docs</a>的示例:</p>
-<table>
-<thead>
-<tr>
-<th>Keyword</th>
-<th style="text-align:right">Sample</th>
-<th style="text-align:center">Elasticsearch Query String</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>And</td>
-<td style="text-align:right">findByNameAndPrice</td>
-<td style="text-align:center">{“bool” : {“must” : [ {“field” : {“name” : “?”}}, {“field” : {“price” : “?”}} ]}}</td>
-</tr>
-<tr>
-<td>Or</td>
-<td style="text-align:right">findByNameOrPrice</td>
-<td style="text-align:center">{“bool” : {“should” : [ {“field” : {“name” : “?”}}, {“field” : {“price” : “?”}} ]}}</td>
-</tr>
-<tr>
-<td>Is</td>
-<td style="text-align:right">findByName</td>
-<td style="text-align:center">{“bool” : {“must” : {“field” : {“name” : “?”}}}}</td>
-</tr>
-<tr>
-<td>Not</td>
-<td style="text-align:right">findByNameNot</td>
-<td style="text-align:center">{“bool” : {“must_not” : {“field” : {“name” : “?”}}}}</td>
-</tr>
-<tr>
-<td>Between</td>
-<td style="text-align:right">findByPriceBetween</td>
-<td style="text-align:center">{“bool” : {“must” : {“range” : {“price” : {“from” : ?,”to” : ?,”include_lower” : true,”include_upper” : true}}}}}</td>
-</tr>
-<tr>
-<td>LessThanEqual</td>
-<td style="text-align:right">findByPriceLessThan</td>
-<td style="text-align:center">{“bool” : {“must” : {“range” : {“price” : {“from” : null,”to” : ?,”include_lower” : true,”include_upper” : true}}}}}</td>
-</tr>
-<tr>
-<td>GreaterThanEqual</td>
-<td style="text-align:right">findByPriceGreaterThan</td>
-<td style="text-align:center">{“bool” : {“must” : {“range” : {“price” : {“from” : ?,”to” : null,”include_lower” : true,”include_upper” : true}}}}}</td>
-</tr>
-<tr>
-<td>Before</td>
-<td style="text-align:right">findByPriceBefore</td>
-<td style="text-align:center">{“bool” : {“must” : {“range” : {“price” : {“from” : null,”to” : ?,”include_lower” : true,”include_upper” : true}}}}}</td>
-</tr>
-<tr>
-<td>After</td>
-<td style="text-align:right">findByPriceAfter</td>
-<td style="text-align:center">{“bool” : {“must” : {“range” : {“price” : {“from” : ?,”to” : null,”include_lower” : true,”include_upper” : true}}}}}</td>
-</tr>
-<tr>
-<td>Like</td>
-<td style="text-align:right">findByNameLike</td>
-<td style="text-align:center">{“bool” : {“must” : {“field” : {“name” : {“query” : “?*”,”analyze_wildcard” : true}}}}}</td>
-</tr>
-<tr>
-<td>StartingWith</td>
-<td style="text-align:right">findByNameStartingWith</td>
-<td style="text-align:center">{“bool” : {“must” : {“field” : {“name” : {“query” : “?*”,”analyze_wildcard” : true}}}}}</td>
-</tr>
-<tr>
-<td>EndingWith</td>
-<td style="text-align:right">findByNameEndingWith</td>
-<td style="text-align:center">{“bool” : {“must” : {“field” : {“name” : {“query” : “*?”,”analyze_wildcard” : true}}}}}</td>
-</tr>
-<tr>
-<td>Contains/Containing</td>
-<td style="text-align:right">findByNameContaining</td>
-<td style="text-align:center">{“bool” : {“must” : {“field” : {“name” : {“query” : “?”,”analyze_wildcard” : true}}}}}</td>
-</tr>
-<tr>
-<td>In</td>
-<td style="text-align:right">findByNameIn(Collection<string>names)</string></td>
-<td style="text-align:center">{“bool” : {“must” : {“bool” : {“should” : [ {“field” : {“name” : “?”}}, {“field” : {“name” : “?”}} ]}}}}</td>
-</tr>
-<tr>
-<td>NotIn</td>
-<td style="text-align:right">findByNameNotIn(Collection<string>names)</string></td>
-<td style="text-align:center">{“bool” : {“must_not” : {“bool” : {“should” : {“field” : {“name” : “?”}}}}}}</td>
-</tr>
-<tr>
-<td>Near</td>
-<td style="text-align:right">findByStoreNear</td>
-<td style="text-align:center">Not Supported Yet !</td>
-</tr>
-<tr>
-<td>True</td>
-<td style="text-align:right">findByAvailableTrue</td>
-<td style="text-align:center">{“bool” : {“must” : {“field” : {“available” : true}}}}</td>
-</tr>
-<tr>
-<td>False</td>
-<td style="text-align:right">findByAvailableFalse</td>
-<td style="text-align:center">{“bool” : {“must” : {“field” : {“available” : false}}}}</td>
-</tr>
-<tr>
-<td>OrderBy</td>
-<td style="text-align:right">findByAvailableTrueOrderByNameDesc</td>
-<td style="text-align:center">{“sort” : [{ “name” : {“order” : “desc”} }],”bool” : {“must” : {“field” : {“available” : true}}}}</td>
-</tr>
-</tbody>
-</table>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">spring-data-elasticsearch</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring-boot</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">spring-boot-starter-data-elasticsearch</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">年终终结,2017</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/11/27/pageHelper-初见你与再见你/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          pageHelper-初见你与再见你
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Elasticsearch笔记(三).Java与Elasticsearch</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
+    
 
 
           </div>
@@ -486,8 +227,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
