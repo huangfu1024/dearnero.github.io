@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>elasticsearch笔记(二).Docker | nero-少年游</title>
+  <title>Elasticsearch笔记(五).索引与倒排索引 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，如系统更换成window，那么你就需要重新去构建，配置，启动，测试。而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你">
-<meta name="keywords" content="Elasticsearch,Logstash,Docker">
+  <meta name="description" content="这一篇来简单的介绍下Elasticsearch用到的倒排索引。 首先我们来看下什么是索引：  在我理解来，索引就是一种独立的存储结构，这种存储结构保存了指向查询表的实际行信息，它的作用就是帮助用户更加快速的查询到数据结果。而这种存储会使用到各种的数据结构，也就是Btree、B+tree、网格、、、  现在我们来看什么是倒排索引，它的英文原名叫Inverted index，被翻译成倒排索引。为什么叫">
+<meta name="keywords" content="Elasticsearch笔记,索引,倒排索引">
 <meta property="og:type" content="article">
-<meta property="og:title" content="elasticsearch笔记(二).Docker">
-<meta property="og:url" content="nero.life/2017/10/27/Elasticsearch笔记-二-Docker/index.html">
+<meta property="og:title" content="Elasticsearch笔记(五).索引与倒排索引">
+<meta property="og:url" content="nero.life/2018/02/25/Elasticsearch笔记-五-索引与倒排索引/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，如系统更换成window，那么你就需要重新去构建，配置，启动，测试。而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你">
+<meta property="og:description" content="这一篇来简单的介绍下Elasticsearch用到的倒排索引。 首先我们来看下什么是索引：  在我理解来，索引就是一种独立的存储结构，这种存储结构保存了指向查询表的实际行信息，它的作用就是帮助用户更加快速的查询到数据结果。而这种存储会使用到各种的数据结构，也就是Btree、B+tree、网格、、、  现在我们来看什么是倒排索引，它的英文原名叫Inverted index，被翻译成倒排索引。为什么叫">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-10-30T01:59:58.000Z">
+<meta property="og:image" content="/images/btree.png">
+<meta property="og:updated_time" content="2018-02-26T02:59:26.739Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="elasticsearch笔记(二).Docker">
-<meta name="twitter:description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，如系统更换成window，那么你就需要重新去构建，配置，启动，测试。而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你">
+<meta name="twitter:title" content="Elasticsearch笔记(五).索引与倒排索引">
+<meta name="twitter:description" content="这一篇来简单的介绍下Elasticsearch用到的倒排索引。 首先我们来看下什么是索引：  在我理解来，索引就是一种独立的存储结构，这种存储结构保存了指向查询表的实际行信息，它的作用就是帮助用户更加快速的查询到数据结果。而这种存储会使用到各种的数据结构，也就是Btree、B+tree、网格、、、  现在我们来看什么是倒排索引，它的英文原名叫Inverted index，被翻译成倒排索引。为什么叫">
+<meta name="twitter:image" content="/images/btree.png">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -153,80 +155,106 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Elasticsearch笔记-二-Docker" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Elasticsearch笔记-五-索引与倒排索引" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      elasticsearch笔记(二).Docker
+      Elasticsearch笔记(五).索引与倒排索引
     </h1>
   
 
         
-        <a href="/2017/10/27/Elasticsearch笔记-二-Docker/" class="archive-article-date">
-  	<time datetime="2017-10-27T07:35:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
+        <a href="/2018/02/25/Elasticsearch笔记-五-索引与倒排索引/" class="archive-article-date">
+  	<time datetime="2018-02-25T03:25:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-25</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在前篇文档中的<a href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a>简单的介绍了如何构建基于Elasticsearch的搜索集群。<br>不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，<br>如系统更换成window，那么你就需要重新去构建，配置，启动，测试。<br>而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你可以更加简单的启动集群以及更换平台。<br><a id="more"></a></p>
-<p><b>PS：当前文档注重于Elasticsearch的构建，阅读文档时，需要你对Docker有基本的了解和对基本语法的掌握。<br>可以先参考以下资料：</b></p>
+        <p>这一篇来简单的介绍下Elasticsearch用到的倒排索引。</p>
+<p>首先我们来看下什么是索引：</p>
+<blockquote>
+<p>在我理解来，索引就是一种独立的存储结构，这种存储结构保存了指向查询表的实际行信息，它的作用就是帮助用户更加快速的查询到数据结果。<br>而这种存储会使用到各种的数据结构，也就是Btree、B+tree、网格、、、</p>
+</blockquote>
+<p>现在我们来看什么是倒排索引，它的英文原名叫Inverted index，被翻译成倒排索引。为什么叫倒排索引呢，与之对应的正向索引是怎么工作的呢？</p>
+<a id="more"></a>
+<p>1.以Mysql的普通索引为例，它实际上使用Btree的数据结构，看它的执行步骤如下：</p>
 <ul>
-<li><a href="https://doc.yonyoucloud.com/doc/docker_practice/data_management/volume.html" target="_blank" rel="external">Docker —— 从入门到实践</a></li>
-<li><a href="http://www.cnblogs.com/lienhua34/p/5170335.html" target="_blank" rel="external">Dockerfile创建自定义Docker镜像以及CMD与ENTRYPOINT指令的比较</a></li>
+<li><p>构建基于Btree数据结构的存储,类似如下结构：</p>
+<p><img src="/images/btree.png" alt="Alt text"><br><b>PS:每个节点分别包含索引键值和一个指向对应数据记录物理地址的指针</b></p>
+</li>
+<li><p>当需要做查询时，将值与节点的键值进行对比大小（或左或右路由），最后获取到指针，即可定位到结果行。</p>
+</li>
 </ul>
-<hr>
-<p>开工：</p>
-<h6 id="1-配置Dockerfile文件"><a href="#1-配置Dockerfile文件" class="headerlink" title="1.配置Dockerfile文件"></a>1.配置Dockerfile文件</h6><p>Elasticsearch的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">FROM elasticsearch:5.4.0</div><div class="line">RUN sed -i &apos;s/deb.debian.org/mirrors.ustc.edu.cn/g&apos; /etc/apt/sources.list</div><div class="line">RUN apt-get update &amp;&amp; apt-get install zip</div><div class="line">RUN mkdir -p /usr/share/elasticsearch/plugins/ik</div><div class="line">RUN cd /usr/share/elasticsearch/plugins/ik &amp;&amp; wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip &amp;&amp; unzip elasticsearch-analysis-ik-5.4.0.zip</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>镜像基于elasticsearch的5.4.0版本，并在此镜像上加入分词IK层，形成新的镜像</p>
+<p>2.倒排索引则适用于全文检索，执行步骤：</p>
+<ul>
+<li>将文档的内容进行分词，这里就涉及到分词器的概念，比如有Elasticsearch自带的standard，还有插件IK提供的ik_max_word以及ik_smart等.<br>这里需要注意，你指定文档分词的方式以及你查询时分词的方式，必须一致，否则会出现匹配不上的问题，下面会解释原因。<br>示例数据：<blockquote>
+<p>1.我爱北京天安门<br>2.我爱祖国<br>3.我爱中国</p>
 </blockquote>
-<p><br></p>
-<p>Logstash的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FROM logstash:5.4.0</div><div class="line">RUN logstash-plugin install logstash-input-jdbc</div><div class="line">COPY mysql-connector-java-5.1.41.jar /some/lib-dir/</div><div class="line">CMD [&quot;-f&quot;, &quot;/some/config-dir/&quot;]</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>镜像基于Logstash的5.4.0的版本，并在此镜像上安装logstash-input-jdbc插件层，以及<br>会拷贝mysql驱动包到logstash的配置jar下，而在启动镜像时，自动在’’/some/config-dir/‘中读取logstash.conf文件</p>
+</li>
+</ul>
+<p>我们采用ik_smart的方式进行分词，最后出现的存储结构类似于：</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th style="text-align:right">文档1</th>
+<th style="text-align:center">文档2</th>
+<th style="text-align:center">文档3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>我</td>
+<td style="text-align:right">X</td>
+<td style="text-align:center">X</td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td>爱</td>
+<td style="text-align:right">X</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td>北京</td>
+<td style="text-align:right">X</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>天安门</td>
+<td style="text-align:right">X</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>爱祖国</td>
+<td style="text-align:right"></td>
+<td style="text-align:center">X</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>中国</td>
+<td style="text-align:right"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>当我们执行查询时，会将查询条件进行分词，然后进行对进行Term匹配，从而定位到文档记录。比如”我爱北京故宫”，会将该关键字拆分成”我”、”爱”、<br>“北京”、”故宫”四个词。从而可以同时匹配上三条记录，而最后根据相关度进行排序，出现以下结果：<blockquote>
+<p>1.我爱北京天安门<br>3.我爱中国<br>2.我爱祖国</p>
 </blockquote>
-<hr>
-<h6 id="2-创建镜像文件"><a href="#2-创建镜像文件" class="headerlink" title="2.创建镜像文件"></a>2.创建镜像文件</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t=&quot;nero/elasticsearch&quot; .</div></pre></td></tr></table></figure>
-<blockquote>
-<p>创建一个名叫<b>nero/elasticsearch</b>的elasticsearch的镜像（image）</p>
-</blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t=&quot;nero/logstash&quot; .</div></pre></td></tr></table></figure>
-<blockquote>
-<p>创建一个名叫<b>nero/logstash</b>的创建logstash的镜像（image）</p>
-</blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker images</div></pre></td></tr></table></figure>
-<blockquote>
-<p>使用 docker images 显示本地已有的镜像。</p>
-</blockquote>
-<hr>
-<h6 id="3-启动容器"><a href="#3-启动容器" class="headerlink" title="3.启动容器"></a>3.启动容器</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp elasticsearch.yml log4j2.properties scripts/ root@192.168.99.100:/mnt/sda1/elasticsearch_config</div></pre></td></tr></table></figure>
-<blockquote>
-<p>先将本地配置（elasticsearch.yml log4j2.properties scripts/）放在一个指定配置文件下。<br><b>（此处我采用scp命令是因为我本地采用mac系统，运行docker需要一个linux环境，而192.168.99.100就是我的linux虚拟机环境）</b><br>而elasticsearch.yml的配置，可以参考我上篇部署文档中的配置</p>
-</blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -d -p 9200:9200 -p 9300:9300 -v /mnt/sda1/elasticsearch_config:/usr/share/elasticsearch/config --name elasticsearch_node_1 nero/elasticsearch</div></pre></td></tr></table></figure>
-<blockquote>
-<p>创建一个名叫’<b>elasticsearch_node_1</b>‘的容器<br> 1.映射出9200和9300端口号<br> 2.将刚才的配置文件地址挂载到容器中elasticsearch的配置文件地址<br> 3.指定名称，指定刚才创建好的基于镜像</p>
-</blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp temp.json logstash.conf root@192.168.99.100:/mnt/sda1/logstash_config</div></pre></td></tr></table></figure>
-<blockquote>
-<p>logstash的配置文件拷贝至指定配置文件下。（temp.json logstash.conf可参考上篇部署文档中的配置）</p>
-</blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -v /mnt/sda1/logstash_config:/some/config-dir --name logstash_node_1 nero/logstash</div></pre></td></tr></table></figure>
-<blockquote>
-<p>创建一个名叫’<b>logstash_node_1</b>‘的容器<br> 1.将刚才的配置文件地址挂载到容器中logstash的配置文件地址<br> 2.指定名称，指定基于镜像’nero/logstash’ </p>
-</blockquote>
-<hr>
-<h6 id="4-ok！"><a href="#4-ok！" class="headerlink" title="4.ok！"></a>4.ok！</h6><p>如果你足够幸运，你现在应该已经启动好了一个基于Docker实现的搜索引擎！</p>
+</li>
+</ul>
+<p>上面提到的那个问题，如果出现指定文档分词方式和你查询时分词方式不一致的话，就会出现无法匹配上正确的Term，从而遗失掉部分结果或排序错误。</p>
+<p>总的来说，普通索引是将查询内容直接与结果文档进行匹配；而倒排索引是将查询内容分词后，与文档的词项列表进行匹配，从而定位到具体文档。这里就是所谓倒排。</p>
+<p>参考资料：<br><a href="https://www.cnblogs.com/tgycoder/p/5410057.html" target="_blank" rel="external">MySQL索引背后的数据结构及算法原理</a><br><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/cn/inverted-index.html" target="_blank" rel="external">Elasticsearch: 权威指南-倒排索引</a></p>
 
       
 
@@ -240,15 +268,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Elasticsearch笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Logstash</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">索引</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Docker</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">倒排索引</a>
         		</li>
       		
 		</ul>
@@ -304,7 +332,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2017/10/27/Elasticsearch笔记-二-Docker/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2018/02/25/Elasticsearch笔记-五-索引与倒排索引/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -318,18 +346,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Elasticsearch笔记(三).Java与Elasticsearch
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/10/27/Elasticsearch笔记-一-安装部署/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Elasticsearch笔记(一).安装部署</div>
+    <a href="/2017/12/27/年终终结-忙碌的2017/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">年终总结-忙碌的2017</div>
       <i class="icon-circle-right"></i>
     </a>
   
