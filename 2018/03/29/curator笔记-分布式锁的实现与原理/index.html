@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-2868ea1199e0acf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-cdd65db523bfc853.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-5d21e0b78f39fdf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-29T09:42:54.861Z">
+<meta property="og:updated_time" content="2018-03-29T09:47:04.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="curator笔记-分布式锁的实现与原理">
 <meta name="twitter:description" content="1.分布式锁在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题。但当我们的应用是分布式部署的情况下，那么就需要一种更加高级的锁机制来处理这个进程级别的代码同步问题。那么接下来引出现在比较常用的几种分布式锁实现方案，如下图：">
@@ -212,7 +212,7 @@
 <li><p>2.driver.createsTheLock<br>顾名思义，这个driver的createsTheLock方法就是在创建这个锁，即在zookeeper的指定路径上，创建一个临时序列节点。注意：此时只是纯粹的创建了一个节点，不是说线程已经持有了锁。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// 代码进入：StandardLockInternalsDriver.java</div><div class="line">    @Override</div><div class="line">    public String createsTheLock(CuratorFramework client, String path, byte[] lockNodeBytes) throws Exception</div><div class="line">    &#123;</div><div class="line">        String ourPath;</div><div class="line">        if ( lockNodeBytes != null )</div><div class="line">        &#123;</div><div class="line">            ourPath = client.create().creatingParentContainersIfNeeded().withProtection().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(path, lockNodeBytes);</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">        &#123;</div><div class="line">            ourPath = client.create().creatingParentContainersIfNeeded().withProtection().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(path);</div><div class="line">        &#125;</div><div class="line">        return ourPath;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 </li>
-<li><p>3.internalLockLoop</p>
+<li><p>3.internalLockLoop<br>判断自身是否能够持有锁。如果不能，进入wait，等待被唤醒。上代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">// 代码进入：LockInternals.java</div><div class="line">private boolean internalLockLoop(long startMillis, Long millisToWait, String ourPath) throws Exception</div><div class="line">    &#123;</div><div class="line">        boolean     haveTheLock = false;</div><div class="line">        boolean     doDelete = false;</div><div class="line">        try</div><div class="line">        &#123;</div><div class="line">            if ( revocable.get() != null )</div><div class="line">            &#123;</div><div class="line">                client.getData().usingWatcher(revocableWatcher).forPath(ourPath);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            while ( (client.getState() == CuratorFrameworkState.STARTED) &amp;&amp; !haveTheLock )</div><div class="line">            &#123;</div><div class="line">                List&lt;String&gt;        children = getSortedChildren();</div><div class="line">                String              sequenceNodeName = ourPath.substring(basePath.length() + 1); // +1 to include the slash</div><div class="line"></div><div class="line">                PredicateResults    predicateResults = driver.getsTheLock(client, children, sequenceNodeName, maxLeases);</div><div class="line">                if ( predicateResults.getsTheLock() )</div><div class="line">                &#123;</div><div class="line">                    haveTheLock = true;</div><div class="line">                &#125;</div><div class="line">                else</div><div class="line">                &#123;</div><div class="line">                    String  previousSequencePath = basePath + &quot;/&quot; + predicateResults.getPathToWatch();</div><div class="line"></div><div class="line">                    synchronized(this)</div><div class="line">                    &#123;</div><div class="line">                        try </div><div class="line">                        &#123;</div><div class="line">                            // use getData() instead of exists() to avoid leaving unneeded watchers which is a type of resource leak</div><div class="line">                            client.getData().usingWatcher(watcher).forPath(previousSequencePath);</div><div class="line">                            if ( millisToWait != null )</div><div class="line">                            &#123;</div><div class="line">                                millisToWait -= (System.currentTimeMillis() - startMillis);</div><div class="line">                                startMillis = System.currentTimeMillis();</div><div class="line">                                if ( millisToWait &lt;= 0 )</div><div class="line">                                &#123;</div><div class="line">                                    doDelete = true;    // timed out - delete our node</div><div class="line">                                    break;</div><div class="line">                                &#125;</div><div class="line"></div><div class="line">                                wait(millisToWait);</div><div class="line">                            &#125;</div><div class="line">                            else</div><div class="line">                            &#123;</div><div class="line">                                wait();</div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                        catch ( KeeperException.NoNodeException e ) </div><div class="line">                        &#123;</div><div class="line">                            // it has been deleted (i.e. lock released). Try to acquire again</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        catch ( Exception e )</div><div class="line">        &#123;</div><div class="line">            ThreadUtils.checkInterrupted(e);</div><div class="line">            doDelete = true;</div><div class="line">            throw e;</div><div class="line">        &#125;</div><div class="line">        finally</div><div class="line">        &#123;</div><div class="line">            if ( doDelete )</div><div class="line">            &#123;</div><div class="line">                deleteOurPath(ourPath);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return haveTheLock;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -480,6 +480,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Elasticsearch笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">索引</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">倒排索引</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Elasticsearch</a>
               </li>
              
@@ -500,15 +512,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Elasticsearch笔记</a>
+                <a href="javascript:void(0)" class="js-tag color3">curator</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">索引</a>
+                <a href="javascript:void(0)" class="js-tag color5">分布式锁</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">倒排索引</a>
+                <a href="javascript:void(0)" class="js-tag color3">InterProcessMutex</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -533,18 +545,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">mybatis</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">curator</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">分布式锁</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">InterProcessMutex</a>
               </li>
              
               <li class="article-tag-list-item">
