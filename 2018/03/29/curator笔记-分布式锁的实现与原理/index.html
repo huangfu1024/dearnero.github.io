@@ -6,18 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>Archives: 2018/2 | nero-少年游</title>
+  <title>curator笔记-分布式锁的实现与原理 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
-<meta property="og:type" content="website">
-<meta property="og:title" content="nero-少年游">
-<meta property="og:url" content="nero.life/archives/2018/02/index.html">
+  <meta name="description" content="1.分布式锁在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题。但当我们的应用是分布式部署的情况下，那么就需要一种更加高级的锁机制来处理这个进程级别的代码同步问题。那么接下来引出现在比较常用的几种分布式锁实现方案，如下图：">
+<meta name="keywords" content="curator,分布式锁,InterProcessMutex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="curator笔记-分布式锁的实现与原理">
+<meta property="og:url" content="nero.life/2018/03/29/curator笔记-分布式锁的实现与原理/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta property="og:description" content="1.分布式锁在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题。但当我们的应用是分布式部署的情况下，那么就需要一种更加高级的锁机制来处理这个进程级别的代码同步问题。那么接下来引出现在比较常用的几种分布式锁实现方案，如下图：">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-dc47888463c3b2ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-2868ea1199e0acf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-cdd65db523bfc853.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-5d21e0b78f39fdf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-03-29T09:35:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="nero-少年游">
-<meta name="twitter:description" content="尚未佩妥剑,转眼便江湖.愿历尽千帆,归来仍少年">
+<meta name="twitter:title" content="curator笔记-分布式锁的实现与原理">
+<meta name="twitter:description" content="1.分布式锁在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题。但当我们的应用是分布式部署的情况下，那么就需要一种更加高级的锁机制来处理这个进程级别的代码同步问题。那么接下来引出现在比较常用的几种分布式锁实现方案，如下图：">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/6998962-dc47888463c3b2ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -151,68 +158,236 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-curator笔记-分布式锁的实现与原理" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/25/Elasticsearch笔记-五-索引与倒排索引/" class="archive-article-date">
-  	<time datetime="2018-02-25T03:25:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-25</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/25/Elasticsearch笔记-五-索引与倒排索引/">Elasticsearch笔记(五).索引与倒排索引</a>
+    <h1 class="article-title" itemprop="name">
+      curator笔记-分布式锁的实现与原理
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/03/29/curator笔记-分布式锁的实现与原理/" class="archive-article-date">
+  	<time datetime="2018-03-29T08:28:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h3 id="1-分布式锁"><a href="#1-分布式锁" class="headerlink" title="1.分布式锁"></a>1.分布式锁</h3><p>在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题。但当我们的应用是分布式部署的情况下，那么就需要一种更加高级的锁机制来处理这个进程级别的代码同步问题。那么接下来引出现在比较常用的几种分布式锁实现方案，如下图：<br><img src="https://upload-images.jianshu.io/upload_images/6998962-dc47888463c3b2ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分布式锁的常用实现方案"><br><a id="more"></a><br>而在这几次的实现方案也是各有优缺点，对比如下：</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://upload-images.jianshu.io/upload_images/6998962-2868ea1199e0acf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优劣对比"></h2><h3 id="2-Curator的分布式锁介绍"><a href="#2-Curator的分布式锁介绍" class="headerlink" title="2.Curator的分布式锁介绍"></a>2.Curator的分布式锁介绍</h3><p>今天我们主要介绍这个基于Zookeeper实现的分布式锁方案(Curator)，当然随着我们去了解Curator这个产品的时候，会惊喜的发现，它带给我们的不仅仅是分布式锁的实现。此处先不做介绍，我会另外用博客来记录，有兴趣的朋友可以自行下载这个项目来解读。 <a href="https://github.com/apache/curator" target="_blank" rel="external">apache/curator</a><br>现在先让我们看看Curator的几种锁方案：<br><img src="https://upload-images.jianshu.io/upload_images/6998962-cdd65db523bfc853.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="四种锁方案"></p>
+<ul>
+<li>InterProcessMutex：分布式可重入排它锁</li>
+<li>InterProcessSemaphoreMutex：分布式排它锁</li>
+<li>InterProcessReadWriteLock：分布式读写锁</li>
+<li>InterProcessMultiLock：将多个锁作为单个实体管理的容器</li>
+</ul>
+<p>接下来我们以InterProcessMutex为例，介绍一下这个分布式可重入排它锁的实现原理</p>
+<hr>
+<h3 id="3-InterProcessMutex代码跟踪"><a href="#3-InterProcessMutex代码跟踪" class="headerlink" title="3.InterProcessMutex代码跟踪"></a>3.InterProcessMutex代码跟踪</h3><h6 id="一、获取锁的过程"><a href="#一、获取锁的过程" class="headerlink" title="一、获取锁的过程"></a>一、获取锁的过程</h6><p>1).实例化InterProcessMutex：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">// 代码进入：InterProcessMutex.java</div><div class="line">    /**</div><div class="line">     * @param client client</div><div class="line">     * @param path   the path to lock</div><div class="line">     */</div><div class="line">    public InterProcessMutex(CuratorFramework client, String path)</div><div class="line">    &#123;</div><div class="line">        this(client, path, new StandardLockInternalsDriver());</div><div class="line">    &#125;</div><div class="line">    /**</div><div class="line">     * @param client client</div><div class="line">     * @param path   the path to lock</div><div class="line">     * @param driver lock driver</div><div class="line">     */</div><div class="line">    public InterProcessMutex(CuratorFramework client, String path, LockInternalsDriver driver)</div><div class="line">    &#123;</div><div class="line">        this(client, path, LOCK_NAME, 1, driver);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>两个构造函数共同的入参：</p>
+<ul>
+<li>client：curator实现的zookeeper客户端</li>
+<li>path：要在zookeeper加锁的路径，即后面创建临时节点的父节点</li>
+</ul>
+<p>我们可以看到上面两个构造函数中，其实第一个也是在调用第二个构造函数，它传入了一个默认的StandardLockInternalsDriver对象，即标准的锁驱动类（该类的作用在后面会介绍）。就是说InterProcessMutex也支持你传入自定义的锁驱动类来扩展。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">// 代码进入：InterProcessMutex.java</div><div class="line">InterProcessMutex(CuratorFramework client, String path, String lockName, int maxLeases, LockInternalsDriver driver)</div><div class="line">    &#123;</div><div class="line">        basePath = PathUtils.validatePath(path);</div><div class="line">        internals = new LockInternals(client, driver, path, lockName, maxLeases);</div><div class="line">    &#125;</div><div class="line">// 代码进入：LockInternals.java</div><div class="line">LockInternals(CuratorFramework client, LockInternalsDriver driver, String path, String lockName, int maxLeases)</div><div class="line">    &#123;</div><div class="line">        this.driver = driver;</div><div class="line">        this.lockName = lockName;</div><div class="line">        this.maxLeases = maxLeases;</div><div class="line"></div><div class="line">        this.client = client.newWatcherRemoveCuratorFramework();</div><div class="line">        this.basePath = PathUtils.validatePath(path);</div><div class="line">        this.path = ZKPaths.makePath(path, lockName);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>跟着构造函数的代码走完，它接着做了两件事：验证入参path的合法性 &amp; 实例化了一个LockInternals对象。</p>
+<p>2).加锁方法acquire：<br>实例化完成的InterProcessMutex对象，开始调用acquire()方法来尝试加锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">// 代码进入：InterProcessMutex.java</div><div class="line">   /**</div><div class="line">     * Acquire the mutex - blocking until it&apos;s available. Note: the same thread</div><div class="line">     * can call acquire re-entrantly. Each call to acquire must be balanced by a call</div><div class="line">     * to &#123;@link #release()&#125;</div><div class="line">     *</div><div class="line">     * @throws Exception ZK errors, connection interruptions</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void acquire() throws Exception</div><div class="line">    &#123;</div><div class="line">        if ( !internalLock(-1, null) )</div><div class="line">        &#123;</div><div class="line">            throw new IOException(&quot;Lost connection while trying to acquire lock: &quot; + basePath);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * Acquire the mutex - blocks until it&apos;s available or the given time expires. Note: the same thread</div><div class="line">     * can call acquire re-entrantly. Each call to acquire that returns true must be balanced by a call</div><div class="line">     * to &#123;@link #release()&#125;</div><div class="line">     *</div><div class="line">     * @param time time to wait</div><div class="line">     * @param unit time unit</div><div class="line">     * @return true if the mutex was acquired, false if not</div><div class="line">     * @throws Exception ZK errors, connection interruptions</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public boolean acquire(long time, TimeUnit unit) throws Exception</div><div class="line">    &#123;</div><div class="line">        return internalLock(time, unit);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>acquire() :入参为空，调用该方法后，会一直堵塞，直到抢夺到锁资源，或者zookeeper连接中断后，上抛异常。</li>
+<li>acquire(long time, TimeUnit unit)：入参传入超时时间以及单位，抢夺时，如果出现堵塞，会在超过该时间后，返回false。</li>
+</ul>
+<p>对比两种方式，可以选择适合自己业务逻辑的方法。但是一般情况下，我推荐后者，传入超时时间，避免出现大量的临时节点累积以及线程堵塞的问题。</p>
+<p>3).锁的可重入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">// 代码进入：InterProcessMutex.java</div><div class="line">private boolean internalLock(long time, TimeUnit unit) throws Exception</div><div class="line">    &#123;</div><div class="line">        /*</div><div class="line">           Note on concurrency: a given lockData instance</div><div class="line">           can be only acted on by a single thread so locking isn&apos;t necessary</div><div class="line">        */</div><div class="line"></div><div class="line">        Thread currentThread = Thread.currentThread();</div><div class="line"></div><div class="line">        LockData lockData = threadData.get(currentThread);</div><div class="line">        if ( lockData != null )</div><div class="line">        &#123;</div><div class="line">            // re-entering</div><div class="line">            lockData.lockCount.incrementAndGet();</div><div class="line">            return true;</div><div class="line">        &#125;</div><div class="line">        String lockPath = internals.attemptLock(time, unit, getLockNodeBytes());</div><div class="line">        if ( lockPath != null )</div><div class="line">        &#123;</div><div class="line">            LockData newLockData = new LockData(currentThread, lockPath);</div><div class="line">            threadData.put(currentThread, newLockData);</div><div class="line">            return true;</div><div class="line">        &#125;</div><div class="line">        return false;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这段代码里面，实现了锁的可重入。每个InterProcessMutex实例，都会持有一个ConcurrentMap类型的threadData对象，以线程对象作为Key，以LockData作为Value值。通过判断当前线程threadData是否有值，如果有，则表示线程可以重入该锁，于是将lockData的lockCount进行累加；如果没有，则进行锁的抢夺。<br>internals.attemptLock方法返回lockPath!=null时，表明了该线程已经成功持有了这把锁，于是乎LockData对象被new了出来，并存放到threadData中。</p>
+<p>4).抢夺锁：<br>重头戏来了，attemptLock方法就是核心部分，直接看代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">// 代码进入：LockInternals.java</div><div class="line">String attemptLock(long time, TimeUnit unit, byte[] lockNodeBytes) throws Exception</div><div class="line">    &#123;</div><div class="line">        final long      startMillis = System.currentTimeMillis();</div><div class="line">        final Long      millisToWait = (unit != null) ? unit.toMillis(time) : null;</div><div class="line">        final byte[]    localLockNodeBytes = (revocable.get() != null) ? new byte[0] : lockNodeBytes;</div><div class="line">        int             retryCount = 0;</div><div class="line"></div><div class="line">        String          ourPath = null;</div><div class="line">        boolean         hasTheLock = false;</div><div class="line">        boolean         isDone = false;</div><div class="line">        while ( !isDone )</div><div class="line">        &#123;</div><div class="line">            isDone = true;</div><div class="line"></div><div class="line">            try</div><div class="line">            &#123;</div><div class="line">                ourPath = driver.createsTheLock(client, path, localLockNodeBytes);</div><div class="line">                hasTheLock = internalLockLoop(startMillis, millisToWait, ourPath);</div><div class="line">            &#125;</div><div class="line">            catch ( KeeperException.NoNodeException e )</div><div class="line">            &#123;</div><div class="line">                // gets thrown by StandardLockInternalsDriver when it can&apos;t find the lock node</div><div class="line">                // this can happen when the session expires, etc. So, if the retry allows, just try it all again</div><div class="line">                if ( client.getZookeeperClient().getRetryPolicy().allowRetry(retryCount++, System.currentTimeMillis() - startMillis, RetryLoop.getDefaultRetrySleeper()) )</div><div class="line">                &#123;</div><div class="line">                    isDone = false;</div><div class="line">                &#125;</div><div class="line">                else</div><div class="line">                &#123;</div><div class="line">                    throw e;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if ( hasTheLock )</div><div class="line">        &#123;</div><div class="line">            return ourPath;</div><div class="line">        &#125;</div><div class="line">        return null;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>此处注意三个地方</p>
+<ul>
+<li>while循环<br>正常情况下，这个循环会在下一次结束。但是当出现NoNodeException异常时，会根据zookeeper客户端的重试策略，进行有限次数的重新获取锁。</li>
+<li><p>driver.createsTheLock<br>顾名思义，这个driver的createsTheLock方法就是在创建这个锁，即在zookeeper的指定路径上，创建一个临时序列节点。注意：此时只是纯粹的创建了一个节点，不是说线程已经持有了锁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// 代码进入：StandardLockInternalsDriver.java</div><div class="line">    @Override</div><div class="line">    public String createsTheLock(CuratorFramework client, String path, byte[] lockNodeBytes) throws Exception</div><div class="line">    &#123;</div><div class="line">        String ourPath;</div><div class="line">        if ( lockNodeBytes != null )</div><div class="line">        &#123;</div><div class="line">            ourPath = client.create().creatingParentContainersIfNeeded().withProtection().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(path, lockNodeBytes);</div><div class="line">        &#125;</div><div class="line">        else</div><div class="line">        &#123;</div><div class="line">            ourPath = client.create().creatingParentContainersIfNeeded().withProtection().withMode(CreateMode.EPHEMERAL_SEQUENTIAL).forPath(path);</div><div class="line">        &#125;</div><div class="line">        return ourPath;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>internalLockLoop</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">// 代码进入：LockInternals.java</div><div class="line">private boolean internalLockLoop(long startMillis, Long millisToWait, String ourPath) throws Exception</div><div class="line">    &#123;</div><div class="line">        boolean     haveTheLock = false;</div><div class="line">        boolean     doDelete = false;</div><div class="line">        try</div><div class="line">        &#123;</div><div class="line">            if ( revocable.get() != null )</div><div class="line">            &#123;</div><div class="line">                client.getData().usingWatcher(revocableWatcher).forPath(ourPath);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            while ( (client.getState() == CuratorFrameworkState.STARTED) &amp;&amp; !haveTheLock )</div><div class="line">            &#123;</div><div class="line">                List&lt;String&gt;        children = getSortedChildren();</div><div class="line">                String              sequenceNodeName = ourPath.substring(basePath.length() + 1); // +1 to include the slash</div><div class="line"></div><div class="line">                PredicateResults    predicateResults = driver.getsTheLock(client, children, sequenceNodeName, maxLeases);</div><div class="line">                if ( predicateResults.getsTheLock() )</div><div class="line">                &#123;</div><div class="line">                    haveTheLock = true;</div><div class="line">                &#125;</div><div class="line">                else</div><div class="line">                &#123;</div><div class="line">                    String  previousSequencePath = basePath + &quot;/&quot; + predicateResults.getPathToWatch();</div><div class="line"></div><div class="line">                    synchronized(this)</div><div class="line">                    &#123;</div><div class="line">                        try </div><div class="line">                        &#123;</div><div class="line">                            // use getData() instead of exists() to avoid leaving unneeded watchers which is a type of resource leak</div><div class="line">                            client.getData().usingWatcher(watcher).forPath(previousSequencePath);</div><div class="line">                            if ( millisToWait != null )</div><div class="line">                            &#123;</div><div class="line">                                millisToWait -= (System.currentTimeMillis() - startMillis);</div><div class="line">                                startMillis = System.currentTimeMillis();</div><div class="line">                                if ( millisToWait &lt;= 0 )</div><div class="line">                                &#123;</div><div class="line">                                    doDelete = true;    // timed out - delete our node</div><div class="line">                                    break;</div><div class="line">                                &#125;</div><div class="line"></div><div class="line">                                wait(millisToWait);</div><div class="line">                            &#125;</div><div class="line">                            else</div><div class="line">                            &#123;</div><div class="line">                                wait();</div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                        catch ( KeeperException.NoNodeException e ) </div><div class="line">                        &#123;</div><div class="line">                            // it has been deleted (i.e. lock released). Try to acquire again</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        catch ( Exception e )</div><div class="line">        &#123;</div><div class="line">            ThreadUtils.checkInterrupted(e);</div><div class="line">            doDelete = true;</div><div class="line">            throw e;</div><div class="line">        &#125;</div><div class="line">        finally</div><div class="line">        &#123;</div><div class="line">            if ( doDelete )</div><div class="line">            &#123;</div><div class="line">                deleteOurPath(ourPath);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        return haveTheLock;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>诶！又是一大片代码。好吧，咱还是分段挑里面重要的说。</p>
+<ul>
+<li>while循环<blockquote>
+<p>如果你一开始使用无参的acquire方法，那么此处的循环可能就是一个死循环。当zookeeper客户端启动时，并且当前线程还没有成功获取到锁时，就会开始新的一轮循环。</p>
+</blockquote>
+</li>
+<li>getSortedChildren<blockquote>
+<p>这个方法比较简单，就是获取到所有子节点列表，并且从小到大根据节点名称后10位数字进行排序。在上面提到了，创建的是序列节点。如下生成的示例：<br><img src="https://upload-images.jianshu.io/upload_images/6998962-5d21e0b78f39fdf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="zookeeper序列节点"></p>
+</blockquote>
+</li>
+<li>driver.getsTheLock<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// 代码进入：StandardLockInternalsDriver.java</div><div class="line">@Override</div><div class="line">    public PredicateResults getsTheLock(CuratorFramework client, List&lt;String&gt; children, String sequenceNodeName, int maxLeases) throws Exception</div><div class="line">    &#123;</div><div class="line">        int             ourIndex = children.indexOf(sequenceNodeName);</div><div class="line">        validateOurIndex(sequenceNodeName, ourIndex);</div><div class="line"></div><div class="line">        boolean         getsTheLock = ourIndex &lt; maxLeases;</div><div class="line">        String          pathToWatch = getsTheLock ? null : children.get(ourIndex - maxLeases);</div><div class="line"></div><div class="line">        return new PredicateResults(pathToWatch, getsTheLock);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>判断是否可以持有锁，判断规则：当前创建的节点是否在上一步获取到的子节点列表的首位。<br>如果是，说明可以持有锁，那么getsTheLock = true，封装进PredicateResults返回。<br>如果不是，说明有其他线程早已先持有了锁，那么getsTheLock = false，此处还需要获取到自己前一个临时节点的名称pathToWatch。（注意这个pathToWatch后面有比较关键的作用）</p>
+<ul>
+<li>synchronized(this)<br>这块代码在争夺锁失败以后的逻辑中。那么此处该线程应该做什么呢？<br>首先添加一个watcher监听，而监听的地址正是上面一步返回的pathToWatch进行basePath + “/“ 拼接以后的地址。也就是说当前线程会监听自己前一个节点的变动，而不是父节点下所有节点的变动。然后华丽丽的…wait(millisToWait)。线程交出cpu的占用，进入等待状态，等到被唤醒。<br>接下来的逻辑就很自然了，如果自己监听的节点发生了变动，那么就将线程从等待状态唤醒，重新一轮的锁的争夺。</li>
+</ul>
+</blockquote>
+<p>自此, 我们完成了整个锁的抢夺过程。</p>
+<h6 id="二、释放锁"><a href="#二、释放锁" class="headerlink" title="二、释放锁"></a>二、释放锁</h6><p>相对上面获取锁的长篇大论来说，释放的逻辑就很简单了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">// 代码进入：InterProcessMutex.java</div><div class="line">/**</div><div class="line">     * Perform one release of the mutex if the calling thread is the same thread that acquired it. If the</div><div class="line">     * thread had made multiple calls to acquire, the mutex will still be held when this method returns.</div><div class="line">     *</div><div class="line">     * @throws Exception ZK errors, interruptions, current thread does not own the lock</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void release() throws Exception</div><div class="line">    &#123;</div><div class="line">        /*</div><div class="line">            Note on concurrency: a given lockData instance</div><div class="line">            can be only acted on by a single thread so locking isn&apos;t necessary</div><div class="line">         */</div><div class="line"></div><div class="line">        Thread currentThread = Thread.currentThread();</div><div class="line">        LockData lockData = threadData.get(currentThread);</div><div class="line">        if ( lockData == null )</div><div class="line">        &#123;</div><div class="line">            throw new IllegalMonitorStateException(&quot;You do not own the lock: &quot; + basePath);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        int newLockCount = lockData.lockCount.decrementAndGet();</div><div class="line">        if ( newLockCount &gt; 0 )</div><div class="line">        &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        if ( newLockCount &lt; 0 )</div><div class="line">        &#123;</div><div class="line">            throw new IllegalMonitorStateException(&quot;Lock count has gone negative for lock: &quot; + basePath);</div><div class="line">        &#125;</div><div class="line">        try</div><div class="line">        &#123;</div><div class="line">            internals.releaseLock(lockData.lockPath);</div><div class="line">        &#125;</div><div class="line">        finally</div><div class="line">        &#123;</div><div class="line">            threadData.remove(currentThread);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>减少重入锁的计数，直到变成0。</li>
+<li>释放锁，即移除移除Watchers &amp; 删除创建的节点</li>
+<li>从threadData中，删除自己线程的缓存</li>
+</ul>
+<h6 id="三、锁驱动类"><a href="#三、锁驱动类" class="headerlink" title="三、锁驱动类"></a>三、锁驱动类</h6><p>开始的时候，我们提到了这个StandardLockInternalsDriver-标准锁驱动类。还提到了我们可以传入自定义的，来扩展。<br>是的，我们先来看看这个它提供的功能接口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 代码进入LockInternalsDriver.java</div><div class="line">public PredicateResults getsTheLock(CuratorFramework client, List&lt;String&gt; children, String sequenceNodeName, int maxLeases) throws Exception;</div><div class="line"></div><div class="line">public String createsTheLock(CuratorFramework client,  String path, byte[] lockNodeBytes) throws Exception;</div><div class="line"></div><div class="line">// 代码进入LockInternalsSorter.java</div><div class="line">public String           fixForSorting(String str, String lockName);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>getsTheLock：判断是够获取到了锁</li>
+<li>createsTheLock：在zookeeper的指定路径上，创建一个临时序列节点。</li>
+<li>fixForSorting：修复排序，在StandardLockInternalsDriver的实现中，即获取到临时节点的最后序列数，进行排序。</li>
+</ul>
+<p>借助于这个类，我们可以尝试实现自己的锁机制，比如判断锁获得的策略可以做修改，比如获取子节点列表的排序方案可以自定义。。。</p>
+<hr>
+<h3 id="4-InterProcessMutex原理总结"><a href="#4-InterProcessMutex原理总结" class="headerlink" title="4.InterProcessMutex原理总结"></a>4.InterProcessMutex原理总结</h3><p>InterProcessMutex通过在zookeeper的某路径节点下创建临时序列节点来实现分布式锁，即每个线程（跨进程的线程）获取同一把锁前，都需要在同样的路径下创建一个节点，节点名字由uuid + 递增序列组成。而通过对比自身的序列数是否在所有子节点的第一位，来判断是否成功获取到了锁。当获取锁失败时，它会添加watcher来监听前一个节点的变动情况，然后进行等待状态。直到watcher的事件生效将自己唤醒，或者超时时间异常返回。</p>
+<hr>
+<h3 id="5-参考资料"><a href="#5-参考资料" class="headerlink" title="5.参考资料"></a>5.参考资料</h3><ul>
+<li><a href="http://www.cnblogs.com/austinspark-jessylu/p/8043726.html" target="_blank" rel="external">分布式锁的几种实现方式</a></li>
+<li><a href="http://curator.apache.org/" target="_blank" rel="external">Curator官方文档</a></li>
+</ul>
+<hr>
+<h3 id="6-写在最后的话"><a href="#6-写在最后的话" class="headerlink" title="6.写在最后的话"></a>6.写在最后的话</h3><p>在最近看的一本书叫《从Paxos到Zookeeper  分布式一致性原理与实践》中也提到了一个关于基于zookeeper的排它锁的实现方案，大致的想法是通过zookeeper节点不能重复的特性，来判断是否成功持有了锁。跟InterProcessMutex对比来看，还是后者更灵活些，而且后者的监听范围仅限于前一个节点的变动，更小粒度的监听范围可以带来更好的性能。</p>
+<blockquote>
+<p>如若此文能让您有所得，便是吾之大幸！</p>
+</blockquote>
+<hr>
+<p>本博文欢迎转载，转载请注明出处和作者。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Elasticsearch笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">curator</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">索引</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">分布式锁</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">倒排索引</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">InterProcessMutex</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2018/03/29/curator笔记-分布式锁的实现与原理/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/02/25/Elasticsearch笔记-五-索引与倒排索引/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Elasticsearch笔记(五).索引与倒排索引</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -235,8 +410,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
