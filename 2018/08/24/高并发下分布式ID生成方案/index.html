@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>elasticsearch笔记(二).Docker | nero-少年游</title>
+  <title>高并发下分布式ID生成方案 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;ensp;  docker + elasticsearch + logstash">
-<meta name="keywords" content="Elasticsearch,Logstash,Docker">
+  <meta name="description" content="在我们的开发过程中，只要你是涉及到高并发的领域，那么”怎么为你的系统生成一个高效、可靠、友好的ID”  就是你的一个永远绕不开的问题。本文档部分内容非原创，借鉴了网上的一些资源。涉及出处将在本文的最后部分列出。 一.分布式ID原则 唯一性 高效性 可用性 有序性">
+<meta name="keywords" content="分布式,2018,唯一ID">
 <meta property="og:type" content="article">
-<meta property="og:title" content="elasticsearch笔记(二).Docker">
-<meta property="og:url" content="nero.life/2017/07/28/elasticsearch笔记-二-Docker/index.html">
+<meta property="og:title" content="高并发下分布式ID生成方案">
+<meta property="og:url" content="nero.life/2018/08/24/高并发下分布式ID生成方案/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="&amp;ensp;  docker + elasticsearch + logstash">
+<meta property="og:description" content="在我们的开发过程中，只要你是涉及到高并发的领域，那么”怎么为你的系统生成一个高效、可靠、友好的ID”  就是你的一个永远绕不开的问题。本文档部分内容非原创，借鉴了网上的一些资源。涉及出处将在本文的最后部分列出。 一.分布式ID原则 唯一性 高效性 可用性 有序性">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-09-25T12:52:38.000Z">
+<meta property="og:image" content="https://static.oschina.net/uploads/img/201803/26093552_8xRi.jpg">
+<meta property="og:updated_time" content="2018-08-27T02:52:43.667Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="elasticsearch笔记(二).Docker">
-<meta name="twitter:description" content="&amp;ensp;  docker + elasticsearch + logstash">
+<meta name="twitter:title" content="高并发下分布式ID生成方案">
+<meta name="twitter:description" content="在我们的开发过程中，只要你是涉及到高并发的领域，那么”怎么为你的系统生成一个高效、可靠、友好的ID”  就是你的一个永远绕不开的问题。本文档部分内容非原创，借鉴了网上的一些资源。涉及出处将在本文的最后部分列出。 一.分布式ID原则 唯一性 高效性 可用性 有序性">
+<meta name="twitter:image" content="https://static.oschina.net/uploads/img/201803/26093552_8xRi.jpg">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -153,80 +155,121 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-elasticsearch笔记-二-Docker" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-高并发下分布式ID生成方案" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      elasticsearch笔记(二).Docker
+      高并发下分布式ID生成方案
     </h1>
   
 
         
-        <a href="/2017/07/28/elasticsearch笔记-二-Docker/" class="archive-article-date">
-  	<time datetime="2017-07-28T09:27:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-28</time>
+        <a href="/2018/08/24/高并发下分布式ID生成方案/" class="archive-article-date">
+  	<time datetime="2018-08-24T09:27:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&ensp; </p>
-<h3 id="docker-elasticsearch-logstash"><a href="#docker-elasticsearch-logstash" class="headerlink" title="docker + elasticsearch + logstash"></a>docker + elasticsearch + logstash</h3><a id="more"></a>
-<p><b>PS：当前文档注重于Elasticsearch的构建，阅读文档时，需要你对Docker有基本的了解和对基本语法的掌握。<br>可以先参考以下资料：</b></p>
-<ul>
-<li><a href="https://doc.yonyoucloud.com/doc/docker_practice/data_management/volume.html" target="_blank" rel="external">Docker —— 从入门到实践</a></li>
-<li><a href="http://www.cnblogs.com/lienhua34/p/5170335.html" target="_blank" rel="external">Dockerfile创建自定义Docker镜像以及CMD与ENTRYPOINT指令的比较</a></li>
+        <p>  在我们的开发过程中，只要你是涉及到高并发的领域，那么”怎么为你的系统生成一个高效、可靠、友好的ID”<br>  就是你的一个永远绕不开的问题。本文档部分内容非原创，借鉴了网上的一些资源。涉及出处将在本文的最后部分列出。</p>
+<h3 id="一-分布式ID原则"><a href="#一-分布式ID原则" class="headerlink" title="一.分布式ID原则"></a>一.分布式ID原则</h3><ul>
+<li>唯一性</li>
+<li>高效性</li>
+<li>可用性</li>
+<li>有序性<a id="more"></a>
+此处主要介绍为什么ID生成需要有序性</li>
 </ul>
-<hr>
-<p>开工：</p>
-<h6 id="1-配置Dockerfile文件"><a href="#1-配置Dockerfile文件" class="headerlink" title="1.配置Dockerfile文件"></a>1.配置Dockerfile文件</h6><p>Elasticsearch的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">FROM elasticsearch:5.4.0</div><div class="line">RUN sed -i &apos;s/deb.debian.org/mirrors.ustc.edu.cn/g&apos; /etc/apt/sources.list</div><div class="line">RUN apt-get update &amp;&amp; apt-get install zip</div><div class="line">RUN mkdir -p /usr/share/elasticsearch/plugins/ik</div><div class="line">RUN cd /usr/share/elasticsearch/plugins/ik &amp;&amp; wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip &amp;&amp; unzip elasticsearch-analysis-ik-5.4.0.zip</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>镜像基于elasticsearch的5.4.0版本，并在此镜像上加入分词IK层，形成新的镜像<br><!--more--><br><br></p>
+<ul>
+<li>写性能<blockquote>
+<p>在MySQL InnoDB引擎中使用的是聚集索引，<br>由于多数RDBMS使用B-tree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。<br><br><br>聚簇索引的数据的物理存放顺序与索引顺序是一致的，即：只要索引是相邻的，那么对应的数据一定也是相邻地存放在磁盘上的。<br>如果主键不是自增id，那么可以想象，它会干些什么，不断地调整数据的物理地址、分页，当然也有其他一些措施来减少这些操作，<br>但却无法彻底避免。但，如果是自增的，那就简单了，它只需要一页一页地写，索引结构相对紧凑，磁盘碎片少，效率也高。</p>
 </blockquote>
-<p>Logstash的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FROM logstash:5.4.0</div><div class="line">RUN logstash-plugin install logstash-input-jdbc</div><div class="line">COPY mysql-connector-java-5.1.41.jar /some/lib-dir/</div><div class="line">CMD [&quot;-f&quot;, &quot;/some/config-dir/&quot;]</div></pre></td></tr></table></figure></p>
+</li>
+<li><p>读性能</p>
 <blockquote>
-<p>镜像基于Logstash的5.4.0的版本，并在此镜像上安装logstash-input-jdbc插件层，以及<br>会拷贝mysql驱动包到logstash的配置jar下，而在启动镜像时，自动在’’/some/config-dir/‘中读取logstash.conf文件</p>
-</blockquote>
-<hr>
-<h6 id="2-创建镜像文件"><a href="#2-创建镜像文件" class="headerlink" title="2.创建镜像文件"></a>2.创建镜像文件</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t=&quot;nero/elasticsearch&quot; .</div></pre></td></tr></table></figure>
-<blockquote>
-<p>创建一个名叫<b>nero/elasticsearch</b>的elasticsearch的镜像（image）</p>
+<p>来感受下以下两个sql的性能吧，即使created_at字段也有索引： <br><br>1.select <em> from table order by created_at <br><br>2.select </em> from table order by id<br><br>ps: 根据磁盘预读的特性，如果第一次读取“1”，那么如果你是顺序存储，那么“2，3，4，5”也会被读取进内存中。<br>（当然一般ID就是你的聚簇索引，已经帮你排好序了）</p>
 </blockquote>
 <p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t=&quot;nero/logstash&quot; .</div></pre></td></tr></table></figure>
+<h3 id="二-实现方案"><a href="#二-实现方案" class="headerlink" title="二.实现方案"></a>二.实现方案</h3><h4 id="1-数据库方案-auto-increment、Ticket-Servers"><a href="#1-数据库方案-auto-increment、Ticket-Servers" class="headerlink" title="1. 数据库方案(auto_increment、Ticket Servers)"></a>1. 数据库方案(auto_increment、Ticket Servers)</h4></li>
+<li><p>auto_increment</p>
+<p>优点：</p>
 <blockquote>
-<p>创建一个名叫<b>nero/logstash</b>的创建logstash的镜像（image）</p>
+<p>1.简单，代码方便，性能可以接受。<br><br>2.数字ID天然排序，对分页或者需要排序的结果很有帮助。</p>
 </blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker images</div></pre></td></tr></table></figure>
+<p>缺点：</p>
 <blockquote>
-<p>使用 docker images 显示本地已有的镜像。</p>
+<p>1.可读性，容易暴露出库信息（今天下个订单，第二天同时间下个订单，其实就可以推测出该系统一天的订单量）。<br><br>2.在性能达不到要求的情况下，比较难于扩展。<br><br>3.如果遇见多个系统需要合并或者涉及到数据迁移会相当痛苦。<br><br>4.在单个数据库或读写分离或一主多从的情况下，只有一个主库可以生成。有单点故障的风险。</p>
 </blockquote>
-<hr>
-<h6 id="3-启动容器"><a href="#3-启动容器" class="headerlink" title="3.启动容器"></a>3.启动容器</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp elasticsearch.yml log4j2.properties scripts/ root@192.168.99.100:/mnt/sda1/elasticsearch_config</div></pre></td></tr></table></figure>
+<p>优化方案</p>
 <blockquote>
-<p>先将本地配置（elasticsearch.yml log4j2.properties scripts/）放在一个指定配置文件下。<br><b>（此处我采用scp命令是因为我本地采用mac系统，运行docker需要一个linux环境，而192.168.99.100就是我的linux虚拟机环境）</b><br>而elasticsearch.yml的配置，可以参考我上篇部署文档中的配置</p>
+<p>针对主库单点，如果有多个Master库，则每个Master库设置的起始数字不一样，步长一样，<br>可以是Master的个数。<br>比如：<br><br>Master1 生成的是 1,4,7,10，<br><br>Master2生成的是2,5,8,11 <br><br>Master3生成的是 3,6,9,12。<br><br>这样就可以有效生成集群中的唯一ID，也可以大大降低ID生成数据库操作的负载。但是仔细想想，这样的<br>方案生成ID的有序性就要靠着路由的极度均衡负载才能给出保证吧。</p>
 </blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -d -p 9200:9200 -p 9300:9300 -v /mnt/sda1/elasticsearch_config:/usr/share/elasticsearch/config --name elasticsearch_node_1 nero/elasticsearch</div></pre></td></tr></table></figure>
+</li>
+<li><p>Flickr Ticket Servers</p>
+<p>全局通用库，实现思路(auto_increment + replace into + MyISAM)：</p>
+<p>1). 创建64位的自增id：<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE `uid_sequence` (</div><div class="line">  `id` bigint(20) unsigned NOT NULL auto_increment,</div><div class="line">  `stub` char(1) NOT NULL default &apos;&apos;,</div><div class="line">  PRIMARY KEY  (`id`),</div><div class="line">  UNIQUE KEY `stub` (`stub`)</div><div class="line">) ENGINE=MyISAM;</div><div class="line"></div><div class="line">SELECT * from uid_sequence：</div><div class="line"></div><div class="line">+-------------------+------+</div><div class="line">| id                | stub |</div><div class="line">+-------------------+------+</div><div class="line">| 72157623227190423 |    a |</div></pre></td></tr></table></figure>
+<p>2.如果我需要一个全局的唯一的64位uid，则执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">REPLACE INTO uid_sequence (stub) VALUES (&apos;a&apos;);</div><div class="line">SELECT LAST_INSERT_ID();</div></pre></td></tr></table></figure>
+<p>用 REPLACE INTO 代替 INSERT INTO 的好处是避免表行数太大，还要另外定期清理。<br>stub 字段要设为唯一索引，这个 sequence 表只有一条纪录，但也可以同时为多张表生成全局主键，<br>例如 user_ship_id。除非你需要表的主键是连续的，那么就另建一个 user_ship_id_sequence 表。<br>经过实际对比测试，使用 MyISAM 比 Innodb 有更高的性能。</p>
+<p>3.这里flickr使用两台数据库作为自增序列生成，通过这两台机器做主备和负载均衡。</p>
+<p>TicketServer1:<br>auto-increment-increment = 2<br>auto-increment-offset = 1</p>
+<p>TicketServer2:<br>auto-increment-increment = 2<br>auto-increment-offset = 2</p>
+<p>优点：</p>
 <blockquote>
-<p>创建一个名叫’<b>elasticsearch_node_1</b>‘的容器<br> 1.映射出9200和9300端口号<br> 2.将刚才的配置文件地址挂载到容器中elasticsearch的配置文件地址<br> 3.指定名称，指定刚才创建好的基于镜像</p>
+<p>1.简单，逻辑容易理解。<br><br>2.数字ID天然排序，对分页或者需要排序的结果很有帮助。<br><br>3.即使为多个服务生成ID，数据也只有一条。<br><br>4.即使遇见多个系统(通过同样ID生成器生成)合并，也不会出现冲突。<br><br>5.双库生成，没有单点故障的风险。</p>
 </blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp temp.json logstash.conf root@192.168.99.100:/mnt/sda1/logstash_config</div></pre></td></tr></table></figure>
+<p>缺点：</p>
 <blockquote>
-<p>logstash的配置文件拷贝至指定配置文件下。（temp.json logstash.conf可参考上篇部署文档中的配置）</p>
+<p>1.可读性，容易暴露出库信息。(当然如果你为多个服务生成ID，则没有该问题)<br><br>2.数据库性能瓶颈</p>
 </blockquote>
-<p><br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -v /mnt/sda1/logstash_config:/some/config-dir --name logstash_node_1 nero/logstash</div></pre></td></tr></table></figure>
+<h4 id="2-UUID"><a href="#2-UUID" class="headerlink" title="2. UUID"></a>2. UUID</h4><p>常见的方式。一般来说全球唯一。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UUID uuid = UUID.randomUUID();</div><div class="line"></div><div class="line">// 23e15798-f8e6-44f3-90e5-11c43aeb5f36</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p> 优点：</p>
 <blockquote>
-<p>创建一个名叫’<b>logstash_node_1</b>‘的容器<br> 1.将刚才的配置文件地址挂载到容器中logstash的配置文件地址<br> 2.指定名称，指定基于镜像’nero/logstash’ </p>
+<p>1）简单，代码方便。<br><br> 2）生成ID性能非常好，基本不会有性能问题。<br><br> 3）全球唯一，在遇见数据迁移，系统数据合并，或者数据库变更等情况下，可以从容应对。</p>
 </blockquote>
-<hr>
-<h6 id="4-ok！"><a href="#4-ok！" class="headerlink" title="4.ok！"></a>4.ok！</h6><p>如果你足够幸运，你现在应该已经启动好了一个基于Docker实现的搜索引擎！</p>
+<p> 缺点：</p>
+<blockquote>
+<p>1）没有排序，无法保证趋势递增。<br><br> 2）UUID往往是使用字符串存储，查询的效率比较低。<br><br> 3）存储空间比较大，如果是海量数据库，就需要考虑存储量的问题。<br><br> 4）传输数据量大<br><br> 5）不可读。</p>
+</blockquote>
+<p> 优化方案</p>
+<blockquote>
+<p>1.UUID to Int64（解决了不可读、传输数据量大）<br><br> 2.转成13位长整型（现公司商品库ID方案，这种方案我隐隐觉得在一定量级情况下，会有重复ID问题）</p>
+</blockquote>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">  * Generate unique ID from UUID in positive space</div><div class="line">  *</div><div class="line">  * @return long value representing UUID</div><div class="line">  */</div><div class="line"> public static Long generateLongUId() &#123;</div><div class="line">     long val;</div><div class="line">     do &#123;</div><div class="line">         final UUID uid = UUID.randomUUID();</div><div class="line">         final ByteBuffer buffer = ByteBuffer.wrap(new byte[16]);</div><div class="line">         buffer.putLong(uid.getLeastSignificantBits());</div><div class="line">         buffer.putLong(uid.getMostSignificantBits());</div><div class="line">         final BigInteger bi = new BigInteger(buffer.array());</div><div class="line">         val = bi.longValue();</div><div class="line">     &#125; while (val &lt; 0);</div><div class="line">     return val;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> /**</div><div class="line">  * Generate 13 Digits unique ID from UUID in positive space</div><div class="line">  * @return 13 Digits long value representing UUID</div><div class="line">  */</div><div class="line"> public static Long get13DigitsUId() &#123;</div><div class="line">     Long uniqueIdentity = generateLongUId();</div><div class="line">     String s = String.valueOf(uniqueIdentity);</div><div class="line">     s = s.substring(0, 13);</div><div class="line">     return Long.valueOf(s);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h4 id="3-redis生成方案"><a href="#3-redis生成方案" class="headerlink" title="3. redis生成方案"></a>3. redis生成方案</h4><p> 原理：可以用Redis的原子操作 INCR和INCRBY来实现</p>
+<p> 优点：</p>
+<blockquote>
+<p>1）不依赖于数据库，灵活方便，且性能优于数据库。<br><br> 2）数字ID天然排序，对分页或者需要排序的结果很有帮助。</p>
+</blockquote>
+<p> 缺点：</p>
+<blockquote>
+<p>1）如果系统中没有Redis，还需要引入新的组件，增加系统复杂度。<br><br> 2）需要编码和配置的工作量比较大。</p>
+</blockquote>
+<h4 id="4-snowflake"><a href="#4-snowflake" class="headerlink" title="4. snowflake"></a>4. snowflake</h4><p> <img src="https://static.oschina.net/uploads/img/201803/26093552_8xRi.jpg" alt="Alt text"></p>
+<p> 信息说明：</p>
+<p> <b>1位</b>：暂没有使用，二进制中最高位为1的都是负数，但是我们生成的id一般都使用整数，所以这个最高位固定是0</p>
+<p> <b>41位</b>：时间戳数据区，用来记录时间戳（毫秒）<br> 41位可以表示241−1个数字，<br> 如果只用来表示正整数（计算机中正数包含0），可以表示的数值范围是：0 至 241−1，减1是因为可表示的数值范围是从0开始算的，而不是1。<br> 也就是说41位可以表示241−1个毫秒的值，转化成单位年则是(241−1)/(1000∗60∗60∗24∗365)=69年</p>
+<p> <b>10位</b>：机器数据区，用来记录工作机器id<br> 可以部署在210=1024个节点，包括 5位datacenterId 和 5位workerId<br> 5位（bit） 可以表示的最大正整数是25−1=31，即可以用0、1、2、3、….31这32个数字，来表示不同的datecenterId或workerId</p>
+<p> <b>12位</b>：序列号数据区，用来记录同毫秒内产生的不同id<br> 12位（bit） 可以表示的最大正整数是212−1=4096，即可以用0、1、2、3、….4095这4096个数字，来表示同一机器同一时间截（毫秒)内产生的4096个ID序号</p>
+<p> 优点：</p>
+<blockquote>
+<p>1) 所有生成的ID都是按时间趋势递增<br><br> 2) 整个分布式系统内不会产生重复ID<br><br> 3) 每个ID中都可以解读出，该ID是在哪个数据中心的哪台工作机器上产生<br><br> 4) 数值型的分布式ID（替换了UUID）<br><br> 5) 高性能的ID生成器（超高400w/s的超高性能）(实测：限于代码以及机器性能，实际每秒生成ID在20万。<br></p>
+</blockquote>
+<p> 缺点：</p>
+<blockquote>
+<p>1).在分布式部署的情况下，如果各个机器的时间出现偏离，那么就会出现顺序问题。<br><br> 2).时间出现回拨，ID生成可能会出现重复。(在代码中的实现会缓存上一次ID生成的时间戳进行比对，避免了重复ID的风险，当然也让ID生成器上抛异常)</p>
+</blockquote>
+<p> <br></p>
+<h3 id="三-项目代码"><a href="#三-项目代码" class="headerlink" title="三.项目代码"></a>三.项目代码</h3><p> <a href="https://github.com/dearnero/nero-snowflake-demo" target="_blank" rel="external">dearnero/nero-snowflake-demo</a></p>
+<p> <br></p>
+<h3 id="四-参考资料"><a href="#四-参考资料" class="headerlink" title="四.参考资料"></a>四.参考资料</h3><p> <a href="https://tech.meituan.com/MT_Leaf.html" target="_blank" rel="external">Leaf——美团点评分布式ID生成系统</a>(推荐阅读，它给出了一些更加优秀的解决方案)<br><br> <a href="https://www.cnblogs.com/haoxinyue/p/5208136.html" target="_blank" rel="external">分布式系统唯一ID生成方案汇总</a>(推荐阅读，借鉴出处)<br><br> <a href="https://www.cnblogs.com/relucent/p/4955340.html" target="_blank" rel="external">Twitter的分布式自增ID算法snowflake (Java版)</a>(推荐阅读，Snowflake Code Provenance Information)<br><br> <a href="https://github.com/XiaoMi/chronos" target="_blank" rel="external">XiaoMi/chronos</a>(Chronos，是实现高可用、高性能、提供全局唯一而且严格单调递增timestamp的服务。)<br><br> <a href="https://juejin.im/post/5a7f9176f265da4e721c73a8" target="_blank" rel="external">分布式唯一id：snowflake算法思考</a>(对于snowflake时间回拨的解决方案)</p>
 
       
 
@@ -240,15 +283,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Logstash</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">2018</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Docker</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">唯一ID</a>
         		</li>
       		
 		</ul>
@@ -304,7 +347,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2017/07/28/elasticsearch笔记-二-Docker/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2018/08/24/高并发下分布式ID生成方案/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -319,8 +362,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2017/07/28/elasticsearch笔记-一-安装部署/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Elasticsearch笔记(一).安装部署</div>
+    <a href="/2018/03/29/curator笔记-分布式锁的实现与原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">curator笔记-分布式锁的实现与原理</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -361,7 +404,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 nero-少年游
+    		&copy; 2018 nero-少年游
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -452,11 +495,79 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Docker</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color1">Elasticsearch笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">索引</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">倒排索引</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">spring-data-elasticsearch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring-boot</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">spring-boot-starter-data-elasticsearch</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">curator</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">分布式锁</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">InterProcessMutex</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">年终总结,2017,忙碌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">pageHelper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ThreadLocal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mybatis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">2018</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">唯一ID</a>
               </li>
             
             <div class="clearfix"></div>

@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-2868ea1199e0acf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-cdd65db523bfc853.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-5d21e0b78f39fdf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-03-29T09:48:48.746Z">
+<meta property="og:updated_time" content="2018-08-27T02:52:43.666Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="curator笔记-分布式锁的实现与原理">
 <meta name="twitter:description" content="1.分布式锁在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题。但当我们的应用是分布式部署的情况下，那么就需要一种更加高级的锁机制来处理这个进程级别的代码同步问题。那么接下来引出现在比较常用的几种分布式锁实现方案，如下图：">
@@ -179,8 +179,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<h3 id="1-分布式锁"><a href="#1-分布式锁" class="headerlink" title="1.分布式锁"></a>1.分布式锁</h3><p>在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题。但当我们的应用是分布式部署的情况下，那么就需要一种更加高级的锁机制来处理这个进程级别的代码同步问题。那么接下来引出现在比较常用的几种分布式锁实现方案，如下图：<br><img src="https://upload-images.jianshu.io/upload_images/6998962-dc47888463c3b2ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分布式锁的常用实现方案"><br><a id="more"></a><br>而在这几次的实现方案也是各有优缺点，对比如下：</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://upload-images.jianshu.io/upload_images/6998962-2868ea1199e0acf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优劣对比"></h2><h3 id="2-Curator的分布式锁介绍"><a href="#2-Curator的分布式锁介绍" class="headerlink" title="2.Curator的分布式锁介绍"></a>2.Curator的分布式锁介绍</h3><p>今天我们主要介绍这个基于Zookeeper实现的分布式锁方案(Curator)，当然随着我们去了解Curator这个产品的时候，会惊喜的发现，它带给我们的不仅仅是分布式锁的实现。此处先不做介绍，我会另外用博客来记录，有兴趣的朋友可以自行下载这个项目来解读。 <a href="https://github.com/apache/curator" target="_blank" rel="external">apache/curator</a><br>现在先让我们看看Curator的几种锁方案：<br><img src="https://upload-images.jianshu.io/upload_images/6998962-cdd65db523bfc853.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="四种锁方案"></p>
+<h3 id="1-分布式锁"><a href="#1-分布式锁" class="headerlink" title="1.分布式锁"></a>1.分布式锁</h3><p>在我们进行单机应用开发，涉及并发同步的时候，我们往往采用synchronized或者Lock的方式来解决多线程间的代码同步问题。但当我们的应用是分布式部署的情况下，那么就需要一种更加高级的锁机制来处理这个进程级别的代码同步问题。那么接下来引出现在比较常用的几种分布式锁实现方案，如下图：<br><img src="https://upload-images.jianshu.io/upload_images/6998962-dc47888463c3b2ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分布式锁的常用实现方案"><br><a id="more"></a><br>而在这几次的实现方案也是各有优缺点，对比如下：<br><img src="https://upload-images.jianshu.io/upload_images/6998962-2868ea1199e0acf5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="优劣对比"></p>
+<hr>
+<h3 id="2-Curator的分布式锁介绍"><a href="#2-Curator的分布式锁介绍" class="headerlink" title="2.Curator的分布式锁介绍"></a>2.Curator的分布式锁介绍</h3><p>今天我们主要介绍这个基于Zookeeper实现的分布式锁方案(Curator)，当然随着我们去了解Curator这个产品的时候，会惊喜的发现，它带给我们的不仅仅是分布式锁的实现。此处先不做介绍，我会另外用博客来记录，有兴趣的朋友可以自行下载这个项目来解读。 <a href="https://github.com/apache/curator" target="_blank" rel="external">apache/curator</a><br>现在先让我们看看Curator的几种锁方案：<br><img src="https://upload-images.jianshu.io/upload_images/6998962-cdd65db523bfc853.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="四种锁方案"></p>
 <ul>
 <li>InterProcessMutex：分布式可重入排它锁</li>
 <li>InterProcessSemaphoreMutex：分布式排它锁</li>
@@ -354,6 +355,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2018/08/24/高并发下分布式ID生成方案/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          高并发下分布式ID生成方案
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/02/25/Elasticsearch笔记-五-索引与倒排索引/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">Elasticsearch笔记(五).索引与倒排索引</div>
@@ -480,18 +490,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Elasticsearch笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">索引</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">倒排索引</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Elasticsearch</a>
               </li>
              
@@ -501,6 +499,26 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Elasticsearch笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">索引</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">倒排索引</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -516,14 +534,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">curator</a>
               </li>
              
@@ -533,6 +543,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">InterProcessMutex</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">年终总结,2017,忙碌</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -548,7 +562,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">年终总结,2017,忙碌</a>
+                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">2018</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">唯一ID</a>
               </li>
             
             <div class="clearfix"></div>
