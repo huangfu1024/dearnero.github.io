@@ -153,6 +153,90 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-关于Mysql慢日志分析方案汇总" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/30/关于Mysql慢日志分析方案汇总/">关于Mysql慢日志分析方案汇总</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/30/关于Mysql慢日志分析方案汇总/" class="archive-article-date">
+  	<time datetime="2018-08-30T08:06:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="一-前言"><a href="#一-前言" class="headerlink" title="一.前言"></a>一.前言</h4><p>某天在码代码的时候，突然脑子就出现了一个关于怎么优化现有系统的想法。现在所开发的这个系统暂时还没有引入缓存机制、没有做数据库的读写分离、也没有做多机器的水平拆分。<br>那么优化的方向就比较有限了，主要还是代码优化以及sql优化。<br>首先对于硬盘这种慢速设备来说，它的优化空间是比较大的。比如说sql规范、索引、、、那么提取出执行比较慢的sql就可以作为一个现有系统的优化点去做（是吧，咱得有目的去优化某些sql）。<br>很幸运的是，mysql已经为我们提供了慢日志记录的机制，这样可以很好的避免在业务中加入额外的代码。<br>而我们要做的就是怎么从slow_log中提取、解析。<br>
+        
+          <a class="article-more-a" href="/2018/08/30/关于Mysql慢日志分析方案汇总/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Mysql慢日志</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">性能优化方向</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/30/关于Mysql慢日志分析方案汇总/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-高并发下分布式ID生成方案" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -920,89 +1004,10 @@
 
 
   
-    <article id="post-Elasticsearch笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/27/Elasticsearch笔记/">Elasticsearch笔记</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/27/Elasticsearch笔记/" class="archive-article-date">
-  	<time datetime="2017-10-27T07:32:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我曾经工作方向于数据库中间件，致力为企业提供跨数据库的高效大数据查询。后来进入电商领域，被拨入电商产品团队，<br>主要研究商品的搜索引擎部分。自从接触了Elasticsearch一段时间后, 算是有了一点不错的收获。<br>从刚开始的安装到后来的投入到正式的业务生产中, 也受益颇多。</p>
-<p>本着好记性不如烂笔头的习惯，将学习过程中的收益以及问题进行记录，预期将陆续整理出的6篇文档。</p>
-<ul>
-<li>1.<a href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a></li>
-<li>2.<a href="/2017/10/27/Elasticsearch笔记-二-Docker/">Elasticsearch笔记(二).Docker</a></li>
-<li>3.<a href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/">Elasticsearch笔记(三).Java与Elasticsearch</a></li>
-<li>4.<a href="/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/">Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch</a></li>
-<li>5.<a href="/2018/02/25/Elasticsearch笔记-五-索引与倒排索引/">Elasticsearch笔记(五).索引与倒排索引</a></li>
-<li>6.Elasticsearch笔记(六).Lucene</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/27/Elasticsearch笔记/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -1100,15 +1105,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Logstash</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1149,6 +1154,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">InterProcessMutex</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Mysql慢日志</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">性能优化方向</a>
               </li>
              
               <li class="article-tag-list-item">
