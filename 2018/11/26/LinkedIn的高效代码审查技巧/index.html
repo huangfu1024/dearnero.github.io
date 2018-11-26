@@ -6,22 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="nero.life">
-  <title>Elasticsearch笔记(一).安装部署 | nero-少年游</title>
+  <title>LinkedIn的高效代码审查技巧 | nero-少年游</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先简单介绍下所谓的搜索引擎Elasticsearch到底是什么？此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。  Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字">
-<meta name="keywords" content="Elasticsearch,Logstash,Linux">
+  <meta name="description" content="本文翻译自https://thenewstack.io/linkedin-code-review/LinkedIn最近通过了进行一百万次代码审查的里程碑。社交网络服务工具的​​负责人在此过程中分享了一些经验教训。阅读和审查代码是每个工程师每天都要做的事情。 然而，正式的代码审查流程有点不同 - 它要求在代码投入生产之前，每个代码更改都要由另一个团队成员进行正式审核。在LinkedIn，自2011年">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Elasticsearch笔记(一).安装部署">
-<meta property="og:url" content="nero.life/2017/10/27/Elasticsearch笔记-一-安装部署/index.html">
+<meta property="og:title" content="LinkedIn的高效代码审查技巧">
+<meta property="og:url" content="nero.life/2018/11/26/LinkedIn的高效代码审查技巧/index.html">
 <meta property="og:site_name" content="nero-少年游">
-<meta property="og:description" content="首先简单介绍下所谓的搜索引擎Elasticsearch到底是什么？此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。  Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字">
+<meta property="og:description" content="本文翻译自https://thenewstack.io/linkedin-code-review/LinkedIn最近通过了进行一百万次代码审查的里程碑。社交网络服务工具的​​负责人在此过程中分享了一些经验教训。阅读和审查代码是每个工程师每天都要做的事情。 然而，正式的代码审查流程有点不同 - 它要求在代码投入生产之前，每个代码更改都要由另一个团队成员进行正式审核。在LinkedIn，自2011年">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="/images/es_1.png">
-<meta property="og:updated_time" content="2018-08-27T02:52:43.662Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-40aafa34a1ff3490.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/6998962-f6e9817c425da4c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-11-26T02:42:32.117Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Elasticsearch笔记(一).安装部署">
-<meta name="twitter:description" content="首先简单介绍下所谓的搜索引擎Elasticsearch到底是什么？此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。  Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字">
-<meta name="twitter:image" content="/images/es_1.png">
+<meta name="twitter:title" content="LinkedIn的高效代码审查技巧">
+<meta name="twitter:description" content="本文翻译自https://thenewstack.io/linkedin-code-review/LinkedIn最近通过了进行一百万次代码审查的里程碑。社交网络服务工具的​​负责人在此过程中分享了一些经验教训。阅读和审查代码是每个工程师每天都要做的事情。 然而，正式的代码审查流程有点不同 - 它要求在代码投入生产之前，每个代码更改都要由另一个团队成员进行正式审核。在LinkedIn，自2011年">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/6998962-40aafa34a1ff3490.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   
   
     <link rel="icon" href="/bitbug_favicon.ico">
@@ -155,124 +155,43 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Elasticsearch笔记-一-安装部署" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-LinkedIn的高效代码审查技巧" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Elasticsearch笔记(一).安装部署
+      LinkedIn的高效代码审查技巧
     </h1>
   
 
         
-        <a href="/2017/10/27/Elasticsearch笔记-一-安装部署/" class="archive-article-date">
-  	<time datetime="2017-10-27T07:33:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-27</time>
+        <a href="/2018/11/26/LinkedIn的高效代码审查技巧/" class="archive-article-date">
+  	<time datetime="2018-11-26T02:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-26</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先简单介绍下所谓的搜索引擎Elasticsearch到底是什么？<br>此处摘录自<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/intro.html" target="_blank" rel="external">Elasticsearch: 权威指南</a>中的定义：</p>
-<blockquote>
-<p>Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。<br>  Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：<br>  一个分布式的实时文档存储，每个字段可以被索引与搜索<br>  一个分布式实时分析搜索引擎<br>  能胜任上百个服务节点的扩展，并支持 PB 级别的结构化或者非结构化数据</p>
-</blockquote>
+        <p>本文翻译自<a href="https://thenewstack.io/linkedin-code-review/" target="_blank" rel="external">https://thenewstack.io/linkedin-code-review/</a><br><img src="https://upload-images.jianshu.io/upload_images/6998962-40aafa34a1ff3490.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"><br>LinkedIn最近通过了进行一百万次代码审查的里程碑。社交网络服务工具的​​负责人在此过程中分享了一些经验教训。<br><br>阅读和审查代码是每个工程师每天都要做的事情。 然而，正式的代码审查流程有点不同 - 它要求在代码投入生产之前，每个代码更改都要由另一个团队成员进行正式审核。在LinkedIn，自2011年以来，代码审查一直是我们开发过程的必要组成部分。我们要求代码审查的目标是尽可能顺利地扩展我们快速发展的工程团队。使用有意义的有用注释进行良好的代码审查可以帮助提升整个工程组织的水平。在LinkedIn，这些审查已成为质量保证和知识共享的重要组成部分。拥抱代码审查已经在几个关键方面改变了我们的整个工程文化。<br><br>实施公司范围的代码审查的最大好处之一是我们的开发工作流程中的标准化程度提高了。LinkedIn的每个团队都使用相同的工具和流程进行代码审查，这意味着任何人都可以帮助审核或为其他团队的项目贡献代码。这消除了诸如“我可以修复代码中的错误，但我将如何构建代码并提交修复程序？”这样的问题，反过来，这有助于增加工程组织中不同团队之间的协作。<br><br>通过使代码审查成为强制性流程，我们还帮助培养了公司健康的反馈文化：工程师愿意在所有工作领域提供和接收反馈，而不仅仅是编码，因为它已成为工作的常规组成部分。我们的工程师不会将代码审查视为批评或否定，而是将提供和接收代码审查作为专业发展的机会。事实上，高质量的代码审查是LinkedIn推广过程的重要组成部分，因为它们提供了工程技能的客观证据。<br></p>
+<h2 id="多年来，我们已经磨练了几个最佳实践和技巧，以便提供真正优秀的审查。以下是一些问题形式的指南，我们建议您帮助确保审核人员和审核人员从代码审核中获得最大价值。"><a href="#多年来，我们已经磨练了几个最佳实践和技巧，以便提供真正优秀的审查。以下是一些问题形式的指南，我们建议您帮助确保审核人员和审核人员从代码审核中获得最大价值。" class="headerlink" title="多年来，我们已经磨练了几个最佳实践和技巧，以便提供真正优秀的审查。以下是一些问题形式的指南，我们建议您帮助确保审核人员和审核人员从代码审核中获得最大价值。"></a>多年来，我们已经磨练了几个最佳实践和技巧，以便提供真正优秀的审查。以下是一些问题形式的指南，我们建议您帮助确保审核人员和审核人员从代码审核中获得最大价值。</h2><p>######我理解“为什么”？<br>为了促进最佳审核并帮助您的团队扩展，每个代码更改提交都应包含一个设计概述，简要说明更改背后的动机。当需要从代码更改本身推断出基本原理时，很难提供高质量的代码审查。在提交代码审查之前，询问并期望提交者解释他们的动机是公平的。这也鼓励提交者在提交消息中进行解释，从而提高代码文档的质量。</p>
 <hr>
-<a id="more"></a>
-<h3 id="一-文档介绍"><a href="#一-文档介绍" class="headerlink" title="一. 文档介绍"></a>一. 文档介绍</h3><p>参看当前文档，你可以快速的基于Linux操作系统构造好一个简单的搜索集群，可通过部署多个<b>Elasticsearch Node</b>来扩展集群的搜索能力以及容灾能力。<br>集群数据来源自Mysql数据库，它通过logstash的logstash-input-jdbc的插件进行数据同步，同步周期一分钟。<br>它同时也安装了ik的分词插件，让你更好的做全文分词搜索。</p>
-<p>&ensp;</p>
-<h3 id="二-版本选择"><a href="#二-版本选择" class="headerlink" title="二. 版本选择"></a>二. 版本选择</h3><ul>
-<li><p>Elasticsearch</p>
-<p>  elasticsearch version: 5.4.0</p>
-<p>  elasticsearch-analysis-ik version: 5.4.0</p>
-</li>
-<li><p>Logstash</p>
-<p>  logstash version: 5.4.0</p>
-<p>  logstash-input-jdbc version: 4.1.3<br>&ensp;    </p>
-<h3 id="三-安装过程"><a href="#三-安装过程" class="headerlink" title="三. 安装过程"></a>三. 安装过程</h3></li>
-</ul>
-<p>1.下载elasticsearch以及logstash对应的版本,版本见上。</p>
-<p>2.elasticsearch安装ik中文插件,参看具体对应版本</p>
-<blockquote>
-<ul>
-<li>download pre-build package from here: <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases" target="_blank" rel="external">https://github.com/medcl/elasticsearch-analysis-ik/releases</a><br>or compiled from the source:</li>
-<li>checkout ik version respective to your elasticsearch version</li>
-<li>git checkout tags/{version}</li>
-<li>mvn package</li>
-<li>copy and unzip target/releases/elasticsearch-analysis-ik-{version}.zip to your-es-root/plugins/ik</li>
-</ul>
-</blockquote>
-<p>3.修改配置文件elasticsearch.yml, 可参看我的配置：</p>
-<blockquote>
-<p># 集群名称<br>  cluster.name: search_cluster<br>  # 节点名称,<br>  node.name: elasticsearch_md_node_1<br>  # 选举master节点的最小master数量<br>  discovery.zen.minimum_master_nodes: 1<br>  # 是否发布为master节点<br>  node.master: true<br>  # 是否发布为data节点<br>  node.data: true<br>  # 可访问地址<br>  http.host: 0.0.0.0<br>  # 设置节点间交互的tcp端口，默认是9300<br>  transport.tcp.port: 9300<br>  # 设置对外服务的http端口，默认为9200<br>  http.port: 9200<br>  # 允许跨域访问<br>  http.cors.enabled: true<br>  # 允许跨域访问<br>  http.cors.allow-origin: “/.*/“<br>  # 设置其它节点和该节点交互的ip地址，如果不设置它会自动判断，值必须是个真实的ip地址。<br>  network.publish_host: 0.0.0.0<br>  # 设置绑定的ip地址，可以是ipv4或ipv6的，默认为0.0.0.0<br>  network.bind_host: 0.0.0.0<br>  # 设置单播连接地址, 新增节点会通过地址来加入到集群中<br>  discovery.zen.ping.unicast.hosts: [“Node Server Ip”]</p>
-</blockquote>
-<p>4.启动elasticsearch</p>
-<blockquote>
-<ul>
-<li>cd ES_HOME/bin</li>
-<li>./elasticsearch</li>
-</ul>
-</blockquote>
-<p>至此你的机器上就启动好了一个叫search_cluster的搜索引擎,引擎又一个叫elasticsearch_md_node_1的Node构成。<br>浏览器中访问地址：<b><a href="http://localhost:9200" target="_blank" rel="external">http://localhost:9200</a></b>, 如下显示你的集群信息<br><img src="/images/es_1.png" alt="Alt text">   </p>
-<p>5.接下来在logstash中安装logstash-input-jdbc插件, 用于从数据库中同步数据到elasticsearch</p>
-<blockquote>
-<ul>
-<li>cd LS_HOME/bin</li>
-<li>./logstash-plugin install logstash-input-jdbc</li>
-</ul>
-</blockquote>
-<p><b>ps:如果此过程很慢或者安装失败, 请参考文章最后的问题1.</b></p>
-<p>6.项目logstash配置文件存储在用户目录下：</p>
-<blockquote>
-<ul>
-<li><p>~/some/config-dir/</p>
-</li>
-<li><p>~/some/lib-dir/</p>
-</li>
-</ul>
-</blockquote>
-<p>在config-dir下包含logstash.conf和temp.json两个配置文件<br>在lib-dir下则包含了mysql驱动包(mysql-connector-java-5.1.41.jar)</p>
-<p>例如我有一张位于Mysql需要同步到Elasticsearch的表student, 包含字段id, name, desc, age, created_at, updated_at.而我们需要对desc字段进行分词，以便后期的关键词匹配<br>数据库地址：127.0.0.1<br>端口号：3306<br>数据库名称：mydb<br>用户名：wx<br>密码：123456</p>
-<p>logstash.conf配置文件指定了数据的源(MySQL)输出到目标源(Elasticsearch),每次的调度周期1分钟, 通过updated_at&gt;= :sql_last_value来获取需要更新的数据。<br>配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">  jdbc &#123;</div><div class="line">      jdbc_driver_library =&gt; &quot;~/some/lib-dir/mysql-connector-java-5.1.41.jar&quot;</div><div class="line">      jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</div><div class="line">      jdbc_connection_string =&gt; &quot;jdbc:mysql://127.0.0.1:3306/mydb&quot;</div><div class="line">      jdbc_user =&gt; &quot;wx&quot;</div><div class="line">      jdbc_password =&gt; &quot;123456&quot;</div><div class="line">      jdbc_paging_enabled =&gt; &quot;true&quot;</div><div class="line">      jdbc_fetch_size =&gt; &quot;1000&quot;</div><div class="line">      jdbc_page_size =&gt; &quot;5000&quot;</div><div class="line">      schedule =&gt; &quot;\* \* \* \* \*&quot;</div><div class="line">      lowercase_column_names =&gt; false</div><div class="line">      type =&gt; &quot;student&quot;</div><div class="line">      statement =&gt; &quot;select id, name, desc, age, created_at, updated_at from student where updated_at&gt;= :sql_last_value&quot;</div><div class="line">      template =&gt; &quot;~/some/config-dir/temp.json&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">output &#123;</div><div class="line">    if[type] == &quot;student&quot; &#123;</div><div class="line">        elasticsearch &#123;</div><div class="line">              hosts =&gt; &quot;127.0.0.1:9200&quot;</div><div class="line">              index =&gt; &quot;search_cluster&quot;</div><div class="line">              document_type =&gt; &quot;student&quot;</div><div class="line">              document_id =&gt; &quot;%&#123;id&#125;&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>而temp.json是一个比较通用的Elasticsearch Mapping模板, 你可以在里面指定使用哪种分词器, 此处配置字段desc使用ik_smart分词<br>配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;template&quot;: &quot;search_cluster&quot;,</div><div class="line">  &quot;version&quot;: 50001,</div><div class="line">  &quot;settings&quot;: &#123;</div><div class="line">    &quot;index.refresh_interval&quot;: &quot;5s&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;mappings&quot;: &#123;</div><div class="line">    &quot;_default_&quot;: &#123;</div><div class="line">      &quot;_all&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: true,</div><div class="line">        &quot;norms&quot;: false</div><div class="line">      &#125;,</div><div class="line">      &quot;dynamic_templates&quot;: [</div><div class="line">        &#123;</div><div class="line">          &quot;message_field&quot;: &#123;</div><div class="line">            &quot;path_match&quot;: &quot;message&quot;,</div><div class="line">            &quot;match_mapping_type&quot;: &quot;string&quot;,</div><div class="line">            &quot;mapping&quot;: &#123;</div><div class="line">              &quot;type&quot;: &quot;text&quot;,</div><div class="line">              &quot;norms&quot;: false</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          &quot;string_fields&quot;: &#123;</div><div class="line">            &quot;match&quot;: &quot;*&quot;,</div><div class="line">            &quot;match_mapping_type&quot;: &quot;string&quot;,</div><div class="line">            &quot;mapping&quot;: &#123;</div><div class="line">              &quot;type&quot;: &quot;text&quot;,</div><div class="line">              &quot;norms&quot;: false,</div><div class="line">              &quot;fields&quot;: &#123;</div><div class="line">                &quot;keyword&quot;: &#123;</div><div class="line">                  &quot;type&quot;: &quot;keyword&quot;</div><div class="line">                &#125;</div><div class="line">              &#125;</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      &quot;properties&quot;: &#123;</div><div class="line">        &quot;@timestamp&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;date&quot;,</div><div class="line">          &quot;include_in_all&quot;: false</div><div class="line">        &#125;,</div><div class="line">        &quot;@version&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;keyword&quot;,</div><div class="line">          &quot;include_in_all&quot;: false</div><div class="line">        &#125;,</div><div class="line">        \# 指定desc字段使用ik的ik_smart分词器</div><div class="line">        &quot;desc&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;text&quot;,</div><div class="line">          &quot;analyzer&quot;: &quot;ik_smart&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>7.启动logstash, 指定需要加载的配置文件地址</p>
-<blockquote>
-<ul>
-<li><p>cd LS_HOME/bin</p>
-</li>
-<li><p>./logstash -f ~/some/config-dir/logstash.conf</p>
-</li>
-</ul>
-</blockquote>
-<p>8.至此你的搜索引擎已经开始使用了，接下来我们安装elasticsearch-head可视化插件，来查看集群状况以及加载数据</p>
-<p>   在elasticsearch5.X版本中, 不支持head插件安装, 它希望head作为一个独立的程序启动. </p>
-<blockquote>
-<ul>
-<li>git clone git://github.com/mobz/elasticsearch-head.git</li>
-<li>cd elasticsearch-head</li>
-<li>npm install</li>
-<li>npm run start</li>
-<li>open <a href="http://localhost:9100/" target="_blank" rel="external">http://localhost:9100/</a></li>
-</ul>
-</blockquote>
-<p>   安装完成后, 打开地址<a href="http://localhost:9100/" target="_blank" rel="external">http://localhost:9100/</a>, 在上方输入节点地址, 点击连接即可。比如<a href="http://127.0.0.1:9200/" target="_blank" rel="external">http://127.0.0.1:9200/</a></p>
-<p>9.你知道的, 为了搜索…<br>&ensp;   </p>
-<h3 id="四-安装问题"><a href="#四-安装问题" class="headerlink" title="四. 安装问题"></a>四. 安装问题</h3><ol>
-<li>./logstash-plugin install logstash-input-jdbc<blockquote>
-<p>因为墙的原因，上面的执行会很慢，或者压根就执行不动。<br>此处提供另外的安装过程。<br><a href="http://blog.csdn.net/yeyuma/article/details/50240595" target="_blank" rel="external">http://blog.csdn.net/yeyuma/article/details/50240595</a><br>亲测，有用。</p>
-</blockquote>
-</li>
-</ol>
-<p>2.在logstash.conf配置文件加入多个input,导致数据重复加载</p>
-<blockquote>
-<p>在input中设置type =&gt; “student”,并在output中加入对应的if判断。<br>  不同的input设置不同的type值，可避免重复加载的问题。<br>  如果你的数据库表中出来了列名’type’，那么需要你在select中as成其他字段名，避免出现冲突问题。</p>
-</blockquote>
-<p>3.要想要用lostash重新加载全部数据，咋整</p>
-<blockquote>
-<p>logstash在第一次加载时，执行的where是updated_at&gt;= 1970…然后记录当前时间作为时间戳，默认保存在<br> 用户目录下的.logstash_jdbc_last_run中(我用的是linux, window需要自己去找下)，<br> 所以如果你想要重新加载全部数据，可以删除这个文件，让它重新生成。</p>
-</blockquote>
+<p>######我给予正面反馈吗？<br>在一个充满聪明人的组织中，干净的代码和整洁的测试覆盖率可以被视为理所当然。因此，代码审查反馈往往只关注代码中发现的问题。这是非常不幸的，因为大多数人需要积极的反馈才能感受到参与和积极性 - 工程师也不例外。当审阅者在代码中看到好东西时，他们应该调用它并给出积极的反馈。这有助于改善团队动态，而且这种积极反馈往往具有传染性。与所有代码审查评论一样（下面有更多内容），任何积极的反馈都应该具体，解释为什么特定的代码写得很好。</p>
+<hr>
+<p>######我的代码审查评论解释得很好吗？<br>无论反馈是正面的还是负面的，任何代码审查评论都应该是不言自明的。对于收到解释不佳的代码审查意见的工程师来说，审阅者看起来显而易见的事情可能并不明确。如果有疑问，最好是更多的解释，而不是提供简洁的反馈，从而产生更多的问题，并需要更多的来回沟通。解释可以简单到“减少重复”，“改善覆盖范围”或“使代码更容易测试”。除了使评论者的评论更加清晰之外，这些类型的解释还有助于强化团队渴望满足的设计原则。</p>
+<hr>
+<p>######我是否欣赏提交者的努力？<br>无论结果如何，总是需要努力工作 - 这将培养强大，积极进取的团队。某些代码更改不是最高质量的，需要重新编写。在这些情况下，即使代码需要重新编写，仍然承认作者为更改付出的努力是很重要的。表达赞赏的最佳方式是通过提供高质量的反馈和正确的解释，努力为您的代码审查，确认好的想法（每个代码提交中始终有好的东西！），并使用“谢谢”。</p>
+<hr>
+<p>######这篇审查评论对我有用吗？<br>提出这个问题是验证代码审查评论是否必要的简单而有效的方法。在一天结束时，工程师应该将代码审查视为有用的开发工具，而不是不重要的繁忙工作的来源。如果您认为特定审查评论对您没有用，请将其删除。无用的代码审查注释的典型示例是与代码格式相关的注释。代码样式和格式应该由自动化工具验证，而不是工程师。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6998962-f6e9817c425da4c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<hr>
+<p>######“测试完成”部分是否足够彻底？<br>在LinkedIn，每个代码更改提交都有一个强制性的“测试完成”部分，需要填写。在开源世界中，使用GitHub作为示例，工程师可以在拉取请求描述中提交“测试完成”信息。“完成测试”应该取决于变化的严重程度和当前的测试覆盖水平。如果更改包含新的或更改的条件复杂性，那么期望它在单元测试中被涵盖是公平的。如果集成测试覆盖率不足，某些更改可能需要运行手动测试。在这些情况下，“测试完成”应包括有关测试场景和输出的信息。当更改改变程序的输出时，将新输出包含在“测试完成”部分中非常有用。</p>
+<hr>
+<p>######我的审查评论中是否太迂腐了？<br>一些代码审查有很多评论，重要的问题 - 真正需要修复的问题 - 在不太重要的建议中丢失。对特定团队的详细信息过于繁重的审查可能会减慢审核周期并导致审核人员和审核人员之间产生摩擦。明确的审核期望，示例评论以及积极，有吸引力的审核文化是避免冗长，耗费精力的审核周期的好方法。</p>
+<hr>
+<p>总之，拥有正式的代码审查流程有助于提高代码质量，团队学习和知识共享。当团队中的每个工程师都意识到两件重要的事情时，工作质量会提高：别人会读我的代码，所以最好是好的，我将不得不解决我收到的任何评论意见，所以我应该尽量让我的代码第一次好，以便以后节省自己的努力。当代码审查成为日常习惯时，团队会每天实施给予和接收反馈。这是增长和改善的关键。<br>在LinkedIn，我们从过去的一百万次代码评审中学到了很多东西，我们希望从下一个百万代码中学到更多。代码审查所付出的努力越多，团队在提供出色的代码审查方面就越好，签入的代码质量就越高，产品的质量就越高。高质量的代码审查具有传染性！</p>
 
       
 
@@ -281,25 +200,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Elasticsearch</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Logstash</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
@@ -350,7 +250,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2017/10/27/Elasticsearch笔记-一-安装部署/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http:nero.life/2018/11/26/LinkedIn的高效代码审查技巧/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -364,18 +264,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/10/27/Elasticsearch笔记-二-Docker/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          elasticsearch笔记(二).Docker
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/10/27/Elasticsearch笔记/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Elasticsearch笔记</div>
+    <a href="/2018/08/30/关于Mysql慢日志分析方案汇总/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于Mysql慢日志分析方案汇总</div>
       <i class="icon-circle-right"></i>
     </a>
   
