@@ -17,7 +17,7 @@
 <meta property="og:description" content="首先简单介绍下所谓的搜索引擎Elasticsearch到底是什么？此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。  Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="/images/es_1.png">
-<meta property="og:updated_time" content="2018-08-27T02:52:43.662Z">
+<meta property="og:updated_time" content="2018-12-21T06:49:10.090Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elasticsearch笔记(一).安装部署">
 <meta name="twitter:description" content="首先简单介绍下所谓的搜索引擎Elasticsearch到底是什么？此处摘录自Elasticsearch: 权威指南中的定义：  Elasticsearch 是一个开源的搜索引擎，建立在一个全文搜索引擎库 Apache Lucene™ 基础之上。  Elasticsearch 不仅仅是 Lucene，并且也不仅仅只是一个全文搜索引擎。 它可以被下面这样准确的形容：  一个分布式的实时文档存储，每个字">
@@ -235,7 +235,7 @@
 </blockquote>
 <p>在config-dir下包含logstash.conf和temp.json两个配置文件<br>在lib-dir下则包含了mysql驱动包(mysql-connector-java-5.1.41.jar)</p>
 <p>例如我有一张位于Mysql需要同步到Elasticsearch的表student, 包含字段id, name, desc, age, created_at, updated_at.而我们需要对desc字段进行分词，以便后期的关键词匹配<br>数据库地址：127.0.0.1<br>端口号：3306<br>数据库名称：mydb<br>用户名：wx<br>密码：123456</p>
-<p>logstash.conf配置文件指定了数据的源(MySQL)输出到目标源(Elasticsearch),每次的调度周期1分钟, 通过updated_at&gt;= :sql_last_value来获取需要更新的数据。<br>配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">  jdbc &#123;</div><div class="line">      jdbc_driver_library =&gt; &quot;~/some/lib-dir/mysql-connector-java-5.1.41.jar&quot;</div><div class="line">      jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</div><div class="line">      jdbc_connection_string =&gt; &quot;jdbc:mysql://127.0.0.1:3306/mydb&quot;</div><div class="line">      jdbc_user =&gt; &quot;wx&quot;</div><div class="line">      jdbc_password =&gt; &quot;123456&quot;</div><div class="line">      jdbc_paging_enabled =&gt; &quot;true&quot;</div><div class="line">      jdbc_fetch_size =&gt; &quot;1000&quot;</div><div class="line">      jdbc_page_size =&gt; &quot;5000&quot;</div><div class="line">      schedule =&gt; &quot;\* \* \* \* \*&quot;</div><div class="line">      lowercase_column_names =&gt; false</div><div class="line">      type =&gt; &quot;student&quot;</div><div class="line">      statement =&gt; &quot;select id, name, desc, age, created_at, updated_at from student where updated_at&gt;= :sql_last_value&quot;</div><div class="line">      template =&gt; &quot;~/some/config-dir/temp.json&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">output &#123;</div><div class="line">    if[type] == &quot;student&quot; &#123;</div><div class="line">        elasticsearch &#123;</div><div class="line">              hosts =&gt; &quot;127.0.0.1:9200&quot;</div><div class="line">              index =&gt; &quot;search_cluster&quot;</div><div class="line">              document_type =&gt; &quot;student&quot;</div><div class="line">              document_id =&gt; &quot;%&#123;id&#125;&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>logstash.conf配置文件指定了数据的源(MySQL)输出到目标源(Elasticsearch),每次的调度周期1分钟, 通过updated_at&gt;= :sql_last_value来获取需要更新的数据。<br>配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">  jdbc &#123;</div><div class="line">      jdbc_driver_library =&gt; &quot;~/some/lib-dir/mysql-connector-java-5.1.41.jar&quot;</div><div class="line">      jdbc_driver_class =&gt; &quot;com.mysql.jdbc.Driver&quot;</div><div class="line">      jdbc_connection_string =&gt; &quot;jdbc:mysql://127.0.0.1:3306/mydb&quot;</div><div class="line">      jdbc_user =&gt; &quot;wx&quot;</div><div class="line">      jdbc_password =&gt; &quot;123456&quot;</div><div class="line">      jdbc_paging_enabled =&gt; &quot;true&quot;</div><div class="line">      jdbc_fetch_size =&gt; &quot;1000&quot;</div><div class="line">      jdbc_page_size =&gt; &quot;5000&quot;</div><div class="line">      schedule =&gt; &quot;\* \* \* \* \*&quot;</div><div class="line">      lowercase_column_names =&gt; false</div><div class="line">      type =&gt; &quot;student&quot;</div><div class="line">      statement =&gt; &quot;select id, name, desc, age, created_at, updated_at from student where updated_at&gt;= :sql_last_value&quot;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">output &#123;</div><div class="line">    if[type] == &quot;student&quot; &#123;</div><div class="line">        elasticsearch &#123;</div><div class="line">              hosts =&gt; &quot;127.0.0.1:9200&quot;</div><div class="line">              index =&gt; &quot;search_cluster&quot;</div><div class="line">              document_type =&gt; &quot;student&quot;</div><div class="line">              document_id =&gt; &quot;%&#123;id&#125;&quot;</div><div class="line">              template_overwrite =&gt; true</div><div class="line">              template =&gt; &quot;~/some/config-dir/temp.json&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>而temp.json是一个比较通用的Elasticsearch Mapping模板, 你可以在里面指定使用哪种分词器, 此处配置字段desc使用ik_smart分词<br>配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;template&quot;: &quot;search_cluster&quot;,</div><div class="line">  &quot;version&quot;: 50001,</div><div class="line">  &quot;settings&quot;: &#123;</div><div class="line">    &quot;index.refresh_interval&quot;: &quot;5s&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;mappings&quot;: &#123;</div><div class="line">    &quot;_default_&quot;: &#123;</div><div class="line">      &quot;_all&quot;: &#123;</div><div class="line">        &quot;enabled&quot;: true,</div><div class="line">        &quot;norms&quot;: false</div><div class="line">      &#125;,</div><div class="line">      &quot;dynamic_templates&quot;: [</div><div class="line">        &#123;</div><div class="line">          &quot;message_field&quot;: &#123;</div><div class="line">            &quot;path_match&quot;: &quot;message&quot;,</div><div class="line">            &quot;match_mapping_type&quot;: &quot;string&quot;,</div><div class="line">            &quot;mapping&quot;: &#123;</div><div class="line">              &quot;type&quot;: &quot;text&quot;,</div><div class="line">              &quot;norms&quot;: false</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          &quot;string_fields&quot;: &#123;</div><div class="line">            &quot;match&quot;: &quot;*&quot;,</div><div class="line">            &quot;match_mapping_type&quot;: &quot;string&quot;,</div><div class="line">            &quot;mapping&quot;: &#123;</div><div class="line">              &quot;type&quot;: &quot;text&quot;,</div><div class="line">              &quot;norms&quot;: false,</div><div class="line">              &quot;fields&quot;: &#123;</div><div class="line">                &quot;keyword&quot;: &#123;</div><div class="line">                  &quot;type&quot;: &quot;keyword&quot;</div><div class="line">                &#125;</div><div class="line">              &#125;</div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      &quot;properties&quot;: &#123;</div><div class="line">        &quot;@timestamp&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;date&quot;,</div><div class="line">          &quot;include_in_all&quot;: false</div><div class="line">        &#125;,</div><div class="line">        &quot;@version&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;keyword&quot;,</div><div class="line">          &quot;include_in_all&quot;: false</div><div class="line">        &#125;,</div><div class="line">        \# 指定desc字段使用ik的ik_smart分词器</div><div class="line">        &quot;desc&quot;: &#123;</div><div class="line">          &quot;type&quot;: &quot;text&quot;,</div><div class="line">          &quot;analyzer&quot;: &quot;ik_smart&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>7.启动logstash, 指定需要加载的配置文件地址</p>
 <blockquote>
@@ -519,19 +519,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">代码审查</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -547,27 +543,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Mysql慢日志</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">性能优化方向</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">pageHelper</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ThreadLocal</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mybatis</a>
+                <a href="javascript:void(0)" class="js-tag color5">代码审查</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -583,6 +559,34 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">pageHelper</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ThreadLocal</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mybatis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Mysql慢日志</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">性能优化方向</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">年终总结,2017,忙碌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">程序员的修养</a>
               </li>
              
@@ -592,10 +596,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">年末</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">年终总结,2017,忙碌</a>
               </li>
              
               <li class="article-tag-list-item">
