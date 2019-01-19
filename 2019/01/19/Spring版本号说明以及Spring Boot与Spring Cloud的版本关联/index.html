@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="沧海横流,方显英雄本色"><title>Spring版本号说明以及Spring Boot与Spring Cloud的版本关联 | Nero-技术集</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</h1><a id="logo" href="/.">Nero-技术集</a><p class="description">沧海横流,方显英雄本色</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</h1><div class="post-meta">Jan 19, 2019</div><a class="disqus-comment-count" data-disqus-identifier="2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/" href="/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/#disqus_thread"></a><div class="post-content"><p>一篇资源整合形式的文章，去了解关于Spring版本的那些事。<br><a id="more"></a></p>
+<h2 id="Spring的版本说明"><a href="#Spring的版本说明" class="headerlink" title="Spring的版本说明"></a>Spring的版本说明</h2><p>参考: <a href="https://stackoverflow.com/questions/2107484/what-is-the-difference-between-springs-ga-rc-and-m2-releases" target="_blank" rel="external">What is the difference between Spring’s GA, RC and M2 releases? - Stack Overflow</a></p>
+<ul>
+<li>GA(General availability)：一般可用性（发布）;应该非常稳定，功能齐全</li>
+<li>RC(Release candidate)：发布候选,可能功能完整，应该非常稳定 - 问题应该是相对罕见和轻微的，但值得报告，试图修复它们以便发布。</li>
+<li>M(Milestone build): 里程碑建设,功能可能不完整,稳定性一般可能仍有问题。<br><img src="/images/5EFE6A43-333C-4155-80D7-C3C6CBBDEC25.png" alt=""></li>
+</ul>
+<h2 id="Spring-Boot与Spring-Cloud的版本联系"><a href="#Spring-Boot与Spring-Cloud的版本联系" class="headerlink" title="Spring Boot与Spring Cloud的版本联系"></a>Spring Boot与Spring Cloud的版本联系</h2><blockquote>
+<p>翻译至：<a href="https://spring.io/projects/spring-cloud" target="_blank" rel="external">Spring Cloud Release Trains</a>  </p>
+</blockquote>
+<p>Spring Cloud是一个由独立项目组成的总体项目，原则上具有不同的发布节奏。为了管理项目组合，它发布了一个BOM(材料清单)，包含了一组对单个项目的依赖关系(参见下面)。Release Trains有名称而不是版本，以避免与子项目的版本混淆。这些名称是按照伦敦地铁站的名称字母排序（所以你可以按时间顺序排序）（“Angel”是第一个版本，“Brixton”是第二个版本）.当各个项目的发布点累积到一个临界值时，或者其中一个项目存在影响到每个使用者的严重的bug,则Release Trains将推出名称以“.SRX”结尾的版本，其中X是一个数字。</p>
+<h3 id="表1-Release-Trains-Spring-Boot兼容性"><a href="#表1-Release-Trains-Spring-Boot兼容性" class="headerlink" title="表1.Release Trains Spring Boot兼容性"></a>表1.Release Trains Spring Boot兼容性</h3><p><img src="/images/FE6661B5-D3AF-466C-AE76-F87F1F2A6BC3.png" alt=""></p>
+<h3 id="表2-Release-Trains内容"><a href="#表2-Release-Trains内容" class="headerlink" title="表2.Release Trains内容"></a>表2.Release Trains内容</h3><p><img src="/images/D4996D15-A0CB-4790-A6DB-711FB03B9925.png" alt=""></p>
+<ul>
+<li>Finchley构建并使用Spring Boot 2.0.x，预计不会在Spring Boot 1.5.x中工作.<br><strong>注意</strong>: Dalston版本系列将于2018年12月达到<a href="https://spring.io/blog/2018/06/19/spring-cloud-finchley-release-is-available" target="_blank" rel="external">使用寿命</a>.Edgware将遵循Spring Boot 1.5.x的生命周期结束周期。</li>
+<li>Dalston和Edgware版本系列基于Spring Boot 1.5.x构建，预计不会与Spring Boot 2.0.x一起使用。<br><strong>注意</strong>: Camden版本系列已经被标志寿命终结。 Camden版本系列基于Spring Boot 1.4.x构建，但也经过1.5.x测试。<br><strong>注意</strong>: Brixton和Angel版本系列于2017年7月标志着寿命终止（EOL）。 Brixton版本系列基于Spring Boot 1.3.x构建，但也经过了1.4.x的测试。</li>
+<li>Angel版本系列基于Spring Boot 1.2.x构建，在某些方面与Spring Boot 1.3.x不兼容。 Brixton构建于Spring Boot 1.3.x之上，与1.2.x同样不兼容。一些基于Angel构建的库和大多数应用程序都可以在Brixton上正常运行，但是在使用spring-cloud-security 1.0.x的OAuth2功能的任何地方都需要进行更改（它们大部分都转移到1.3.0中的Spring Boot）。</li>
+<li>使用依赖关系管理工具来控制版本。如果您正在使用Maven，请记住声明的第一个版本会优先使用，因此请按顺序声明bom，第一个通常是最新的（例如，如果您想使用带有Brixton.RELEASE的Spring Boot 1.3.6，请首先放置Boot的BOM）。如果您使用Spring依赖关系管理插件，则同样的规则适用于Gradle。<br><strong>注意</strong>: 版本系列包含spring-cloud-dependencies和spring-cloud-starter-parent。您可以像使用spring-boot-starter-parent一样使用parent（如果您使用的是Maven）。如果您只需要依赖关系管理，那么“dependencies”版本是仅限BOM的版本（它只包含dependency management,没有插件声明或直接引用Spring或Spring Boot）。如果您使用的是Spring Boot parent POM，则可以使用Spring Cloud中的BOM。相反的情况并非如此：使用Cloud parent, 并且使用Boot BOM来更改Spring Boot及其依赖项的版本,是无法实现或者至少是不可靠的。</li>
+</ul>
+<hr>
+</div><div class="tags"><a href="/tags/Spring-Boot/">Spring Boot</a><a href="/tags/Spring-Cloud/">Spring Cloud</a><a href="/tags/Spring/">Spring</a></div><div class="post-nav"><a class="next" href="/2019/01/09/架构设计方法论-从0开始学架构/">架构设计方法论-从0开始学架构</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'nero.life/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/';
+    this.page.identifier = '2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/';
+    this.page.title = 'Spring版本号说明以及Spring Boot与Spring Cloud的版本关联';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://nero-ji-zhu-ji.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="nero.life"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/年终总结/" style="font-size: 15px;">年终总结</a> <a href="/tags/Elasticsearch/" style="font-size: 15px;">Elasticsearch</a> <a href="/tags/代码规范/" style="font-size: 15px;">代码规范</a> <a href="/tags/分布式/" style="font-size: 15px;">分布式</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/译文/" style="font-size: 15px;">译文</a> <a href="/tags/程序员的修养/" style="font-size: 15px;">程序员的修养</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/架构设计/" style="font-size: 15px;">架构设计</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/09/架构设计方法论-从0开始学架构/">架构设计方法论-从0开始学架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/05/规范与阿里巴巴Java开发手册/">规范与阿里巴巴Java开发手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/02/年终总结-压力与迷茫的2018/">年终总结-压力与迷茫的2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/20/那些我所相信的“至理名言”/">那些我所相信的“至理名言”</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/10/RESTful-API设计指南-最佳实践/">RESTful API设计指南 - 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/LinkedIn的高效代码审查技巧/">LinkedIn的高效代码审查技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/30/关于Mysql慢日志分析方案汇总/">关于Mysql慢日志分析方案汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/高并发下分布式ID生成方案/">高并发下分布式ID生成方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/curator笔记-分布式锁的实现与原理/">curator笔记-分布式锁的实现与原理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//nero-ji-zhu-ji.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Nero-技术集.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
