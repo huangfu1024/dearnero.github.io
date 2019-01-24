@@ -1,8 +1,141 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="沧海横流,方显英雄本色"><title>PageHelper-初见你与再见你 | Nero-技术集</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">PageHelper-初见你与再见你</h1><a id="logo" href="/.">Nero-技术集</a><p class="description">沧海横流,方显英雄本色</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">PageHelper-初见你与再见你</h1><div class="post-meta">Nov 27, 2017</div><a class="disqus-comment-count" data-disqus-identifier="2017/11/27/pageHelper-初见你与再见你/" href="/2017/11/27/pageHelper-初见你与再见你/#disqus_thread"></a><div class="post-content"><h3 id="1-初见你"><a href="#1-初见你" class="headerlink" title="1.初见你"></a>1.初见你</h3><p>写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PageHelper.startPage(pageNumber, pageSize);</div><div class="line">List&lt;Item&gt; itemList = itemMapper.searchItemList(map);</div><div class="line">PageInfo pageInfo = new PageInfo&lt;&gt;(itemList);</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="PageHelper-初见你与再见你"/>
+
+
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+  <link rel="alternate" href="/default" title="Nero-技术集">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="nero.life/2017/11/27/pageHelper-初见你与再见你/"/>
+
+
+<meta name="description" content="1.初见你写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PageHelper-初见你与再见你">
+<meta property="og:url" content="nero.life/2017/11/27/pageHelper-初见你与再见你/index.html">
+<meta property="og:site_name" content="Nero-技术集">
+<meta property="og:description" content="1.初见你写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/images/Interceptor.png">
+<meta property="og:updated_time" content="2019-01-24T13:59:31.062Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PageHelper-初见你与再见你">
+<meta name="twitter:description" content="1.初见你写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：">
+<meta name="twitter:image" content="/images/Interceptor.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> PageHelper-初见你与再见你 - Nero-技术集 </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Nero-技术集</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          PageHelper-初见你与再见你
+        
+      </h1>
+
+      <time class="post-time">
+          11月 27 2017
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <h3 id="1-初见你"><a href="#1-初见你" class="headerlink" title="1.初见你"></a>1.初见你</h3><p>写这篇文档算是一个小插曲吧，当刚入职公司没有多久的时候，看到了以下这段代码：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PageHelper.startPage(pageNumber, pageSize);</div><div class="line">List&lt;Item&gt; itemList = itemMapper.searchItemList(map);</div><div class="line">PageInfo pageInfo = new PageInfo&lt;&gt;(itemList);</div></pre></td></tr></table></figure></p>
 <p>当时没有做过多的思量，感觉这就是一个普通内存分页。只是隐约有些奇怪，怎么一个互联网公司会选择这种性能低又过时的分页方式呢。<br>其实，你乍一看，确实很像很像内存分页。<br>原因有二，首先你传入的分页信息比如pageNumber，pageSize并没有传递给mybatis。<br>好像pageHelper跟mybatis的查询，没啥关联呀。<br>其次是你亲手写了底层mybatis的查询，也没有分页信息的添加呀(那不就是查询全部吗)。</p>
 <h3 id="2-再见你"><a href="#2-再见你" class="headerlink" title="2.再见你"></a>2.再见你</h3><p>在后来代码的优化期间，无意中看到了这段代码。然后尝试跟踪了下，于是发现pageHelper…</p>
-<h1 id="人家是物理分页啦！！！"><a href="#人家是物理分页啦！！！" class="headerlink" title="人家是物理分页啦！！！"></a>人家是物理分页啦！！！</h1><hr>
+<p><strong>人家是物理分页啦！！！</strong></p>
 <p>好吧，接下来让我来简单的介绍下pageHelper实现分页的原理。<br>首先让我们看下pageHelper的介绍，<a href="https://github.com/pagehelper/Mybatis-PageHelper" target="_blank" rel="external">Mybatis-PageHelper</a>。<br>这是一个mybatis的分页插件，以下是它所支持的数据库:</p>
 <ul>
 <li>Oracle</li>
@@ -29,9 +162,8 @@
 <li><p>interceptor，以下是在mybatis官网文档的一个说明:<br> <img src="/images/Interceptor.png" alt="Alt text">   </p>
 </li>
 </ul>
-<hr>
 <h3 id="3-开工"><a href="#3-开工" class="headerlink" title="3.开工"></a>3.开工</h3><p>首先我们在源码中找到PageHelper类, 就会发现它跟mybatis是有关系的，它实现了一个叫Interceptor的接口。<br>这个Interceptor是实现mybatis插件必须实现的接口。</p>
-<p>接下来，我们找到PageHelper初始化pageNum、pageSize的地方。我们看到以下代码，它将传入的参数组装成一个Page对象，<br>然后调用了SqlUtil.setLocalPage方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public static Page startPage(int pageNum, int pageSize, boolean count, Boolean reasonable, Boolean pageSizeZero) &#123;</div><div class="line">    Page page = new Page(pageNum, pageSize, count);</div><div class="line">    page.setReasonable(reasonable);</div><div class="line">    page.setPageSizeZero(pageSizeZero);</div><div class="line">    Page oldPage = SqlUtil.getLocalPage();</div><div class="line">    if (oldPage != null &amp;&amp; oldPage.isOrderByOnly()) &#123;</div><div class="line">        page.setOrderBy(oldPage.getOrderBy());</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    SqlUtil.setLocalPage(page);</div><div class="line">    return page;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来，我们找到PageHelper初始化pageNum、pageSize的地方。我们看到以下代码，它将传入的参数组装成一个Page对象，<br>然后调用了SqlUtil.setLocalPage方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public static Page startPage(int pageNum, int pageSize, boolean count, Boolean reasonable, Boolean pageSizeZero) &#123;</div><div class="line">    Page page = new Page(pageNum, pageSize, count);</div><div class="line">    page.setReasonable(reasonable);</div><div class="line">    page.setPageSizeZero(pageSizeZero);</div><div class="line">    Page oldPage = SqlUtil.getLocalPage();</div><div class="line">    if (oldPage != null &amp;&amp; oldPage.isOrderByOnly()) &#123;</div><div class="line">        page.setOrderBy(oldPage.getOrderBy());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    SqlUtil.setLocalPage(page);</div><div class="line">    return page;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>继续跟踪，我们会发现这段代码。这个page对象最后被缓存进了当前线程的ThreadLocalMap中。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public void set(T value) &#123;</div><div class="line">    Thread t = Thread.currentThread();</div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    if (map != null)</div><div class="line">        map.set(this, value);</div><div class="line">    else</div><div class="line">        createMap(t, value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>好吧，现在我们知道分页参数已经保存在当前线程的ThreadLocalMap中。</p>
@@ -52,7 +184,7 @@
 </ul>
 <hr>
 <p>此时，思路应该有些明朗化了。我们知道pageHelper实现了Interceptor接口，它会在mybatis执行查询时，拦截进PageHelper类的intercept方法中。<br>代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Mybatis拦截器方法</div><div class="line"> *</div><div class="line"> * @param invocation 拦截器入参</div><div class="line"> * @return 返回执行结果</div><div class="line"> * @throws Throwable 抛出异常</div><div class="line"> */</div><div class="line">public Object intercept(Invocation invocation) throws Throwable &#123;</div><div class="line">    if (autoDialect) &#123;</div><div class="line">        initSqlUtil(invocation);</div><div class="line">    &#125;</div><div class="line">    return sqlUtil.processPage(invocation);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>接下来，我们把关注点放在sqlUtil.processPage这个方法上。这篇文档只介绍pageHelper分页插件与mybatis结合实现分页效果，<br>对于pageHelper的具体实现不做额外的介绍，现在我们只提取几个问题来进行说明: </p>
+<p>接下来，我们把关注点放在sqlUtil.processPage这个方法上。这篇文档只介绍pageHelper分页插件与mybatis结合实现分页效果，<br>对于pageHelper的具体实现不做额外的介绍，现在我们只提取几个问题来进行说明:</p>
 <ol>
 <li>执行完成以后，缓存在线程中的参数的处理</li>
 <li>mybatis是怎么取到分页参数的</li>
@@ -74,50 +206,89 @@
 </ul>
 <p>当然，对于其他支持的数据库的分页，你都会找到相应的parse实现类，比如OracleParser,它的getPageSql方法实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">public String getPageSql(String sql) &#123;</div><div class="line">    StringBuilder sqlBuilder = new StringBuilder(sql.length() + 120);</div><div class="line">    sqlBuilder.append(&quot;select * from ( select tmp_page.*, rownum row_id from ( &quot;);</div><div class="line">    sqlBuilder.append(sql);</div><div class="line">    sqlBuilder.append(&quot; ) tmp_page where rownum &lt;= ? ) where row_id &gt; ?&quot;);</div><div class="line">    return sqlBuilder.toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>好了，自此我们完成了对pageHelper实现分页的一个简单分析。有兴趣的同学，可以继续深入的研究下。</p>
-<h3 id="注1"><a href="#注1" class="headerlink" title="注1"></a>注1</h3><p>根据上面的文档，我们可以知道，你先前缓存的分页参数要清空，就需要你去执行查询sql。<br>所以只要你用了pageHelper分页插件以后，后面就必须跟着一条mybatis的查询。</p>
-</div><div class="tags"><a href="/tags/数据库/">数据库</a></div><div class="post-nav"><a class="pre" href="/2017/12/27/年终终结-忙碌的2017/">年终总结-忙碌的2017</a><a class="next" href="/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/">Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
-    this.page.url = 'nero.life/2017/11/27/pageHelper-初见你与再见你/';
-    this.page.identifier = '2017/11/27/pageHelper-初见你与再见你/';
-    this.page.title = 'PageHelper-初见你与再见你';
-  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
-url: 'https://disqus.com/next/config.json',
-timeout: 2500,
-type: 'GET',
-success: function(){
-  var d = document;
-  var s = d.createElement('script');
-  s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', + new Date());
-  (d.head || d.body).appendChild(s);
-  $('.disqus_click_btn').css('display', 'none');
-},
-error: function() {
-  $('.disqus_click_btn').css('display', 'block');
-}
-});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
-    (() => { // DON'T EDIT BELOW THIS LINE
-        var d = document;
-        var s = d.createElement('script');
-        s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', + new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    $('.disqus_click_btn').css('display','none');
-});</script><script type="text/javascript" id="disqus-count-script">$(function() {
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', '//disqus.com/next/config.json', true);
-     xhr.timeout = 2500;
-     xhr.onreadystatechange = function () {
-       if (xhr.readyState === 4 && xhr.status === 200) {
-         $('.post-meta .post-comments-count').show();
-         var s = document.createElement('script');
-         s.id = 'dsq-count-scr';
-         s.src = 'https://nero-ji-zhu-ji.disqus.com/count.js';
-         s.async = true;
-         (document.head || document.body).appendChild(s);
-       }
-     };
-     xhr.ontimeout = function () { xhr.abort(); };
-     xhr.send(null);
-   });
-</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="nero.life"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/年终总结/" style="font-size: 15px;">年终总结</a> <a href="/tags/Elasticsearch/" style="font-size: 15px;">Elasticsearch</a> <a href="/tags/代码规范/" style="font-size: 15px;">代码规范</a> <a href="/tags/分布式/" style="font-size: 15px;">分布式</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/译文/" style="font-size: 15px;">译文</a> <a href="/tags/程序员的修养/" style="font-size: 15px;">程序员的修养</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/架构设计/" style="font-size: 15px;">架构设计</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/09/架构设计方法论-从0开始学架构/">架构设计方法论-从0开始学架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/05/规范与阿里巴巴Java开发手册/">规范与阿里巴巴Java开发手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/02/年终总结-压力与迷茫的2018/">年终总结-压力与迷茫的2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/20/那些我所相信的“至理名言”/">那些我所相信的“至理名言”</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/10/RESTful-API设计指南-最佳实践/">RESTful API设计指南 - 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/LinkedIn的高效代码审查技巧/">LinkedIn的高效代码审查技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/30/关于Mysql慢日志分析方案汇总/">关于Mysql慢日志分析方案汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/高并发下分布式ID生成方案/">高并发下分布式ID生成方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/curator笔记-分布式锁的实现与原理/">curator笔记-分布式锁的实现与原理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//nero-ji-zhu-ji.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Nero-技术集.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+<p><strong>注意：</strong><br>根据上面的文档，我们可以知道，你先前缓存的分页参数要清空，就需要你去执行查询sql。<br>所以只要你用了pageHelper分页插件以后，后面就必须跟着一条mybatis的查询。</p>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/数据库/">数据库</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/12/27/年终终结-忙碌的2017/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">年终总结-忙碌的2017</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/">
+        <span class="next-text nav-default">Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2014 -
+    
+    2019
+    <span class="footer-author">Nero.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>

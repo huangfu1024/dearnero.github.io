@@ -1,52 +1,229 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="沧海横流,方显英雄本色"><title>规范与阿里巴巴Java开发手册 | Nero-技术集</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">规范与阿里巴巴Java开发手册</h1><a id="logo" href="/.">Nero-技术集</a><p class="description">沧海横流,方显英雄本色</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">规范与阿里巴巴Java开发手册</h1><div class="post-meta">Jan 5, 2019</div><a class="disqus-comment-count" data-disqus-identifier="2019/01/05/规范与阿里巴巴Java开发手册/" href="/2019/01/05/规范与阿里巴巴Java开发手册/#disqus_thread"></a><div class="post-content"><p><img src="/images/timg.jpeg" alt="没有规矩不成方圆"><br><a id="more"></a><br>如果把《阿里巴巴Java开发手册》当成一本书的话，那这肯定是我看过次数最多的书。<br>记得当时第一次阅读这个手册的时候，是觉得越看越吃惊，真的没想到有人能把经验问题总结的这么好，而且已经系统的做成手册了。里面指出的不少规范问题，也时常出现在我过去的几年编码经历中，这就更让我从内心深处产生了共鸣，对此当然也奉若珍宝。即使已经通读过了好几遍，还是会偶尔翻出来看看，加深印象。<br>以前在面试的过程中，曾被问过这样的一个问题：<br>::java中的基本类型int和包装类型Integer，在使用过程中该如何选择？::<br>很可惜，当时没有给出一个好的答案。在那之后，对此也有过思考，但是一直没有找到一个系统的答案。很庆幸，它很好的回答了我。</p>
-<hr>
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="规范与阿里巴巴Java开发手册"/>
+
+
+
+
+  <meta name="keywords" content="代码规范,Java," />
+
+
+
+
+
+  <link rel="alternate" href="/default" title="Nero-技术集">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="nero.life/2019/01/05/规范与阿里巴巴Java开发手册/"/>
+
+
+<meta name="description" content="如果把《阿里巴巴Java开发手册》当成一本书的话，那这肯定是我看过次数最多的书。">
+<meta name="keywords" content="代码规范,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="规范与阿里巴巴Java开发手册">
+<meta property="og:url" content="nero.life/2019/01/05/规范与阿里巴巴Java开发手册/index.html">
+<meta property="og:site_name" content="Nero-技术集">
+<meta property="og:description" content="如果把《阿里巴巴Java开发手册》当成一本书的话，那这肯定是我看过次数最多的书。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/images/timg.jpeg">
+<meta property="og:image" content="/images/img_68513166cf1027bcb51d6d1508f06bc9.jpg">
+<meta property="og:updated_time" content="2019-01-24T09:41:46.066Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="规范与阿里巴巴Java开发手册">
+<meta name="twitter:description" content="如果把《阿里巴巴Java开发手册》当成一本书的话，那这肯定是我看过次数最多的书。">
+<meta name="twitter:image" content="/images/timg.jpeg">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> 规范与阿里巴巴Java开发手册 - Nero-技术集 </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Nero-技术集</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          规范与阿里巴巴Java开发手册
+        
+      </h1>
+
+      <time class="post-time">
+          1月 05 2019
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>如果把《阿里巴巴Java开发手册》当成一本书的话，那这肯定是我看过次数最多的书。<br><a id="more"></a><br><img src="/images/timg.jpeg" alt="没有规矩不成方圆"></p>
+<p>记得当时第一次阅读这个手册的时候，是觉得越看越吃惊，真的没想到有人能把经验问题总结的这么好，而且已经系统的做成手册了。里面指出的不少规范问题，也时常出现在我过去的几年编码经历中，这就更让我从内心深处产生了共鸣，对此当然也奉若珍宝。即使已经通读过了好几遍，还是会偶尔翻出来看看，加深印象。<br>以前在面试的过程中，曾被问过这样的一个问题：</p>
+<p><strong>java中的基本类型int和包装类型Integer，在使用过程中该如何选择？</strong></p>
+<p>很可惜，当时没有给出一个好的答案。在那之后，对此也有过思考，但是一直没有找到一个系统的答案。很庆幸，它很好的回答了我。</p>
 <p>代码规范一直是我比较看中的技能，会写功能跟会写代码是两回事，多少人的代码在完成数周以后，连自己都看不懂。在面试求职者的过程中，这块知识也是我经常要问的。招一个技术好但没有规范的程序员，还不如招一个技术一般但有着遵代码规范的程序员。至少后者会让你想优化重构的时候，有的放矢。</p>
-<hr>
 <p>在19年1月份的学习计划中，又习惯的把它加了进去。<br>恰好在阿里云上找到这个认证考试：<a href="https://edu.aliyun.com/clouder/exam/intro/33" target="_blank" rel="external">Apsara Clouder基础技能认证：阿里巴巴编码规范</a>)。<br>很有意思的一个认证，报名费九块九。</p>
 <p><img src="/images/img_68513166cf1027bcb51d6d1508f06bc9.jpg" width="50%" height="50%"></p>
-</div><div class="tags"><a href="/tags/代码规范/">代码规范</a><a href="/tags/Java/">Java</a></div><div class="post-nav"><a class="pre" href="/2019/01/09/架构设计方法论-从0开始学架构/">架构设计方法论-从0开始学架构</a><a class="next" href="/2019/01/02/年终总结-压力与迷茫的2018/">年终总结-压力与迷茫的2018</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
-    this.page.url = 'nero.life/2019/01/05/规范与阿里巴巴Java开发手册/';
-    this.page.identifier = '2019/01/05/规范与阿里巴巴Java开发手册/';
-    this.page.title = '规范与阿里巴巴Java开发手册';
-  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
-url: 'https://disqus.com/next/config.json',
-timeout: 2500,
-type: 'GET',
-success: function(){
-  var d = document;
-  var s = d.createElement('script');
-  s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', + new Date());
-  (d.head || d.body).appendChild(s);
-  $('.disqus_click_btn').css('display', 'none');
-},
-error: function() {
-  $('.disqus_click_btn').css('display', 'block');
-}
-});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
-    (() => { // DON'T EDIT BELOW THIS LINE
-        var d = document;
-        var s = d.createElement('script');
-        s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', + new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    $('.disqus_click_btn').css('display','none');
-});</script><script type="text/javascript" id="disqus-count-script">$(function() {
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', '//disqus.com/next/config.json', true);
-     xhr.timeout = 2500;
-     xhr.onreadystatechange = function () {
-       if (xhr.readyState === 4 && xhr.status === 200) {
-         $('.post-meta .post-comments-count').show();
-         var s = document.createElement('script');
-         s.id = 'dsq-count-scr';
-         s.src = 'https://nero-ji-zhu-ji.disqus.com/count.js';
-         s.async = true;
-         (document.head || document.body).appendChild(s);
-       }
-     };
-     xhr.ontimeout = function () { xhr.abort(); };
-     xhr.send(null);
-   });
-</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="nero.life"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/年终总结/" style="font-size: 15px;">年终总结</a> <a href="/tags/Elasticsearch/" style="font-size: 15px;">Elasticsearch</a> <a href="/tags/代码规范/" style="font-size: 15px;">代码规范</a> <a href="/tags/分布式/" style="font-size: 15px;">分布式</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/译文/" style="font-size: 15px;">译文</a> <a href="/tags/程序员的修养/" style="font-size: 15px;">程序员的修养</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/架构设计/" style="font-size: 15px;">架构设计</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/09/架构设计方法论-从0开始学架构/">架构设计方法论-从0开始学架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/05/规范与阿里巴巴Java开发手册/">规范与阿里巴巴Java开发手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/02/年终总结-压力与迷茫的2018/">年终总结-压力与迷茫的2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/20/那些我所相信的“至理名言”/">那些我所相信的“至理名言”</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/10/RESTful-API设计指南-最佳实践/">RESTful API设计指南 - 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/LinkedIn的高效代码审查技巧/">LinkedIn的高效代码审查技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/30/关于Mysql慢日志分析方案汇总/">关于Mysql慢日志分析方案汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/高并发下分布式ID生成方案/">高并发下分布式ID生成方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/curator笔记-分布式锁的实现与原理/">curator笔记-分布式锁的实现与原理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//nero-ji-zhu-ji.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Nero-技术集.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/代码规范/">代码规范</a>
+		  
+			<a href="/tags/Java/">Java</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2019/01/09/架构设计方法论-从0开始学架构/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">架构设计方法论-从0开始学架构</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2019/01/02/年终总结-压力与迷茫的2018/">
+        <span class="next-text nav-default">年终总结-压力与迷茫的2018</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2014 -
+    
+    2019
+    <span class="footer-author">Nero.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>

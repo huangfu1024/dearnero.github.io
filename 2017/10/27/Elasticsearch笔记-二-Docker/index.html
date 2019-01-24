@@ -1,100 +1,261 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="沧海横流,方显英雄本色"><title>elasticsearch笔记(二).Docker | Nero-技术集</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">elasticsearch笔记(二).Docker</h1><a id="logo" href="/.">Nero-技术集</a><p class="description">沧海横流,方显英雄本色</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">elasticsearch笔记(二).Docker</h1><div class="post-meta">Oct 27, 2017</div><a class="disqus-comment-count" data-disqus-identifier="2017/10/27/Elasticsearch笔记-二-Docker/" href="/2017/10/27/Elasticsearch笔记-二-Docker/#disqus_thread"></a><div class="post-content"><p>在前篇文档中的<a href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a>简单的介绍了如何构建基于Elasticsearch的搜索集群。<br><a id="more"></a><br>不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，<br>如系统更换成window，那么你就需要重新去构建，配置，启动，测试。<br>而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你可以更加简单的启动集群以及更换平台。</p>
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="elasticsearch笔记(二).Docker"/>
+
+
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+  <link rel="alternate" href="/default" title="Nero-技术集">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="nero.life/2017/10/27/Elasticsearch笔记-二-Docker/"/>
+
+
+<meta name="description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。">
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="elasticsearch笔记(二).Docker">
+<meta property="og:url" content="nero.life/2017/10/27/Elasticsearch笔记-二-Docker/index.html">
+<meta property="og:site_name" content="Nero-技术集">
+<meta property="og:description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-24T14:02:36.232Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elasticsearch笔记(二).Docker">
+<meta name="twitter:description" content="在前篇文档中的Elasticsearch笔记(一).安装部署简单的介绍了如何构建基于Elasticsearch的搜索集群。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> elasticsearch笔记(二).Docker - Nero-技术集 </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Nero-技术集</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          elasticsearch笔记(二).Docker
+        
+      </h1>
+
+      <time class="post-time">
+          10月 27 2017
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>在前篇文档中的<a href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a>简单的介绍了如何构建基于Elasticsearch的搜索集群。<br><a id="more"></a><br>不难发现，构建这样一个集群你需要去各个官网下载对应的软件，选择版本以及配置，启动等等繁琐的步骤，更主要的是当你更换平台时，<br>如系统更换成window，那么你就需要重新去构建，配置，启动，测试。<br>而Docker这个容器技术，就可以解决类似的问题，这种类似虚拟机的系统级别隔离技术，让你可以更加简单的启动集群以及更换平台。</p>
 <p><b>PS：当前文档注重于Elasticsearch的构建，阅读文档时，需要你对Docker有基本的了解和对基本语法的掌握。<br>可以先参考以下资料：</b></p>
 <ul>
 <li><a href="https://doc.yonyoucloud.com/doc/docker_practice/data_management/volume.html" target="_blank" rel="external">Docker —— 从入门到实践</a></li>
 <li><a href="http://www.cnblogs.com/lienhua34/p/5170335.html" target="_blank" rel="external">Dockerfile创建自定义Docker镜像以及CMD与ENTRYPOINT指令的比较</a></li>
 </ul>
-<hr>
 <p>开工：</p>
 <h3 id="1-配置Dockerfile文件"><a href="#1-配置Dockerfile文件" class="headerlink" title="1.配置Dockerfile文件"></a>1.配置Dockerfile文件</h3><p>Elasticsearch的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">FROM elasticsearch:5.4.0</div><div class="line">RUN sed -i &apos;s/deb.debian.org/mirrors.ustc.edu.cn/g&apos; /etc/apt/sources.list</div><div class="line">RUN apt-get update &amp;&amp; apt-get install zip</div><div class="line">RUN mkdir -p /usr/share/elasticsearch/plugins/ik</div><div class="line">RUN cd /usr/share/elasticsearch/plugins/ik &amp;&amp; wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v5.4.0/elasticsearch-analysis-ik-5.4.0.zip &amp;&amp; unzip elasticsearch-analysis-ik-5.4.0.zip</div></pre></td></tr></table></figure></p>
 <blockquote>
 <p>镜像基于elasticsearch的5.4.0版本，并在此镜像上加入分词IK层，形成新的镜像</p>
 </blockquote>
-<p><br></p>
 <p>Logstash的Dockerfile:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FROM logstash:5.4.0</div><div class="line">RUN logstash-plugin install logstash-input-jdbc</div><div class="line">COPY mysql-connector-java-5.1.41.jar /some/lib-dir/</div><div class="line">CMD [&quot;-f&quot;, &quot;/some/config-dir/&quot;]</div></pre></td></tr></table></figure></p>
 <blockquote>
 <p>镜像基于Logstash的5.4.0的版本，并在此镜像上安装logstash-input-jdbc插件层，以及<br>会拷贝mysql驱动包到logstash的配置jar下，而在启动镜像时，自动在’’/some/config-dir/‘中读取logstash.conf文件</p>
 </blockquote>
-<hr>
 <h3 id="2-创建镜像文件"><a href="#2-创建镜像文件" class="headerlink" title="2.创建镜像文件"></a>2.创建镜像文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t=&quot;nero/elasticsearch&quot; .</div></pre></td></tr></table></figure>
 <blockquote>
-<p>创建一个名叫<b>nero/elasticsearch</b>的elasticsearch的镜像（image）</p>
+<p>创建一个名叫<b>nero/elasticsearch</b>的elasticsearch的镜像（image）<br></p>
 </blockquote>
-<p><br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t=&quot;nero/logstash&quot; .</div></pre></td></tr></table></figure>
 <blockquote>
 <p>创建一个名叫<b>nero/logstash</b>的创建logstash的镜像（image）</p>
 </blockquote>
-<p><br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo docker images</div></pre></td></tr></table></figure>
 <blockquote>
 <p>使用 docker images 显示本地已有的镜像。</p>
 </blockquote>
-<hr>
 <h3 id="3-启动容器"><a href="#3-启动容器" class="headerlink" title="3.启动容器"></a>3.启动容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp elasticsearch.yml log4j2.properties scripts/ root@192.168.99.100:/mnt/sda1/elasticsearch_config</div></pre></td></tr></table></figure>
 <blockquote>
 <p>先将本地配置（elasticsearch.yml log4j2.properties scripts/）放在一个指定配置文件下。<br><b>（此处我采用scp命令是因为我本地采用mac系统，运行docker需要一个linux环境，而192.168.99.100就是我的linux虚拟机环境）</b><br>而elasticsearch.yml的配置，可以参考我上篇部署文档中的配置</p>
 </blockquote>
-<p><br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -d -p 9200:9200 -p 9300:9300 -v /mnt/sda1/elasticsearch_config:/usr/share/elasticsearch/config --name elasticsearch_node_1 nero/elasticsearch</div></pre></td></tr></table></figure>
 <blockquote>
 <p>创建一个名叫’<b>elasticsearch_node_1</b>‘的容器<br> 1.映射出9200和9300端口号<br> 2.将刚才的配置文件地址挂载到容器中elasticsearch的配置文件地址<br> 3.指定名称，指定刚才创建好的基于镜像</p>
 </blockquote>
-<p><br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp temp.json logstash.conf root@192.168.99.100:/mnt/sda1/logstash_config</div></pre></td></tr></table></figure>
 <blockquote>
 <p>logstash的配置文件拷贝至指定配置文件下。（temp.json logstash.conf可参考上篇部署文档中的配置）</p>
 </blockquote>
-<p><br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -v /mnt/sda1/logstash_config:/some/config-dir --name logstash_node_1 nero/logstash</div></pre></td></tr></table></figure>
 <blockquote>
-<p>创建一个名叫’<b>logstash_node_1</b>‘的容器<br> 1.将刚才的配置文件地址挂载到容器中logstash的配置文件地址<br> 2.指定名称，指定基于镜像’nero/logstash’ </p>
+<p>创建一个名叫’<b>logstash_node_1</b>‘的容器<br> 1.将刚才的配置文件地址挂载到容器中logstash的配置文件地址<br> 2.指定名称，指定基于镜像’nero/logstash’</p>
 </blockquote>
-<hr>
 <h3 id="4-ok！"><a href="#4-ok！" class="headerlink" title="4.ok！"></a>4.ok！</h3><p>如果你足够幸运，你现在应该已经启动好了一个基于Docker实现的搜索引擎！</p>
-</div><div class="tags"><a href="/tags/Elasticsearch/">Elasticsearch</a></div><div class="post-nav"><a class="pre" href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/">Elasticsearch笔记(三).Java与Elasticsearch</a><a class="next" href="/2017/10/27/Elasticsearch笔记-一-安装部署/">Elasticsearch笔记(一).安装部署</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
-    this.page.url = 'nero.life/2017/10/27/Elasticsearch笔记-二-Docker/';
-    this.page.identifier = '2017/10/27/Elasticsearch笔记-二-Docker/';
-    this.page.title = 'elasticsearch笔记(二).Docker';
-  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
-url: 'https://disqus.com/next/config.json',
-timeout: 2500,
-type: 'GET',
-success: function(){
-  var d = document;
-  var s = d.createElement('script');
-  s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', + new Date());
-  (d.head || d.body).appendChild(s);
-  $('.disqus_click_btn').css('display', 'none');
-},
-error: function() {
-  $('.disqus_click_btn').css('display', 'block');
-}
-});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
-    (() => { // DON'T EDIT BELOW THIS LINE
-        var d = document;
-        var s = d.createElement('script');
-        s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', + new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    $('.disqus_click_btn').css('display','none');
-});</script><script type="text/javascript" id="disqus-count-script">$(function() {
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', '//disqus.com/next/config.json', true);
-     xhr.timeout = 2500;
-     xhr.onreadystatechange = function () {
-       if (xhr.readyState === 4 && xhr.status === 200) {
-         $('.post-meta .post-comments-count').show();
-         var s = document.createElement('script');
-         s.id = 'dsq-count-scr';
-         s.src = 'https://nero-ji-zhu-ji.disqus.com/count.js';
-         s.async = true;
-         (document.head || document.body).appendChild(s);
-       }
-     };
-     xhr.ontimeout = function () { xhr.abort(); };
-     xhr.send(null);
-   });
-</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="nero.life"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/年终总结/" style="font-size: 15px;">年终总结</a> <a href="/tags/Elasticsearch/" style="font-size: 15px;">Elasticsearch</a> <a href="/tags/代码规范/" style="font-size: 15px;">代码规范</a> <a href="/tags/分布式/" style="font-size: 15px;">分布式</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/译文/" style="font-size: 15px;">译文</a> <a href="/tags/程序员的修养/" style="font-size: 15px;">程序员的修养</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/架构设计/" style="font-size: 15px;">架构设计</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/09/架构设计方法论-从0开始学架构/">架构设计方法论-从0开始学架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/05/规范与阿里巴巴Java开发手册/">规范与阿里巴巴Java开发手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/02/年终总结-压力与迷茫的2018/">年终总结-压力与迷茫的2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/20/那些我所相信的“至理名言”/">那些我所相信的“至理名言”</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/10/RESTful-API设计指南-最佳实践/">RESTful API设计指南 - 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/LinkedIn的高效代码审查技巧/">LinkedIn的高效代码审查技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/30/关于Mysql慢日志分析方案汇总/">关于Mysql慢日志分析方案汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/高并发下分布式ID生成方案/">高并发下分布式ID生成方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/curator笔记-分布式锁的实现与原理/">curator笔记-分布式锁的实现与原理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//nero-ji-zhu-ji.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Nero-技术集.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/Elasticsearch/">Elasticsearch</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Elasticsearch笔记(三).Java与Elasticsearch</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/10/27/Elasticsearch笔记-一-安装部署/">
+        <span class="next-text nav-default">Elasticsearch笔记(一).安装部署</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2014 -
+    
+    2019
+    <span class="footer-author">Nero.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>

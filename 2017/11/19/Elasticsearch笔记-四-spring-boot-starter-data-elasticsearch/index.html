@@ -1,18 +1,147 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="沧海横流,方显英雄本色"><title>Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch | Nero-技术集</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.3.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch</h1><a id="logo" href="/.">Nero-技术集</a><p class="description">沧海横流,方显英雄本色</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch</h1><div class="post-meta">Nov 19, 2017</div><a class="disqus-comment-count" data-disqus-identifier="2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/" href="/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/#disqus_thread"></a><div class="post-content"><p>在上篇文档中<a href="">Elasticsearch笔记(三).Java与Elasticsearch</a>中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。<br><a id="more"></a><br>在后续的技术分享中，笔者在公司一名大牛的提醒下，发现原来spring-data项目中已经集成了对elasticsearch集群访问的功能。<br>而笔者公司使用的spring-boot下也已早有了spring-boot-starter-data-elasticsearch项目。<br>为了防止重复造轮子的事情出现，笔者准备使用spring-boot-starter-data-elasticsearch来替换原先的java api.</p>
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch"/>
+
+
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+  <link rel="alternate" href="/default" title="Nero-技术集">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="nero.life/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/"/>
+
+
+<meta name="description" content="在上篇文档中Elasticsearch笔记(三).Java与Elasticsearch中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。">
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch">
+<meta property="og:url" content="nero.life/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/index.html">
+<meta property="og:site_name" content="Nero-技术集">
+<meta property="og:description" content="在上篇文档中Elasticsearch笔记(三).Java与Elasticsearch中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-24T14:00:22.950Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch">
+<meta name="twitter:description" content="在上篇文档中Elasticsearch笔记(三).Java与Elasticsearch中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch - Nero-技术集 </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Nero-技术集</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch
+        
+      </h1>
+
+      <time class="post-time">
+          11月 19 2017
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>在上篇文档中<a href="">Elasticsearch笔记(三).Java与Elasticsearch</a>中，我们使用Elasticsearch提供的java api来访问集群中的数据，在投入到公司生产环境后，项目处于稳定运行状态。<br><a id="more"></a><br>在后续的技术分享中，笔者在公司一名大牛的提醒下，发现原来spring-data项目中已经集成了对elasticsearch集群访问的功能。<br>而笔者公司使用的spring-boot下也已早有了spring-boot-starter-data-elasticsearch项目。<br>为了防止重复造轮子的事情出现，笔者准备使用spring-boot-starter-data-elasticsearch来替换原先的java api.</p>
 <p>参考资料：<br><a href="https://github.com/spring-projects/spring-data-elasticsearch" target="_blank" rel="external">spring-data-elasticsearch</a><br><a href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/" target="_blank" rel="external">Spring Data Elasticsearch Docs</a><br><a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-project/spring-boot-starters/spring-boot-starter-data-elasticsearch" target="_blank" rel="external">spring-boot-starter-data-elasticsearch</a><br><a href="https://github.com/spring-projects/spring-boot/tree/v2.0.0.M4/spring-boot-samples/spring-boot-sample-data-elasticsearch/src/main/java/sample/data/elasticsearch" target="_blank" rel="external">spring-boot-sample-data-elasticsearch</a></p>
-<hr>
 <h3 id="1-新建spring-boot项目"><a href="#1-新建spring-boot项目" class="headerlink" title="1.新建spring-boot项目"></a>1.新建spring-boot项目</h3><p>我们可以通过Idea工具来直接新建标准的spring-boot项目，或者你可以在spring的官网<a href="https://start.spring.io/" target="_blank" rel="external">https://start.spring.io/</a>中来生成项目，然后导入你的开发工具中。</p>
 <p>因为笔者使用的elasticsearch版本5.0 + ，所以此处选用的spring-boot的版本2.0.0.M4版本（非release版本，生产慎用）。</p>
 <p>下面是pom文件的配置，最后加入spring的两个repository库的配置，是为了能引用到M4这个里程碑版本。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">&lt;parent&gt;</div><div class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.0.0.M4&lt;/version&gt;</div><div class="line">&lt;/parent&gt;</div><div class="line">&lt;properties&gt;</div><div class="line">    &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</div><div class="line">    &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</div><div class="line">    &lt;java.version&gt;1.8&lt;/java.version&gt;</div><div class="line">&lt;/properties&gt;</div><div class="line">&lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line"></div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</div><div class="line">        &lt;scope&gt;test&lt;/scope&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;spring-boot-starter-data-elasticsearch&lt;/artifactId&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div><div class="line">&lt;repositories&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">        &lt;id&gt;repository.springframework.maven.milestone&lt;/id&gt;</div><div class="line">        &lt;name&gt;Spring Framework Maven Milestone Repository&lt;/name&gt;</div><div class="line">        &lt;url&gt;http://repo.spring.io/milestone/&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">    &lt;repository&gt;</div><div class="line">        &lt;id&gt;repository.springframework.maven.snapshot&lt;/id&gt;</div><div class="line">        &lt;name&gt;Spring Framework Maven Snapshot Repository&lt;/name&gt;</div><div class="line">        &lt;url&gt;http://repo.spring.io/snapshot/&lt;/url&gt;</div><div class="line">    &lt;/repository&gt;</div><div class="line">&lt;/repositories&gt;</div></pre></td></tr></table></figure>
-<hr>
 <h3 id="2-配置文件"><a href="#2-配置文件" class="headerlink" title="2.配置文件"></a>2.配置文件</h3><p>我们在application.properties的文件中加入如下配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># Elasticsearch配置</div><div class="line">spring.data.elasticsearch.cluster-name=ytx_search_cluster</div><div class="line">spring.data.elasticsearch.cluster-nodes=192.168.10.138:9300</div></pre></td></tr></table></figure>
 <p>分别配置了集群的名称以及节点地址端口号。在项目启动以后，会自动读取配置，初始化。</p>
-<hr>
 <h3 id="3-实现"><a href="#3-实现" class="headerlink" title="3.实现"></a>3.实现</h3><p>1.实体bean</p>
 <p>首先我们需要在原先定义的User对象类中增加注解(@Document)，在其中指明记录存储的indexName以及type。然后在字段中指定哪个是id字段，增加注解(@Id)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">@Data</div><div class="line">@ToString</div><div class="line">@Document(indexName = &quot;my_test&quot;, type = &quot;user&quot;, createIndex = false)</div><div class="line">public class User implements Serializable &#123;</div><div class="line"></div><div class="line">    @Id</div><div class="line">    private Long id;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 名称</div><div class="line">     */</div><div class="line">    private String name;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 描述</div><div class="line">     */</div><div class="line">    private String desc;</div><div class="line">    </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">@Data</div><div class="line">@ToString</div><div class="line">@Document(indexName = &quot;my_test&quot;, type = &quot;user&quot;, createIndex = false)</div><div class="line">public class User implements Serializable &#123;</div><div class="line"></div><div class="line">    @Id</div><div class="line">    private Long id;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 名称</div><div class="line">     */</div><div class="line">    private String name;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 描述</div><div class="line">     */</div><div class="line">    private String desc;</div><div class="line"></div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>2.接口继承ElasticsearchRepository</p>
 <p>在ElasticsearchRepository里面的泛型，表示你的实体类以及id类型。<br>当接口继承了ElasticsearchRepository以后，它就具备了访问集群的能力，作为上层的调用者，你无须关注它怎么获取连接，释放等操作。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">interface UserRepositoryImpl extends ElasticsearchRepository&lt;User, Long&gt;&#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 根据名称查询</div><div class="line">     * @param name 名称</div><div class="line">     * @return 用户列表</div><div class="line">     */</div><div class="line">    List&lt;User&gt; findByName(String name);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -22,8 +151,6 @@
 <li><p>简单些<br> 我们可以看到ElasticsearchRepository本身提供了一些简单的查询，比如根据id查询，统计等等。</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Optional&lt;T&gt; findById(ID var1);</div><div class="line"></div><div class="line">boolean existsById(ID var1);</div><div class="line"></div><div class="line">Iterable&lt;T&gt; findAll();</div><div class="line"></div><div class="line">Iterable&lt;T&gt; findAllById(Iterable&lt;ID&gt; var1);</div><div class="line"></div><div class="line">long count();</div><div class="line"></div><div class="line">void deleteById(ID var1);</div><div class="line"></div><div class="line">void delete(T var1);</div></pre></td></tr></table></figure>
 </li>
-</ul>
-<ul>
 <li><p>一般<br> 当需要一些其他字段查询时，我们也可以很简单的实现。<br> 比如我想通过名称查询时，那么你可以这样做：</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">List&lt;User&gt; findByName(String name);</div></pre></td></tr></table></figure>
 <p> 相当于以下的QSL查询：</p>
@@ -36,12 +163,10 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Iterable&lt;T&gt; search(QueryBuilder var1);</div><div class="line"></div><div class="line">Page&lt;T&gt; search(QueryBuilder var1, Pageable var2);</div><div class="line"></div><div class="line">Page&lt;T&gt; search(SearchQuery var1);</div><div class="line"></div><div class="line">Page&lt;T&gt; searchSimilar(T var1, String[] var2, Pageable var3);</div></pre></td></tr></table></figure>
 <p>比如下列我们通过设置一个QueryBuilder来实现一个全文搜索.<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QueryBuilder queryBuilder = QueryBuilders.matchQuery(&quot;desc&quot;, desc);</div><div class="line">return userRepository.search(queryBuilder);</div></pre></td></tr></table></figure></p>
-<hr>
 <h3 id="4-启动类加上注解"><a href="#4-启动类加上注解" class="headerlink" title="4.启动类加上注解"></a>4.启动类加上注解</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication</div><div class="line">@EnableElasticsearchRepositories</div><div class="line">public class SpringBootStarterDataElasticsearchDemoApplication &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.run(SpringBootStarterDataElasticsearchDemoApplication.class, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>加上@EnableElasticsearchRepositories注解后，就可以自动对继承ElasticsearchRepository的接口进行实例化了。<br>然后启动即可！</p>
-<hr>
 <p>上述的代码已上传至github，请点击这里：<a href="https://github.com/dearnero/spring-boot-starter-data-elasticsearch-demo" target="_blank" rel="external">示例代码</a></p>
-<h3 id="注1"><a href="#注1" class="headerlink" title="注1"></a>注1</h3><p>摘录自<a href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/" target="_blank" rel="external">Spring Data Elasticsearch Docs</a>的示例:</p>
+<p><strong>注意：</strong><br>摘录自<a href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/" target="_blank" rel="external">Spring Data Elasticsearch Docs</a>的示例:</p>
 <table>
 <thead>
 <tr>
@@ -148,49 +273,88 @@
 </tr>
 </tbody>
 </table>
-</div><div class="tags"><a href="/tags/Elasticsearch/">Elasticsearch</a></div><div class="post-nav"><a class="pre" href="/2017/11/27/pageHelper-初见你与再见你/">PageHelper-初见你与再见你</a><a class="next" href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/">Elasticsearch笔记(三).Java与Elasticsearch</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
-    this.page.url = 'nero.life/2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/';
-    this.page.identifier = '2017/11/19/Elasticsearch笔记-四-spring-boot-starter-data-elasticsearch/';
-    this.page.title = 'Elasticsearch笔记(四).spring-boot-starter-data-elasticsearch';
-  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
-url: 'https://disqus.com/next/config.json',
-timeout: 2500,
-type: 'GET',
-success: function(){
-  var d = document;
-  var s = d.createElement('script');
-  s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', + new Date());
-  (d.head || d.body).appendChild(s);
-  $('.disqus_click_btn').css('display', 'none');
-},
-error: function() {
-  $('.disqus_click_btn').css('display', 'block');
-}
-});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
-    (() => { // DON'T EDIT BELOW THIS LINE
-        var d = document;
-        var s = d.createElement('script');
-        s.src = '//nero-ji-zhu-ji.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', + new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    $('.disqus_click_btn').css('display','none');
-});</script><script type="text/javascript" id="disqus-count-script">$(function() {
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', '//disqus.com/next/config.json', true);
-     xhr.timeout = 2500;
-     xhr.onreadystatechange = function () {
-       if (xhr.readyState === 4 && xhr.status === 200) {
-         $('.post-meta .post-comments-count').show();
-         var s = document.createElement('script');
-         s.id = 'dsq-count-scr';
-         s.src = 'https://nero-ji-zhu-ji.disqus.com/count.js';
-         s.async = true;
-         (document.head || document.body).appendChild(s);
-       }
-     };
-     xhr.ontimeout = function () { xhr.abort(); };
-     xhr.send(null);
-   });
-</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="nero.life"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/年终总结/" style="font-size: 15px;">年终总结</a> <a href="/tags/Elasticsearch/" style="font-size: 15px;">Elasticsearch</a> <a href="/tags/代码规范/" style="font-size: 15px;">代码规范</a> <a href="/tags/分布式/" style="font-size: 15px;">分布式</a> <a href="/tags/Mysql/" style="font-size: 15px;">Mysql</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/译文/" style="font-size: 15px;">译文</a> <a href="/tags/程序员的修养/" style="font-size: 15px;">程序员的修养</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/架构设计/" style="font-size: 15px;">架构设计</a> <a href="/tags/Spring-Boot/" style="font-size: 15px;">Spring Boot</a> <a href="/tags/Spring-Cloud/" style="font-size: 15px;">Spring Cloud</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/09/架构设计方法论-从0开始学架构/">架构设计方法论-从0开始学架构</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/05/规范与阿里巴巴Java开发手册/">规范与阿里巴巴Java开发手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/02/年终总结-压力与迷茫的2018/">年终总结-压力与迷茫的2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/20/那些我所相信的“至理名言”/">那些我所相信的“至理名言”</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/12/10/RESTful-API设计指南-最佳实践/">RESTful API设计指南 - 最佳实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/11/26/LinkedIn的高效代码审查技巧/">LinkedIn的高效代码审查技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/30/关于Mysql慢日志分析方案汇总/">关于Mysql慢日志分析方案汇总</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/08/24/高并发下分布式ID生成方案/">高并发下分布式ID生成方案</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/curator笔记-分布式锁的实现与原理/">curator笔记-分布式锁的实现与原理</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//nero-ji-zhu-ji.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Nero-技术集.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.2/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/Elasticsearch/">Elasticsearch</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/11/27/pageHelper-初见你与再见你/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">PageHelper-初见你与再见你</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/10/27/Elasticsearch笔记-三-Java与Elasticsearch/">
+        <span class="next-text nav-default">Elasticsearch笔记(三).Java与Elasticsearch</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2014 -
+    
+    2019
+    <span class="footer-author">Nero.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>
