@@ -17,7 +17,7 @@
 
 
 
-  <meta name="keywords" content="Mysql,数据库," />
+  <meta name="keywords" content="数据库,Mysql," />
 
 
 
@@ -36,7 +36,7 @@
 
 
 <meta name="description" content="某天在码代码的时候，突然脑子就出现了一个关于怎么优化现有系统的想法。现在所开发的这个系统暂时还没有引入缓存机制、没有做数据库的读写分离、也没有做多机器的水平拆分。那么优化的方向就比较有限了，主要还是代码优化以及sql优化。">
-<meta name="keywords" content="Mysql,数据库">
+<meta name="keywords" content="数据库,Mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于Mysql慢日志分析方案汇总">
 <meta property="og:url" content="nero.life/2018/08/30/关于Mysql慢日志分析方案汇总/index.html">
@@ -197,9 +197,9 @@
 		
 		<div class="post-tags">
 		  
-			<a href="/tags/Mysql/">Mysql</a>
-		  
 			<a href="/tags/数据库/">数据库</a>
+		  
+			<a href="/tags/Mysql/">Mysql</a>
 		  
 		</div>
 		
@@ -211,13 +211,13 @@
       <a class="prev" href="/2018/11/26/LinkedIn的高效代码审查技巧/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text nav-default">LinkedIn的高效代码审查技巧</span>
-        <span class="prev-text nav-mobile">Prev</span>
+        <span class="prev-text nav-mobile">上一篇</span>
       </a>
     
     
       <a class="next" href="/2018/08/24/高并发下分布式ID生成方案/">
         <span class="next-text nav-default">高并发下分布式ID生成方案</span>
-        <span class="prev-text nav-mobile">Next</span>
+        <span class="prev-text nav-mobile">下一篇</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -225,6 +225,16 @@
 
         
   <div class="comments" id="comments">
+    
+    <div style="text-align:center;">
+        <button class="btn" id="load-disqus" onclick="disqus.load();">加载 Disqus 评论</button>
+    </div>
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -246,7 +256,7 @@
     2019
     <span class="footer-author">Nero.</span>
     <span class="power-by">
-        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+        由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a> 强力驱动
     </span>
 </span>
 
@@ -257,6 +267,37 @@
       </div>
     </div>
     
+
+<script type="text/javascript">
+  var disqus_shortname = 'nero-ji-zhu-ji';
+  var disqus_identifier = '2018/08/30/关于Mysql慢日志分析方案汇总/';
+
+  var disqus_title = "关于Mysql慢日志分析方案汇总";
+
+
+  var disqus = {
+    load : function disqus(){
+        if(typeof DISQUS !== 'object') {
+          (function () {
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+          $('#load-disqus').remove(); ///加载后移除按钮
+        }
+    }
+  }
+
+  
+    var disqus_config = function () {
+        this.page.url = disqus_url;
+        this.page.identifier = disqus_identifier;
+        this.page.title = disqus_title;
+    };
+  
+
+</script>
 
 
     

@@ -17,7 +17,7 @@
 
 
 
-  <meta name="keywords" content="分布式,Spring," />
+  <meta name="keywords" content="Spring,分布式," />
 
 
 
@@ -36,7 +36,7 @@
 
 
 <meta name="description" content="我们如果需要从零开始搭建一个分布式系统架构的话，那么首先要做的就是选择一个合适的服务治理框架。而作为Spring cloud全家桶中的当红炸子鸡-Eureka，应该是我们的首选方案。">
-<meta name="keywords" content="分布式,Spring">
+<meta name="keywords" content="Spring,分布式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解读Spring Cloud全家桶之Eureka">
 <meta property="og:url" content="nero.life/2019/01/28/解读Spring-Cloud全家桶之Eureka/index.html">
@@ -226,9 +226,9 @@
 		
 		<div class="post-tags">
 		  
-			<a href="/tags/分布式/">分布式</a>
-		  
 			<a href="/tags/Spring/">Spring</a>
+		  
+			<a href="/tags/分布式/">分布式</a>
 		  
 		</div>
 		
@@ -240,7 +240,7 @@
     
       <a class="next" href="/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/">
         <span class="next-text nav-default">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</span>
-        <span class="prev-text nav-mobile">Next</span>
+        <span class="prev-text nav-mobile">下一篇</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -248,6 +248,16 @@
 
         
   <div class="comments" id="comments">
+    
+    <div style="text-align:center;">
+        <button class="btn" id="load-disqus" onclick="disqus.load();">加载 Disqus 评论</button>
+    </div>
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -269,7 +279,7 @@
     2019
     <span class="footer-author">Nero.</span>
     <span class="power-by">
-        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+        由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a> 强力驱动
     </span>
 </span>
 
@@ -280,6 +290,37 @@
       </div>
     </div>
     
+
+<script type="text/javascript">
+  var disqus_shortname = 'nero-ji-zhu-ji';
+  var disqus_identifier = '2019/01/28/解读Spring-Cloud全家桶之Eureka/';
+
+  var disqus_title = "解读Spring Cloud全家桶之Eureka";
+
+
+  var disqus = {
+    load : function disqus(){
+        if(typeof DISQUS !== 'object') {
+          (function () {
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+          $('#load-disqus').remove(); ///加载后移除按钮
+        }
+    }
+  }
+
+  
+    var disqus_config = function () {
+        this.page.url = disqus_url;
+        this.page.identifier = disqus_identifier;
+        this.page.title = disqus_title;
+    };
+  
+
+</script>
 
 
     

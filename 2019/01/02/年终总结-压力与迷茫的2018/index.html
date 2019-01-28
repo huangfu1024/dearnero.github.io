@@ -179,13 +179,13 @@
       <a class="prev" href="/2019/01/05/规范与阿里巴巴Java开发手册/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text nav-default">规范与阿里巴巴Java开发手册</span>
-        <span class="prev-text nav-mobile">Prev</span>
+        <span class="prev-text nav-mobile">上一篇</span>
       </a>
     
     
       <a class="next" href="/2018/12/20/那些我所相信的“至理名言”/">
         <span class="next-text nav-default">那些我所相信的“至理名言”</span>
-        <span class="prev-text nav-mobile">Next</span>
+        <span class="prev-text nav-mobile">下一篇</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -193,6 +193,16 @@
 
         
   <div class="comments" id="comments">
+    
+    <div style="text-align:center;">
+        <button class="btn" id="load-disqus" onclick="disqus.load();">加载 Disqus 评论</button>
+    </div>
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
     
   </div>
 
@@ -214,7 +224,7 @@
     2019
     <span class="footer-author">Nero.</span>
     <span class="power-by">
-        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+        由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a> 强力驱动
     </span>
 </span>
 
@@ -225,6 +235,37 @@
       </div>
     </div>
     
+
+<script type="text/javascript">
+  var disqus_shortname = 'nero-ji-zhu-ji';
+  var disqus_identifier = '2019/01/02/年终总结-压力与迷茫的2018/';
+
+  var disqus_title = "年终总结-压力与迷茫的2018";
+
+
+  var disqus = {
+    load : function disqus(){
+        if(typeof DISQUS !== 'object') {
+          (function () {
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+          $('#load-disqus').remove(); ///加载后移除按钮
+        }
+    }
+  }
+
+  
+    var disqus_config = function () {
+        this.page.url = disqus_url;
+        this.page.identifier = disqus_identifier;
+        this.page.title = disqus_title;
+    };
+  
+
+</script>
 
 
     
