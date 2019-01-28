@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="解读Spring Cloud全家桶之Eureka"/>
+
+
+
+
+  <meta name="keywords" content="Spring,分布式," />
+
+
+
+
+
+  <link rel="alternate" href="/default" title="Nero-技术集">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/bitbug_favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="nero.life/2019/01/28/解读Spring-Cloud全家桶之Eureka/"/>
+
+
+<meta name="description" content="我们如果需要从零开始搭建一个分布式系统架构的话，那么首先要做的就是选择一个合适的服务治理框架。而作为Spring cloud全家桶中的当红炸子鸡-Eureka，应该是我们的首选方案。">
+<meta name="keywords" content="Spring,分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解读Spring Cloud全家桶之Eureka">
+<meta property="og:url" content="nero.life/2019/01/28/解读Spring-Cloud全家桶之Eureka/index.html">
+<meta property="og:site_name" content="Nero-技术集">
+<meta property="og:description" content="我们如果需要从零开始搭建一个分布式系统架构的话，那么首先要做的就是选择一个合适的服务治理框架。而作为Spring cloud全家桶中的当红炸子鸡-Eureka，应该是我们的首选方案。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/images/eureka/896EEEF6-0D16-4545-A6FA-BD31D9C07DB7.png">
+<meta property="og:image" content="/images/eureka/BD1182D0-9D19-427B-A855-40E7492980BF.png">
+<meta property="og:image" content="/images/eureka/CA3C29C9-2CE5-481C-8C5C-AAAD2CC9CAD1.png">
+<meta property="og:image" content="/images/eureka/8F6BBAED-B046-47BD-9E93-434FEA5BB0DD.png">
+<meta property="og:image" content="/images/eureka/2E085B5A-8FEE-4F7F-8766-B6209ECE20EF.png">
+<meta property="og:updated_time" content="2019-01-28T09:25:33.042Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解读Spring Cloud全家桶之Eureka">
+<meta name="twitter:description" content="我们如果需要从零开始搭建一个分布式系统架构的话，那么首先要做的就是选择一个合适的服务治理框架。而作为Spring cloud全家桶中的当红炸子鸡-Eureka，应该是我们的首选方案。">
+<meta name="twitter:image" content="/images/eureka/896EEEF6-0D16-4545-A6FA-BD31D9C07DB7.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> 解读Spring Cloud全家桶之Eureka - Nero-技术集 </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Nero-技术集</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          解读Spring Cloud全家桶之Eureka
+        
+      </h1>
+
+      <time class="post-time">
+          1月 28 2019
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>我们如果需要从零开始搭建一个分布式系统架构的话，那么首先要做的就是选择一个合适的服务治理框架。而作为Spring cloud全家桶中的当红炸子鸡-Eureka，应该是我们的首选方案。<br><a id="more"></a></p>
+<h3 id="一-服务治理"><a href="#一-服务治理" class="headerlink" title="一.服务治理"></a>一.服务治理</h3><p>首先我们要了解什么是服务治理? 以及为什么需要服务治理？也就是what and why.<br>服务治理一般分成服务注册和服务发现，服务注册是服务的提供者把自己的信息存放在一块区域，这块区域也就是我们常说的注册中心。而服务发现则是服务的消费者根据服务名去这块区域找到对应提供者信息。通俗的来说，服务注册是告诉你我在哪的过程，服务发现是找到你的过程。<br><strong>至于为什么需要服务治理？</strong><br>我们想想如果一次远程调用没有服务治理组件是一次怎么样的过程。<br>首先需要服务提供者先行启动，然后把自己的信息，比如IP、端口号等告诉该服务的消费者，也就是需要把这些信息存放到消费者的配置文件中。消费者启动，读取到配置文件，然后发起一次调用。<br>这样看来，其实还没出现问题。但是我们想想如果在服务消费者运行期间还有其他提供者上线，那么消费者为了获取到新的提供者信息，必须停止服务、编辑配置文件、然后再启动。<br>好吧，即使我们通过事先约定，杜绝掉中间上线提供者的可能，也无法避免提供者宕机，消费者因为无法感知到状态，一次次的发起失败调用的情况。<br>所以我们需要一个服务治理的组件。</p>
+<h3 id="二-Eureka与Dubbo"><a href="#二-Eureka与Dubbo" class="headerlink" title="二.Eureka与Dubbo"></a>二.Eureka与Dubbo</h3><p>Eureka和Dubbo，这两者的区别困扰了我蛮长时间。<br>我现在用我所了解的知识来解释下这两者的区别，首先这两款组件都提供了服务治理的功能。<br>不同的地方在于，Eureka有自己的服务注册中心，也就是服务端，它能不借助于其他组件来实现服务注册发现功能。而Dubbo的注册中心通过zookeeper来实现，如果我们单单拎出Dubbo的话，其实它是不能直接工作的。<br>在功能方面，Dubbo要大于Eureka，它除了服务的注册发现以外，还提供了服务的智能路由、重试等功能，而Eureka需要借助于cloud下面的另一个组件ribbon才能完成。<br>所以简单的拿Dubbo跟Eureka对比是不公平，Dubbo+Zookeeper应该是对应着Spring Cloud下面的Eureka+Ribbon+Hystrix.</p>
+<h3 id="三-注册中心以及高可用方案"><a href="#三-注册中心以及高可用方案" class="headerlink" title="三.注册中心以及高可用方案"></a>三.注册中心以及高可用方案</h3><p>这里是服务端的事情。</p>
+<pre><code>1. Pom引用
+</code></pre><p>此处使用cloud版本：Finchley.RELEASE。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">&lt;!--引入spring cloud eureka server依赖--&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div><div class="line">&lt;!--定义spring cloud的版本--&gt;</div><div class="line">&lt;dependencyManagement&gt;</div><div class="line">	&lt;dependencies&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</div><div class="line">			&lt;version&gt;Finchley.RELEASE&lt;/version&gt;</div><div class="line">			&lt;type&gt;pom&lt;/type&gt;</div><div class="line">			&lt;scope&gt;import&lt;/scope&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">	&lt;/dependencies&gt;</div><div class="line">&lt;/dependencyManagement&gt;</div></pre></td></tr></table></figure></p>
+<pre><code>2. 配置
+</code></pre><p>主要介绍下面三个配置：</p>
+<pre><code>* defaultZone：注册中心的地址
+* register-with-eureka：是否把自己当成服务提供者注册进注册中心，默认true。此处选择false（不要让注册中心成为一个注册者）
+* fetch-registry：是否去注册中拉取提供者信息，默认true,此处选择false。此处选择false（注册中心没有必要拉取注册者信息）
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">server:</div><div class="line">  port: 8761</div><div class="line">spring:</div><div class="line">  application:</div><div class="line">    name: eureka-server</div><div class="line">eureka:</div><div class="line">  instance:</div><div class="line">    hostname: localhost</div><div class="line">  client:</div><div class="line">    serviceUrl:</div><div class="line">      defaultZone: http://$&#123;eureka.instance.hostname&#125;:8761/eureka/</div><div class="line">    register-with-eureka: false</div><div class="line">    fetch-registry: false</div></pre></td></tr></table></figure>
+<pre><code>3. 代码启动
+</code></pre><p>代码方面只有一个@EnableEurekaServer注解。Spring boot就是要让你简单到不敢相信。<br>启动项目，你就可以拥有一个注册中心了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication</div><div class="line">@EnableEurekaServer</div><div class="line">public class MicroserviceEurekaApplication &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.*run*(MicroserviceEurekaApplication.class, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<pre><code>4. 高可用配置
+</code></pre><p>为了预防系统的单点故障问题，生产环境需要一个高可用的注册中心。<br>高可用的大白话就是冗余，多一台或几台机器来备份，就像备胎。<br>Eureka的高可用就是把自己作为一个服务提供者注册给其他的机器。<br>如果有A、B两台机器作为注册中心。<br>A配置文件如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">server:</div><div class="line">  port: 8761</div><div class="line">spring:</div><div class="line">  application:</div><div class="line">    name: eureka-server-A</div><div class="line">  client:</div><div class="line">    serviceUrl:</div><div class="line">      defaultZone: http://B-IP:8761/eureka</div></pre></td></tr></table></figure></p>
+<p>B配置文件如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">server:</div><div class="line">  port: 8761</div><div class="line">spring:</div><div class="line">  application:</div><div class="line">    name: eureka-server-B</div><div class="line">  client:</div><div class="line">    serviceUrl:</div><div class="line">      defaultZone: http://A-IP:8761/eureka/</div></pre></td></tr></table></figure></p>
+<h3 id="四-服务注册发现"><a href="#四-服务注册发现" class="headerlink" title="四.服务注册发现"></a>四.服务注册发现</h3><p>这里是客户端的事情，无论是提供者还是消费者，都属于eureka的客户端，他们会向注册中心注册服务或者发现服务。</p>
+<pre><code>1. pom引用
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">	&lt;!--引入spring cloud eureka client依赖--&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">		&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-		client&lt;/artifactId&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">	&lt;!--应用对外提供端点，比如健康检查--&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-actuator&lt;/artifactId&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">	&lt;!--对外提供端点必须是基于web应用--&gt;</div><div class="line">	&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</div><div class="line">	&lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div><div class="line">&lt;!--定义spring cloud的版本--&gt;</div><div class="line">&lt;dependencyManagement&gt;</div><div class="line">	&lt;dependencies&gt;</div><div class="line">		&lt;dependency&gt;</div><div class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</div><div class="line">			&lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</div><div class="line">			&lt;version&gt;Finchley.RELEASE&lt;/version&gt;</div><div class="line">			&lt;type&gt;pom&lt;/type&gt;</div><div class="line">			&lt;scope&gt;import&lt;/scope&gt;</div><div class="line">		&lt;/dependency&gt;</div><div class="line">	&lt;/dependencies&gt;</div><div class="line">&lt;/dependencyManagement&gt;</div></pre></td></tr></table></figure>
+<pre><code>2. 配置
+</code></pre><p>eureka.client.service-url.defaultZone：注册中心地址<br>eureka.client.healthcheck.enabled：使用/actuator/health作为健康检查<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">server.port=3000</div><div class="line">spring.application.name=nero-log-server</div><div class="line">eureka.client.service-url.defaultZone=http://localhost:8761/eureka/</div><div class="line">eureka.client.healthcheck.enabled=true</div></pre></td></tr></table></figure></p>
+<pre><code>3. 代码启动
+</code></pre><p>添加注解@EnableDiscoveryClient，该注解就是负责注册以及发现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication</div><div class="line">@EnableDiscoveryClient</div><div class="line">public class LogServerApplication &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		SpringApplication.*run*(LogServerApplication.class, args);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>自此，你可以通过该地址看到自己注册上去的服务了，<a href="http://localhost:8761/" target="_blank" rel="external">http://localhost:8761/</a><br>注册的应用如下：<br><img src="/images/eureka/896EEEF6-0D16-4545-A6FA-BD31D9C07DB7.png" alt=""></p>
+<h3 id="五-Eureka架构"><a href="#五-Eureka架构" class="headerlink" title="五.Eureka架构"></a>五.Eureka架构</h3><p>在整个架构中出现了三种元素，服务注册中心、服务提供者、服务消费者。</p>
+<ul>
+<li>服务注册中心：Eureka的服务端，它提供了服务信息的存储。</li>
+<li>服务提供者：Eureka的客户端，一个普通的Spring boot应用，它借助Eureka-client把自己的信息注册到注册中心。</li>
+<li>服务消费者：Eureka的客户端，一个普通的Spring boot应用，它借助Eureka-client在注册中心拿到提供者信息。<br><img src="/images/eureka/BD1182D0-9D19-427B-A855-40E7492980BF.png" alt=""><br>该图来自于“Spring Cloud微服务实战”这本书。</li>
+</ul>
+<h3 id="六-配置解析"><a href="#六-配置解析" class="headerlink" title="六.配置解析"></a>六.配置解析</h3><p>很可惜没有在官方文档里找到关于<strong>Eureka客户端</strong>配置文件的资料，如果想要了解所有的配置文件信息，请参看eureka clinet 里面EurekaClientConfig以及EurekaClientConfigBean两个类，前者列出了所有的配置信息属性，后者则给出了一个默认实现，也就是默认值。</p>
+<blockquote>
+<p>注意：EurekaClientConfig是eureka-client项目中的接口，而EurekaClientConfigBean则是spring-cloud-netflix-eureka-client项目给出的实现。eureka-client也有一个对于EurekaClientConfig的实现类DefaultEurekaClientConfig，不要混淆了。  </p>
+</blockquote>
+<p>以下配置信息摘图至“Spring Cloud微服务实战”:<br><img src="/images/eureka/CA3C29C9-2CE5-481C-8C5C-AAAD2CC9CAD1.png" alt=""></p>
+<p>此外下列是我个人觉得蛮有意思的一个配置项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eureka.client.healthcheck.enabled=true</div></pre></td></tr></table></figure></p>
+<p>这个配置默认值为false,使用heartbeat来判定一个注册实例的可用性。当设置成true时，表示使用spring boot actuator的/actuator/health来判定实例的可用性。<br>至于如何选择，则看自己对于实例可用性这个标准的判断。</p>
+<h3 id="七-重要概念"><a href="#七-重要概念" class="headerlink" title="七.重要概念"></a>七.重要概念</h3><pre><code>1. 服务下线
+</code></pre><p>服务注册以后，系统正常关闭或者重启，会发送一个rest请求给注册中心，让它将该实例的状态更新为“DOWN”.</p>
+<pre><code>2. 服务续约
+</code></pre><p>调度任务，客户端跟注册中心保持一个心跳，定时的告诉注册中心，我还活着。默认的情况下，调度周期是30秒，超时时间90秒。调度周期还好理解，这个超时时间代表注册中心收到该客户端最后一次心跳的时间点到剔除实例的时间点的间隔时间。<br>这个间隔越长，会导致故障的实例挂载的时间越长，即消费者发起错误的调用次数越多。这个间隔越短，实例的误杀率越高。<br>可通过以下配置项修改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">eureka.instance.lease-renewal-interval-in-seconds=30</div><div class="line">eureka.instance.lease-expiration-duration-in-seconds=90</div></pre></td></tr></table></figure></p>
+<p><strong>潜台词：没有一定的生产经验，不推荐修改。</strong></p>
+<pre><code>3. 自我保护
+</code></pre><p>在开发环境，这个提示你应该见过：<br><img src="/images/eureka/8F6BBAED-B046-47BD-9E93-434FEA5BB0DD.png" alt=""><br>意思是：eureka错误的续订数目小于阈值，因此为了安全，实例不会过期。<br>要想理解这个告警，那么就要提到eureka自我保护的机制了，为了理解，打个比方：</p>
+<blockquote>
+<p>一个锁有五把钥匙，如果你发现其中一把钥匙打不开锁了，而其他四把钥匙可以正常打开，那么你可以认定这把钥匙已经损坏，选择丢弃它。<br>那么如果出现五把钥匙都打不开的情形呢？这个时候我们会认为是锁的故障，而先保留所有钥匙。<br>这个就是自我保护模式。<br>该模式默认自动开启，可以通过以下配置在开发环境中关闭：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eureka.server.enable-self-preservation=false</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p><strong>潜台词：生产环境，记得一定要启用。</strong></p>
+<pre><code>4. Zones
+</code></pre><p>这个机制更多是提供给服务消费者消费的时候使用的，前提是你的服务是分区的。比如有一部分服务分布在北京机房，而一部分分布在广州机房。那么当你北京机房的消费者去调用一次服务的时候，出于性能以及稳定性的考虑，你肯定希望能直接调用到本机房的提供者，如果调用失败，再去发起调用到广州机房。<br>没错，Zones就是提供了这种机制，客户端默认调用同Zones的提供者。</p>
+<h3 id="八-关于Eureka2-0闭源问题"><a href="#八-关于Eureka2-0闭源问题" class="headerlink" title="八.关于Eureka2.0闭源问题"></a>八.关于Eureka2.0闭源问题</h3><p>在Github上可以看到Eureka关于2.0闭源的通知：<br><img src="/images/eureka/2E085B5A-8FEE-4F7F-8766-B6209ECE20EF.png" alt=""><br>大意是：关于eureka 2.0现有的开源工作已经停止，但是Eureka 1.x还是会继续维护。对于那么使用了eureka2.x的用户，风险自负。<br>首先可以看到Eureka2.0只发布了RC2版本，也就是候选版本，我相信应该没有人会把RC版本应用到生产环境吧。其次对于我们使用的是整套的Spring Cloud组件，截止到现在（2019/01/25）最新的Cloud版本是Greenwich.RELEASE,它所支持的Eureka版本是1.9.8。</p>
+<p><strong>潜台词：放心用吧，绝大多数应用这就足够了。至于以后Spring Cloud的演进与兼容，自然会有对应的迁移方案出来。</strong></p>
+<h3 id="九-推荐资料"><a href="#九-推荐资料" class="headerlink" title="九. 推荐资料"></a>九. 推荐资料</h3><ol>
+<li>最好的入门资料肯定是官方文档：<ul>
+<li><a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.0.2.RELEASE/single/spring-cloud-netflix.html" target="_blank" rel="external">Spring Cloud Netflix</a></li>
+<li><a href="https://github.com/Netflix/eureka/wiki" target="_blank" rel="external">Github Netflix/eureka wiki</a></li>
+</ul>
+</li>
+<li>在InfoQ也找到一篇架构的文章<ul>
+<li><a href="https://www.infoq.cn/article/jlDJQ*3wtN2PcqTDyokh" target="_blank" rel="external">微服务注册中心 Eureka 架构深入解读</a></li>
+</ul>
+</li>
+<li>关于高可用注册中心以及分区zones的例子：<ul>
+<li><a href="https://dzone.com/articles/ha-and-zone-affinity-with-spring-cloud-netflix-eur" target="_blank" rel="external">HA and Zone Affinity With Spring Cloud Netflix Eureka</a></li>
+</ul>
+</li>
+<li>如果要推荐一本入门书籍的话，下面这本。虽然书中使用的cloud版本不高，但是介绍的比较全面。<ul>
+<li><a href="https://book.douban.com/subject/27025912/" target="_blank" rel="external">《Spring Cloud微服务实战》</a></li>
+</ul>
+</li>
+</ol>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/Spring/">Spring</a>
+		  
+			<a href="/tags/分布式/">分布式</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2019/01/19/Spring版本号说明以及Spring Boot与Spring Cloud的版本关联/">
+        <span class="next-text nav-default">Spring版本号说明以及Spring Boot与Spring Cloud的版本关联</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2014 -
+    
+    2019
+    <span class="footer-author">Nero.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>
