@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="ARTS第1周(3月18日～3月24日)"/>
+
+
+
+
+  <meta name="keywords" content="ARTS," />
+
+
+
+
+
+  <link rel="alternate" href="/default" title="Nero-技术集">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/bitbug_favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="nero.life/2019/03/22/ARTS第1周-3月18日～3月24日/"/>
+
+
+<meta name="description" content="Algorithm  一道简单的算法题：给定一个整数数组，返回两个数字的索引，使它们加起来等于一个特定的目标.题目的定位应该是初级程序员，使用循环嵌套的方式，注意：因为不能是自己相加的结果，所以第二个循环的值需要避开第一个循环的值。123456789101112private int[] twoSum(int[] nums, int target) &amp;#123;    for (int i =">
+<meta name="keywords" content="ARTS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARTS第1周(3月18日～3月24日)">
+<meta property="og:url" content="nero.life/2019/03/22/ARTS第1周-3月18日～3月24日/index.html">
+<meta property="og:site_name" content="Nero-技术集">
+<meta property="og:description" content="Algorithm  一道简单的算法题：给定一个整数数组，返回两个数字的索引，使它们加起来等于一个特定的目标.题目的定位应该是初级程序员，使用循环嵌套的方式，注意：因为不能是自己相加的结果，所以第二个循环的值需要避开第一个循环的值。123456789101112private int[] twoSum(int[] nums, int target) &amp;#123;    for (int i =">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/images/zetf.jpg">
+<meta property="og:updated_time" content="2019-03-22T09:22:49.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ARTS第1周(3月18日～3月24日)">
+<meta name="twitter:description" content="Algorithm  一道简单的算法题：给定一个整数数组，返回两个数字的索引，使它们加起来等于一个特定的目标.题目的定位应该是初级程序员，使用循环嵌套的方式，注意：因为不能是自己相加的结果，所以第二个循环的值需要避开第一个循环的值。123456789101112private int[] twoSum(int[] nums, int target) &amp;#123;    for (int i =">
+<meta name="twitter:image" content="/images/zetf.jpg">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> ARTS第1周(3月18日～3月24日) - Nero-技术集 </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Nero-技术集</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/">
+                            
+                            
+                                主页
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                关于
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          ARTS第1周(3月18日～3月24日)
+        
+      </h1>
+
+      <time class="post-time">
+          3月 22 2019
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p><img src="/images/zetf.jpg" alt=""></p>
+<ul>
+<li>Algorithm</li>
+</ul>
+<p>一道简单的算法题：给定一个整数数组，返回两个数字的索引，使它们加起来等于一个特定的目标.<br>题目的定位应该是初级程序员，使用循环嵌套的方式，注意：因为不能是自己相加的结果，所以第二个循环的值需要避开第一个循环的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">private int[] twoSum(int[] nums, int target) &#123;</div><div class="line">    for (int i = 0; i &lt; nums.length; i++) &#123;</div><div class="line">        int f = nums[i];</div><div class="line">        for (int j = i + 1; j &lt; nums.length; j++) &#123;</div><div class="line">            int t = nums[j];</div><div class="line">            if (f + t == target) &#123;</div><div class="line">                return new int[]&#123;i, j&#125;;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Review</li>
+</ul>
+<p><a href="https://www.baeldung.com/spring-aop-pointcut-tutorial" target="_blank" rel="external">Introduction to Pointcut Expressions in Spring | Baeldung</a></p>
+<blockquote>
+<p>在一次工作实践中，对于Pointcut的@within配置有些迷惑，于是找到了上述的介绍文章。文章的目的很明确，详细的介绍了spring aop中Pointcut Designators，即PCD。<br>以前对于PCD一直处于只使用execution的情况，读此文以后，很多项目中的写法都可以进行改进了。  </p>
+</blockquote>
+<ul>
+<li>Tip</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ redis-trib.rb help</div></pre></td></tr></table></figure>
+<p>以前玩过redis的主从和哨兵，这次在搭建redis集群的时候，发现了这个由官方提供的工具，用于创建管理集群，包含功能create、reshard、add-node、del-node等。</p>
+<p>此处有坑，在使用集群的过程中，一开始准备用docker容器的方式来运行实例，结果集群一直无法create成功。最后还是在官方文档上找到问题的答案：<strong>Currently Redis Cluster does not support NATted environments and in general environments where IP addresses or TCP ports are remapped.</strong></p>
+<p><strong>ps:诶，干事前一定要读读官方文档。</strong></p>
+<ul>
+<li>Share<br>本周的学习重心在redis的集群原理以及协议上，所以很自然的推荐官方教程作为本周的share，入手必读系列。<br><a href="https://redis.io/topics/cluster-tutorial" target="_blank" rel="external">Redis cluster tutorial – Redis</a></li>
+</ul>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/ARTS/">ARTS</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2019/01/28/解读Spring-Cloud全家桶之Eureka/">
+        <span class="next-text nav-default">解读Spring Cloud全家桶之Eureka</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+  <div class="comments" id="comments">
+    
+    <div style="text-align:center;">
+        <button class="btn" id="load-disqus" onclick="disqus.load();">加载 Disqus 评论</button>
+    </div>
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2014 -
+    
+    2019
+    <span class="footer-author">Nero.</span>
+    <span class="power-by">
+        Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> and <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+<script type="text/javascript">
+  var disqus_shortname = 'nero-ji-zhu-ji';
+  var disqus_identifier = '2019/03/22/ARTS第1周-3月18日～3月24日/';
+
+  var disqus_title = "ARTS第1周(3月18日～3月24日)";
+
+
+  var disqus = {
+    load : function disqus(){
+        if(typeof DISQUS !== 'object') {
+          (function () {
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+          $('#load-disqus').remove(); ///加载后移除按钮
+        }
+    }
+  }
+
+  
+    var disqus_config = function () {
+        this.page.url = disqus_url;
+        this.page.identifier = disqus_identifier;
+        this.page.title = disqus_title;
+    };
+  
+
+</script>
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>
